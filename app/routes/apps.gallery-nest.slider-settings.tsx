@@ -1,34 +1,13 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { authenticate } from "../shopify.server";
-import { getCachedBillingPlan, limitProductsForPlan } from "../billing.server";
-import prisma from "../db.server";
-
-type SliderProduct = {
-  id: string;
-  variantImageMap?: Record<string, string[]>;
-};
-
-const parseJsonArray = (value: string | null | undefined): string[] => {
-  if (!value) return [];
-
-  try {
-    const parsed = JSON.parse(value);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-};
-
-const parseProducts = (value: string | null | undefined): SliderProduct[] => {
-  if (!value) return [];
-
-  try {
-    const parsed = JSON.parse(value);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-};
+import {
+  canUseFeature,
+  getCachedBillingPlan,
+  limitProductsForPlan,
+} from "../billing.server";
+import { appSettingsFromRow } from "../app-settings";
+import { getSavedProducts } from "../products.server";
+import { resolveSliderOptions, sliderOptionsFromRow } from "../slider-options";
 
 const toGraphqlProductId = (productId: string | null) => {
   if (!productId) return null;
@@ -46,29 +25,28 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const url = new URL(request.url);
   const productId = toGraphqlProductId(url.searchParams.get("product_id"));
-  const setting = await prisma.productSliderSetting.findUnique({
-    where: { shop: session.shop },
-  });
+  const { setting, products: saved } = await getSavedProducts(session.shop);
   const plan = await getCachedBillingPlan(session.shop);
-  const products = limitProductsForPlan(parseProducts(setting?.products), plan);
+  const products = limitProductsForPlan(saved, plan);
   const productIds = products.map((product) => product.id);
-  const selectedProduct = products.find(
-    (product) => product.id === productId,
-  );
+  const selectedProduct = products.find((product) => product.id === productId);
+  const appSettings = appSettingsFromRow(setting);
+  // Per-product overrides win over the shop defaults; a product without any just
+  // gets the defaults back unchanged.
+  const options = resolveSliderOptions(sliderOptionsFromRow(setting), selectedProduct);
 
   return Response.json(
     {
-      enabled: Boolean(productId && productIds.includes(productId)),
+      enabled:
+        appSettings.appEnabled && Boolean(productId && productIds.includes(productId)),
       variantImageMap: selectedProduct?.variantImageMap,
-      thumbnailPosition: setting?.thumbnailPosition ?? "left",
-      thumbnailSize: setting?.thumbnailSize ?? 76,
-      syncVariantImages: setting?.syncVariantImages ?? true,
-      hideThumbnails: setting?.hideThumbnails ?? false,
-      hideZoomIcon: setting?.hideZoomIcon ?? false,
-      zoomIconPosition: setting?.zoomIconPosition ?? "top-right",
-      previousArrowSvg: setting?.previousArrowSvg ?? "",
-      nextArrowSvg: setting?.nextArrowSvg ?? "",
-      zoomIconSvg: setting?.zoomIconSvg ?? "",
+      imageCaptions: selectedProduct?.imageCaptions,
+      ...options,
+      lazyLoadImages: appSettings.lazyLoadImages,
+      accentColor: appSettings.accentColor,
+      // Only so non-Enterprise shops skip the beacon entirely; the events endpoint
+      // re-checks the plan regardless of what the storefront was told.
+      analyticsEnabled: canUseFeature(plan, "analytics"),
     },
     {
       headers: {

@@ -2,9 +2,72 @@ import { DEFAULT_LOCALE, type SupportedLocale } from "./languages";
 
 const en = {
   "common.back": "Back",
+  "common.cancel": "Cancel",
   "common.language": "Language",
   "nav.dashboard": "Dashboard",
+  "nav.products": "Products",
+  "nav.analytics": "Analytics",
+  "analytics.pageTitle": "Gallery analytics",
+  "analytics.intro": "How shoppers are using your product galleries.",
+  "analytics.rangeLabel": "Date range",
+  "analytics.range7": "Last 7 days",
+  "analytics.range30": "Last 30 days",
+  "analytics.range90": "Last 90 days",
+  "analytics.dailyChartTitle": "Gallery views per day",
+  "analytics.productTableHeading": "By product",
+  "analytics.colProduct": "Product",
+  "analytics.noData": "No activity recorded for this period yet.",
+  "analytics.peakLabel": "peak {count}",
+  "analytics.emptyHint": "Stats appear once shoppers browse your galleries.",
+  "dashboard.viewAnalytics": "View full analytics",
   "nav.billing": "Billing",
+  "nav.settings": "Settings",
+  "nav.help": "Help",
+
+  "products.pageTitle": "Products",
+  "products.heroTagline":
+    "Choose the products that use the GalleryNest slider, and set how it looks and behaves.",
+  "products.addProducts": "Add products",
+  "products.manageProducts": "Manage products",
+  "products.saveProducts": "Save products",
+  "products.badgeDefault": "Default",
+  "products.badgeDraft": "Draft",
+  "products.confirmDiscardHeading": "Discard draft?",
+  "products.confirmDiscardBody":
+    "The unpublished changes to {product} will be lost. Its published options stay as they are.",
+  "products.toastDraftPublished": "Draft published",
+  "products.badgeCustom": "Customised",
+  "products.defaultsHeading": "Default slider & zoom options",
+  "products.defaultsIntro":
+    "These apply to every product that has not been customised individually.",
+  "products.optionsHeading": "Slider & zoom options",
+  "products.optionsIntro":
+    "Set how the slider and zoom behave on this product specifically.",
+  "products.useShopDefaults": "Use the default options",
+  "products.useShopDefaultsHelp":
+    "Untick to give this product its own settings. While ticked it follows the defaults from the Products page, including any later changes.",
+  "products.editDefaults": "Edit default options",
+  "products.toastProductsSaved": "Products saved",
+  "products.toastDefaultsSaved": "Default options saved",
+  "products.toastOptionsSaved": "Product options saved",
+  "products.saveAsDraft": "Save as draft",
+  "products.publish": "Publish",
+  "products.discardDraft": "Discard draft",
+  "products.draftBannerHeading": "Unpublished changes",
+  "products.draftBannerBody":
+    "These options are saved as a draft. Your storefront keeps showing the published options until you publish them.",
+  "products.toastDraftSaved": "Draft saved",
+  "products.toastDraftDiscarded": "Draft discarded",
+  "products.notFoundHeading": "Product not found",
+  "products.notFoundBody":
+    "This product is not in your GalleryNest list. It may have been removed here, deleted in Shopify, or fall outside the limit of your current plan.",
+  "products.backToProducts": "Back to products",
+  "products.confirmRemoveHeading": "Remove from GalleryNest?",
+  "products.confirmRemoveBody":
+    "{product} will no longer use the GalleryNest slider, and its custom options and variant image mapping will be lost. You can add it again later, but those settings will not come back.",
+  "products.confirmRemoveAllBody":
+    "All {count} products will stop using the GalleryNest slider, and their custom options and variant image mappings will be lost. This cannot be undone.",
+  "products.confirmRemoveButton": "Remove",
 
   "dashboard.pageTitle": "Product image slider",
   "dashboard.selectProducts": "Select products",
@@ -25,6 +88,33 @@ const en = {
   "dashboard.sliderSettingsIntro":
     "Choose the products where the storefront image slider should appear. Products not selected here will keep the normal theme gallery.",
   "dashboard.layoutGroup": "Layout",
+  "dashboard.imageTransition": "Transition on click",
+  "dashboard.hoverTransition": "Transition on hover",
+  "dashboard.transitionNone": "None",
+  "dashboard.transitionFade": "Fade",
+  "dashboard.transitionSlide": "Slide",
+  "dashboard.transitionZoom": "Zoom",
+  "dashboard.stageLayout": "Main image layout",
+  "dashboard.stageLayoutSingle": "Single image",
+  "dashboard.stageLayoutCarousel": "Carousel",
+  "dashboard.carouselPerView": "Images per view",
+  "dashboard.carouselNavigation": "Carousel navigation",
+  "dashboard.carouselNavArrows": "Arrows",
+  "dashboard.carouselNavSlider": "Slider below",
+  "dashboard.carouselNavBoth": "Both",
+  "dashboard.transitionCarouselNote":
+    "Not used by the carousel layout, which scrolls instead of swapping the image.",
+  "dashboard.thumbnailShape": "Thumbnail shape",
+  "dashboard.shapeSquare": "Sharp square",
+  "dashboard.shapeRounded": "Rounded square",
+  "dashboard.shapeCircle": "Circular",
+  "dashboard.shapePolaroid": "Polaroid",
+  "dashboard.shapeCard": "Rich card",
+  "dashboard.thumbnailHoverEffect": "Thumbnail hover effect",
+  "dashboard.thumbnailHoverEffectHelp":
+    "Polaroid and rich card always show their caption. This adds an effect on top.",
+  "dashboard.hoverEffectLift": "Lift & shadow",
+  "dashboard.hoverEffectCaption": "Caption overlay",
   "dashboard.thumbnailPosition": "Thumbnail position",
   "dashboard.left": "Left",
   "dashboard.right": "Right",
@@ -61,6 +151,24 @@ const en = {
   "dashboard.livePreview": "Live preview",
   "dashboard.livePreviewCaption":
     "Reflects your current thumbnail and zoom icon settings.",
+  "dashboard.livePreviewDefaults":
+    "Reflects your default thumbnail and zoom icon options. Customised products may differ.",
+  "dashboard.analyticsSection": "Gallery analytics",
+  "dashboard.analyticsIntro": "Shopper activity in your galleries over the last 30 days.",
+  "dashboard.analyticsEmpty":
+    "No activity recorded yet. Numbers appear once shoppers visit your product pages.",
+  "dashboard.analyticsLocked":
+    "Gallery analytics show how shoppers use your galleries — images browsed, zooms and full-screen opens. Available on the Enterprise plan.",
+  "dashboard.analyticsUpgrade": "Upgrade to Enterprise",
+  "dashboard.statGalleryViews": "Gallery views",
+  "dashboard.statImageViews": "Images browsed",
+  "dashboard.statZooms": "Zooms",
+  "dashboard.statLightbox": "Full-screen opens",
+  "dashboard.statGalleryViewsCount": "{count} views",
+  "dashboard.breakdownTitle": "Activity breakdown",
+  "dashboard.topProducts": "Most viewed products",
+  "billing.featureAnalytics": "Gallery analytics",
+  "billing.rowAnalytics": "Gallery analytics",
   "dashboard.themeSetup": "Theme setup",
   "dashboard.themeSetupText":
     "Add the GalleryNest product slider app block to the product template in the theme editor. The block checks these settings and only renders on selected products.",
@@ -104,7 +212,34 @@ const en = {
   "mapping.imagesForVariant": "Images for {variant}",
   "mapping.selectedVariant": "selected variant",
   "mapping.noImages": "No product images found.",
+  "mapping.addImages": "Add images",
+  "mapping.addImagesHelp":
+    "Upload images to this product in Shopify. JPG, PNG, GIF or WEBP, up to 20 MB each.",
+  "mapping.toastUploaded": "{count} image(s) uploaded.",
+  "mapping.toastUploadProcessing":
+    "Shopify is still processing them — they appear here in a few seconds.",
+  "mapping.toastUploadFailed": "Upload failed: {reason}",
+  "mapping.toastUploadNoFiles": "Choose at least one image to upload.",
+  "mapping.uploadTooLarge": "{filename} is larger than 20 MB.",
+  "mapping.uploadBadType": "{filename} is not an image.",
+  "mapping.uploadTooMany": "Upload at most 10 images at a time.",
+  "mapping.addFromShopify": "Add from Shopify",
+  "mapping.pickerHeading": "Add images from Shopify",
+  "mapping.pickerFiles": "Files library",
+  "mapping.pickerProducts": "Other products",
+  "mapping.pickerSearch": "Search images",
+  "mapping.pickerEmpty": "No images found.",
+  "mapping.pickerLoadMore": "Load more",
+  "mapping.pickerAdd": "Add selected",
+  "mapping.pickerSelected": "{count} selected",
+  "mapping.pickerCopyNote":
+    "The image is copied onto this product. The original stays where it is.",
+  "mapping.pickerBadUrl": "Some images could not be added because they are not Shopify images.",
+  "mapping.toastAttached": "{count} image(s) added.",
   "mapping.show": "Show",
+  "mapping.caption": "Caption",
+  "mapping.captionHelp":
+    "Shown by the polaroid, rich card and caption overlay thumbnail styles. Applies to every variant. Falls back to the image's alt text.",
   "mapping.variantsHeading": "Variants",
   "mapping.noVariants": "No variants found for this product.",
   "mapping.mappedCount": "{count} mapped",
@@ -112,15 +247,206 @@ const en = {
   "mapping.saveMapping": "Save mapping",
   "mapping.toastSaved": "Image mapping saved",
   "mapping.toastUpgrade": "Upgrade your plan to map this product.",
+
+  "settings.breadcrumb": "Product image slider",
+  "settings.pageTitle": "Settings",
+  "settings.heroTagline":
+    "App-wide options that apply to every product using the GalleryNest slider.",
+  "settings.generalGroup": "General",
+  "settings.appEnabled": "Enable GalleryNest on the storefront",
+  "settings.appEnabledHelp":
+    "Turn this off to restore your theme's own gallery on every product without changing any other setting.",
+  "settings.statusLive": "Live",
+  "settings.statusPaused": "Paused",
+  "settings.defaultLanguage": "Default language",
+  "settings.defaultLanguageHelp":
+    "Used for the app's admin pages when no language has been chosen in this browser.",
+  "settings.zoomGroup": "Zoom",
+  "settings.zoomTrigger": "Zoom trigger",
+  "settings.zoomTriggerHelp":
+    "On click, the magnifier icon turns zoom on and off, and the full-screen gallery opens by clicking the image instead.",
+  "settings.zoomTriggerHover": "On hover",
+  "settings.zoomTriggerClick": "On click",
+  "settings.zoomTriggerOff": "Off",
+  "settings.zoomLevel": "Zoom level",
+  "settings.behaviourGroup": "Gallery behaviour",
+  "settings.loopSlides": "Loop slides",
+  "settings.loopSlidesHelp": "Continue from the last image back to the first.",
+  "settings.hoverNavigation": "Navigate images on hover",
+  "settings.hoverNavigationHelp":
+    "Resting the cursor on one half of the image moves forward through the images, the other half moves back. Stops when the cursor leaves the image.",
+  "settings.hoverNavigationDisabled":
+    "Not available while Zoom trigger is set to On hover — both would react to the same mouse movement. Choose On click or Off to use this.",
+  "settings.hoverSpeed": "Hover speed",
+  "settings.hoverSpeedHelp":
+    "Delay between images while hovering, in milliseconds. Lower is faster.",
+  "settings.hoverAxis": "Hover direction",
+  "settings.hoverAxisHelp":
+    "Horizontal splits the image left and right — the left half moves back, the right half forward. Vertical splits it top and bottom.",
+  "settings.hoverAxisHorizontal": "Horizontal",
+  "settings.hoverAxisVertical": "Vertical",
+  "settings.hoverInvert": "Invert hover direction",
+  "settings.hoverInvertHelp":
+    "Swaps the two halves, so the half that normally moves forward moves back instead.",
+  "settings.keyboardNavigation": "Keyboard navigation",
+  "settings.keyboardNavigationHelp":
+    "Move between images with the arrow keys. Esc always closes the zoom gallery.",
+  "settings.transitionSpeed": "Transition speed",
+  "settings.transitionSpeedHelp":
+    "How long the change between images takes. Ignored when the transition is None. Hover navigation shortens it to fit the hover speed.",
+  "settings.replaceThemeGallery": "Replace the theme gallery",
+  "settings.replaceThemeGalleryHelp":
+    "When off, GalleryNest renders alongside your theme's gallery instead of hiding it.",
+  "settings.performanceGroup": "Performance",
+  "settings.lazyLoadImages": "Lazy-load thumbnails",
+  "settings.lazyLoadImagesHelp":
+    "Defer offscreen thumbnails until they are needed. The main image always loads immediately.",
+  "settings.appearanceGroup": "Appearance",
+  "settings.accentColor": "Accent colour",
+  "settings.accentColorHelp":
+    "Used for the active thumbnail and the controls, in both the slider and the zoom gallery.",
+  "settings.accentColorInvalid":
+    "Enter a six-digit hex colour, for example #111111.",
+  "settings.saveSettings": "Save settings",
+  "settings.resetGroup": "Reset",
+  "settings.resetIntro":
+    "Restore every option on this page to its default. Your selected products and slider settings are not affected.",
+  "settings.resetButton": "Reset to defaults",
+  "settings.toastSaved": "Settings saved",
+  "settings.toastReset": "Settings reset to defaults",
+  "settings.sliderOptionsMoved":
+    "Slider and zoom options now live on the Products page, where they can be set per product.",
+
+  "help.breadcrumb": "Product image slider",
+  "help.pageTitle": "Help",
+  "help.heroTagline":
+    "Set up GalleryNest, learn how it behaves, and fix the most common issues.",
+  "help.yourSetup": "Your setup",
+  "help.setupShop": "Store",
+  "help.setupPlan": "Plan",
+  "help.setupProducts": "Products using the slider",
+  "help.quickStart": "Quick start",
+  "help.step1Title": "Add the app block to your theme",
+  "help.step1Text":
+    "In the theme editor, open your product template and add the GalleryNest product slider app block. The block reads your settings and only renders on the products you select.",
+  "help.step2Title": "Select your products",
+  "help.step2Text":
+    "On the Dashboard, choose the products where the slider should appear. Products you do not select keep the normal theme gallery.",
+  "help.step3Title": "Map variant images",
+  "help.step3Text":
+    "Open a selected product and pick, for each variant, which product images should appear in the zoom gallery.",
+  "help.step4Title": "Adjust the look and behaviour",
+  "help.step4Text":
+    "Thumbnail position, size and custom icons live on the Dashboard. App-wide options such as zoom, looping and the accent colour live on the Settings page.",
+  "help.faq": "Frequently asked questions",
+  "help.faq1Q": "Will GalleryNest replace my theme's gallery?",
+  "help.faq1A":
+    "Yes. By default it hides your theme's own product gallery and renders in its place. Switch off \"Replace the theme gallery\" in Settings and both galleries will be shown instead.",
+  "help.faq2Q": "Why are the thumbnails missing on some products?",
+  "help.faq2A":
+    "Thumbnails are hidden automatically on products that have only a single default variant, and whenever \"Hide thumbnails\" is enabled on the Dashboard.",
+  "help.faq3Q": "Are videos and 3D models supported?",
+  "help.faq3A":
+    "Not yet. The slider only shows product images; videos and 3D models are skipped.",
+  "help.faq4Q": "My custom SVG icon is not showing. Why?",
+  "help.faq4A":
+    "Custom icons are sanitised for security. The value must start with <svg and cannot contain a script tag, an on… event attribute, or a javascript: URL. Anything else falls back to the default icon.",
+  "help.faq5Q": "What happens if I go over my plan's product limit?",
+  "help.faq5A":
+    "Only the first products up to your limit keep rendering the slider. Nothing is deleted, so upgrading restores the rest immediately.",
+  "help.faq6Q": "What happens to my data if I uninstall?",
+  "help.faq6A":
+    "All GalleryNest data for your store — selected products, variant image mapping and settings — is deleted when the app is uninstalled.",
+  "help.troubleshooting": "The slider is not showing up",
+  "help.troubleshoot1":
+    "Check that the GalleryNest product slider app block is added to the product template in the theme editor.",
+  "help.troubleshoot2":
+    "Check that the product is in the selected list on the Dashboard.",
+  "help.troubleshoot3":
+    "Check that \"Enable GalleryNest on the storefront\" is on in Settings.",
+  "help.troubleshoot4":
+    "Check that you are on a product page — the block only renders on the product template.",
+  "help.support": "Still stuck?",
+  "help.supportText":
+    "Email us the details above along with the product URL and we will take a look.",
+  "help.supportEmail": "Email support",
+  "help.prioritySupportOn": "Your Enterprise plan includes priority support.",
+  "help.prioritySupportOff": "Upgrade to Enterprise for priority support.",
+  "help.openSettings": "Open settings",
+  "help.openDashboard": "Open dashboard",
 };
 
 export type TranslationKey = keyof typeof en;
 
 const es: Record<TranslationKey, string> = {
   "common.back": "Atrás",
+  "common.cancel": "Cancelar",
   "common.language": "Idioma",
   "nav.dashboard": "Panel",
+  "nav.products": "Productos",
+  "nav.analytics": "Analíticas",
+  "analytics.pageTitle": "Analíticas de la galería",
+  "analytics.intro": "Cómo usan los compradores tus galerías de producto.",
+  "analytics.rangeLabel": "Periodo",
+  "analytics.range7": "Últimos 7 días",
+  "analytics.range30": "Últimos 30 días",
+  "analytics.range90": "Últimos 90 días",
+  "analytics.dailyChartTitle": "Vistas de galería por día",
+  "analytics.productTableHeading": "Por producto",
+  "analytics.colProduct": "Producto",
+  "analytics.noData": "Todavía no hay actividad registrada en este periodo.",
+  "analytics.peakLabel": "máximo {count}",
+  "analytics.emptyHint":
+    "Las estadísticas aparecen cuando los compradores exploran tus galerías.",
+  "dashboard.viewAnalytics": "Ver analíticas completas",
   "nav.billing": "Facturación",
+  "nav.settings": "Ajustes",
+  "nav.help": "Ayuda",
+
+  "products.pageTitle": "Productos",
+  "products.heroTagline":
+    "Elige los productos que usan el carrusel de GalleryNest y define su aspecto y comportamiento.",
+  "products.addProducts": "Añadir productos",
+  "products.manageProducts": "Gestionar productos",
+  "products.saveProducts": "Guardar productos",
+  "products.badgeDefault": "Predeterminado",
+  "products.badgeDraft": "Borrador",
+  "products.confirmDiscardHeading": "¿Descartar el borrador?",
+  "products.confirmDiscardBody":
+    "Se perderán los cambios sin publicar de {product}. Sus opciones publicadas no cambian.",
+  "products.toastDraftPublished": "Borrador publicado",
+  "products.badgeCustom": "Personalizado",
+  "products.defaultsHeading": "Opciones predeterminadas de carrusel y zoom",
+  "products.defaultsIntro":
+    "Se aplican a todos los productos que no se hayan personalizado individualmente.",
+  "products.optionsHeading": "Opciones de carrusel y zoom",
+  "products.optionsIntro":
+    "Define el comportamiento del carrusel y del zoom para este producto en concreto.",
+  "products.useShopDefaults": "Usar las opciones predeterminadas",
+  "products.useShopDefaultsHelp":
+    "Desmarca para dar a este producto sus propios ajustes. Mientras esté marcado, sigue los valores predeterminados de la página Productos, incluidos los cambios posteriores.",
+  "products.editDefaults": "Editar las opciones predeterminadas",
+  "products.toastProductsSaved": "Productos guardados",
+  "products.toastDefaultsSaved": "Opciones predeterminadas guardadas",
+  "products.toastOptionsSaved": "Opciones del producto guardadas",
+  "products.saveAsDraft": "Guardar como borrador",
+  "products.publish": "Publicar",
+  "products.discardDraft": "Descartar borrador",
+  "products.draftBannerHeading": "Cambios sin publicar",
+  "products.draftBannerBody":
+    "Estas opciones están guardadas como borrador. Tu tienda sigue mostrando las opciones publicadas hasta que las publiques.",
+  "products.toastDraftSaved": "Borrador guardado",
+  "products.toastDraftDiscarded": "Borrador descartado",
+  "products.notFoundHeading": "Producto no encontrado",
+  "products.notFoundBody":
+    "Este producto no está en tu lista de GalleryNest. Puede que se haya quitado aquí, se haya eliminado en Shopify o quede fuera del límite de tu plan actual.",
+  "products.backToProducts": "Volver a productos",
+  "products.confirmRemoveHeading": "¿Quitar de GalleryNest?",
+  "products.confirmRemoveBody":
+    "{product} dejará de usar el carrusel de GalleryNest y se perderán sus opciones personalizadas y su asignación de imágenes por variante. Puedes volver a añadirlo más adelante, pero esos ajustes no se recuperarán.",
+  "products.confirmRemoveAllBody":
+    "Los {count} productos dejarán de usar el carrusel de GalleryNest y se perderán sus opciones personalizadas y sus asignaciones de imágenes por variante. Esta acción no se puede deshacer.",
+  "products.confirmRemoveButton": "Quitar",
 
   "dashboard.pageTitle": "Carrusel de imágenes del producto",
   "dashboard.selectProducts": "Seleccionar productos",
@@ -141,6 +467,33 @@ const es: Record<TranslationKey, string> = {
   "dashboard.sliderSettingsIntro":
     "Elige los productos donde debe aparecer el carrusel de imágenes de la tienda. Los productos no seleccionados aquí mantendrán la galería normal del tema.",
   "dashboard.layoutGroup": "Diseño",
+  "dashboard.imageTransition": "Transición al hacer clic",
+  "dashboard.hoverTransition": "Transición al pasar el cursor",
+  "dashboard.transitionNone": "Ninguna",
+  "dashboard.transitionFade": "Fundido",
+  "dashboard.transitionSlide": "Deslizamiento",
+  "dashboard.transitionZoom": "Zoom",
+  "dashboard.stageLayout": "Diseño de la imagen principal",
+  "dashboard.stageLayoutSingle": "Una sola imagen",
+  "dashboard.stageLayoutCarousel": "Carrusel",
+  "dashboard.carouselPerView": "Imágenes visibles",
+  "dashboard.carouselNavigation": "Navegación del carrusel",
+  "dashboard.carouselNavArrows": "Flechas",
+  "dashboard.carouselNavSlider": "Barra debajo",
+  "dashboard.carouselNavBoth": "Ambas",
+  "dashboard.transitionCarouselNote":
+    "No se usa con el diseño de carrusel, que se desplaza en lugar de cambiar la imagen.",
+  "dashboard.thumbnailShape": "Forma de las miniaturas",
+  "dashboard.shapeSquare": "Cuadrado recto",
+  "dashboard.shapeRounded": "Cuadrado redondeado",
+  "dashboard.shapeCircle": "Circular",
+  "dashboard.shapePolaroid": "Polaroid",
+  "dashboard.shapeCard": "Tarjeta enriquecida",
+  "dashboard.thumbnailHoverEffect": "Efecto al pasar el cursor",
+  "dashboard.thumbnailHoverEffectHelp":
+    "Polaroid y tarjeta enriquecida siempre muestran su leyenda. Esto añade un efecto encima.",
+  "dashboard.hoverEffectLift": "Elevar y sombra",
+  "dashboard.hoverEffectCaption": "Leyenda superpuesta",
   "dashboard.thumbnailPosition": "Posición de las miniaturas",
   "dashboard.left": "Izquierda",
   "dashboard.right": "Derecha",
@@ -177,6 +530,25 @@ const es: Record<TranslationKey, string> = {
   "dashboard.livePreview": "Vista previa en vivo",
   "dashboard.livePreviewCaption":
     "Refleja tus ajustes actuales de miniaturas e icono de zoom.",
+  "dashboard.livePreviewDefaults":
+    "Refleja tus opciones predeterminadas de miniaturas e icono de zoom. Los productos personalizados pueden diferir.",
+  "dashboard.analyticsSection": "Analíticas de la galería",
+  "dashboard.analyticsIntro":
+    "Actividad de los compradores en tus galerías durante los últimos 30 días.",
+  "dashboard.analyticsEmpty":
+    "Aún no hay actividad. Los números aparecen cuando los compradores visitan tus páginas de producto.",
+  "dashboard.analyticsLocked":
+    "Las analíticas muestran cómo usan los compradores tus galerías: imágenes vistas, zooms y aperturas en pantalla completa. Disponible en el plan Enterprise.",
+  "dashboard.analyticsUpgrade": "Cambiar a Enterprise",
+  "dashboard.statGalleryViews": "Vistas de galería",
+  "dashboard.statImageViews": "Imágenes vistas",
+  "dashboard.statZooms": "Zooms",
+  "dashboard.statLightbox": "Aperturas a pantalla completa",
+  "dashboard.statGalleryViewsCount": "{count} vistas",
+  "dashboard.breakdownTitle": "Desglose de actividad",
+  "dashboard.topProducts": "Productos más vistos",
+  "billing.featureAnalytics": "Analíticas de la galería",
+  "billing.rowAnalytics": "Analíticas de la galería",
   "dashboard.themeSetup": "Configuración del tema",
   "dashboard.themeSetupText":
     "Añade el bloque de la app GalleryNest a la plantilla de producto en el editor de temas. El bloque verifica estos ajustes y solo se muestra en los productos seleccionados.",
@@ -221,7 +593,35 @@ const es: Record<TranslationKey, string> = {
   "mapping.imagesForVariant": "Imágenes para {variant}",
   "mapping.selectedVariant": "la variante seleccionada",
   "mapping.noImages": "No se encontraron imágenes del producto.",
+  "mapping.addImages": "Añadir imágenes",
+  "mapping.addImagesHelp":
+    "Sube imágenes a este producto en Shopify. JPG, PNG, GIF o WEBP, hasta 20 MB cada una.",
+  "mapping.toastUploaded": "{count} imagen(es) subida(s).",
+  "mapping.toastUploadProcessing":
+    "Shopify aún las está procesando; aparecerán aquí en unos segundos.",
+  "mapping.toastUploadFailed": "Error al subir: {reason}",
+  "mapping.toastUploadNoFiles": "Elige al menos una imagen para subir.",
+  "mapping.uploadTooLarge": "{filename} supera los 20 MB.",
+  "mapping.uploadBadType": "{filename} no es una imagen.",
+  "mapping.uploadTooMany": "Sube como máximo 10 imágenes a la vez.",
+  "mapping.addFromShopify": "Añadir desde Shopify",
+  "mapping.pickerHeading": "Añadir imágenes desde Shopify",
+  "mapping.pickerFiles": "Biblioteca de archivos",
+  "mapping.pickerProducts": "Otros productos",
+  "mapping.pickerSearch": "Buscar imágenes",
+  "mapping.pickerEmpty": "No se encontraron imágenes.",
+  "mapping.pickerLoadMore": "Cargar más",
+  "mapping.pickerAdd": "Añadir seleccionadas",
+  "mapping.pickerSelected": "{count} seleccionadas",
+  "mapping.pickerCopyNote":
+    "La imagen se copia en este producto. El original permanece donde está.",
+  "mapping.pickerBadUrl":
+    "Algunas imágenes no se pudieron añadir porque no son imágenes de Shopify.",
+  "mapping.toastAttached": "{count} imagen(es) añadida(s).",
   "mapping.show": "Mostrar",
+  "mapping.caption": "Leyenda",
+  "mapping.captionHelp":
+    "Se muestra en los estilos polaroid, tarjeta enriquecida y leyenda superpuesta. Se aplica a todas las variantes. Si está vacía se usa el texto alternativo de la imagen.",
   "mapping.variantsHeading": "Variantes",
   "mapping.noVariants": "No se encontraron variantes para este producto.",
   "mapping.mappedCount": "{count} asignadas",
@@ -229,13 +629,204 @@ const es: Record<TranslationKey, string> = {
   "mapping.saveMapping": "Guardar asignación",
   "mapping.toastSaved": "Asignación de imágenes guardada",
   "mapping.toastUpgrade": "Mejora tu plan para asignar este producto.",
+
+  "settings.breadcrumb": "Carrusel de imágenes del producto",
+  "settings.pageTitle": "Ajustes",
+  "settings.heroTagline":
+    "Opciones globales que se aplican a todos los productos que usan el carrusel de GalleryNest.",
+  "settings.generalGroup": "General",
+  "settings.appEnabled": "Activar GalleryNest en la tienda",
+  "settings.appEnabledHelp":
+    "Desactívalo para restaurar la galería propia de tu tema en todos los productos sin cambiar ningún otro ajuste.",
+  "settings.statusLive": "Activo",
+  "settings.statusPaused": "En pausa",
+  "settings.defaultLanguage": "Idioma predeterminado",
+  "settings.defaultLanguageHelp":
+    "Se usa en las páginas de administración de la app cuando no se ha elegido un idioma en este navegador.",
+  "settings.zoomGroup": "Zoom",
+  "settings.zoomTrigger": "Activación del zoom",
+  "settings.zoomTriggerHelp":
+    "Con «Al hacer clic», el icono de la lupa activa y desactiva el zoom, y la galería a pantalla completa se abre haciendo clic en la imagen.",
+  "settings.zoomTriggerHover": "Al pasar el cursor",
+  "settings.zoomTriggerClick": "Al hacer clic",
+  "settings.zoomTriggerOff": "Desactivado",
+  "settings.zoomLevel": "Nivel de zoom",
+  "settings.behaviourGroup": "Comportamiento de la galería",
+  "settings.loopSlides": "Repetir en bucle",
+  "settings.loopSlidesHelp": "Continuar de la última imagen a la primera.",
+  "settings.hoverNavigation": "Cambiar de imagen al pasar el cursor",
+  "settings.hoverNavigationHelp":
+    "Al mantener el cursor en una mitad de la imagen se avanza por las imágenes; en la otra mitad se retrocede. Se detiene cuando el cursor sale de la imagen.",
+  "settings.hoverNavigationDisabled":
+    "No disponible mientras la activación del zoom sea «Al pasar el cursor»: ambos reaccionarían al mismo movimiento del ratón. Elige «Al hacer clic» o «Desactivado» para usarlo.",
+  "settings.hoverSpeed": "Velocidad al pasar el cursor",
+  "settings.hoverSpeedHelp":
+    "Retardo entre imágenes al pasar el cursor, en milisegundos. Cuanto menor, más rápido.",
+  "settings.hoverAxis": "Dirección del cursor",
+  "settings.hoverAxisHelp":
+    "Horizontal divide la imagen en izquierda y derecha: la mitad izquierda retrocede y la derecha avanza. Vertical la divide en arriba y abajo.",
+  "settings.hoverAxisHorizontal": "Horizontal",
+  "settings.hoverAxisVertical": "Vertical",
+  "settings.hoverInvert": "Invertir la dirección del cursor",
+  "settings.hoverInvertHelp":
+    "Intercambia las dos mitades, de modo que la mitad que normalmente avanza pasa a retroceder.",
+  "settings.keyboardNavigation": "Navegación con teclado",
+  "settings.keyboardNavigationHelp":
+    "Cambia de imagen con las teclas de flecha. Esc siempre cierra la galería de zoom.",
+  "settings.transitionSpeed": "Velocidad de la transición",
+  "settings.transitionSpeedHelp":
+    "Cuánto dura el cambio entre imágenes. Se ignora cuando la transición es Ninguna. La navegación al pasar el cursor la acorta para ajustarse a su velocidad.",
+  "settings.replaceThemeGallery": "Reemplazar la galería del tema",
+  "settings.replaceThemeGalleryHelp":
+    "Si está desactivado, GalleryNest se muestra junto a la galería de tu tema en lugar de ocultarla.",
+  "settings.performanceGroup": "Rendimiento",
+  "settings.lazyLoadImages": "Carga diferida de miniaturas",
+  "settings.lazyLoadImagesHelp":
+    "Aplaza las miniaturas fuera de pantalla hasta que se necesiten. La imagen principal siempre se carga de inmediato.",
+  "settings.appearanceGroup": "Apariencia",
+  "settings.accentColor": "Color de acento",
+  "settings.accentColorHelp":
+    "Se usa para la miniatura activa y los controles, tanto en el carrusel como en la galería de zoom.",
+  "settings.accentColorInvalid":
+    "Introduce un color hexadecimal de seis dígitos, por ejemplo #111111.",
+  "settings.saveSettings": "Guardar ajustes",
+  "settings.resetGroup": "Restablecer",
+  "settings.resetIntro":
+    "Restaura todas las opciones de esta página a su valor predeterminado. Tus productos seleccionados y los ajustes del carrusel no se ven afectados.",
+  "settings.resetButton": "Restablecer valores predeterminados",
+  "settings.toastSaved": "Ajustes guardados",
+  "settings.toastReset": "Ajustes restablecidos a los valores predeterminados",
+  "settings.sliderOptionsMoved":
+    "Las opciones de carrusel y zoom ahora están en la página Productos, donde se pueden definir por producto.",
+
+  "help.breadcrumb": "Carrusel de imágenes del producto",
+  "help.pageTitle": "Ayuda",
+  "help.heroTagline":
+    "Configura GalleryNest, entiende cómo funciona y resuelve los problemas más comunes.",
+  "help.yourSetup": "Tu configuración",
+  "help.setupShop": "Tienda",
+  "help.setupPlan": "Plan",
+  "help.setupProducts": "Productos que usan el carrusel",
+  "help.quickStart": "Inicio rápido",
+  "help.step1Title": "Añade el bloque de la app a tu tema",
+  "help.step1Text":
+    "En el editor de temas, abre tu plantilla de producto y añade el bloque de la app del carrusel de GalleryNest. El bloque lee tus ajustes y solo se muestra en los productos que selecciones.",
+  "help.step2Title": "Selecciona tus productos",
+  "help.step2Text":
+    "En el Panel, elige los productos donde debe aparecer el carrusel. Los productos que no selecciones mantendrán la galería normal del tema.",
+  "help.step3Title": "Asigna las imágenes por variante",
+  "help.step3Text":
+    "Abre un producto seleccionado y elige, para cada variante, qué imágenes del producto deben aparecer en la galería de zoom.",
+  "help.step4Title": "Ajusta el aspecto y el comportamiento",
+  "help.step4Text":
+    "La posición y el tamaño de las miniaturas y los iconos personalizados están en el Panel. Las opciones globales como el zoom, el bucle y el color de acento están en la página de Ajustes.",
+  "help.faq": "Preguntas frecuentes",
+  "help.faq1Q": "¿GalleryNest reemplazará la galería de mi tema?",
+  "help.faq1A":
+    "Sí. De forma predeterminada oculta la galería de producto de tu tema y se muestra en su lugar. Desactiva «Reemplazar la galería del tema» en Ajustes y se mostrarán ambas galerías.",
+  "help.faq2Q": "¿Por qué faltan las miniaturas en algunos productos?",
+  "help.faq2A":
+    "Las miniaturas se ocultan automáticamente en los productos que solo tienen una variante predeterminada, y siempre que «Ocultar miniaturas» esté activado en el Panel.",
+  "help.faq3Q": "¿Se admiten vídeos y modelos 3D?",
+  "help.faq3A":
+    "Todavía no. El carrusel solo muestra imágenes del producto; los vídeos y los modelos 3D se omiten.",
+  "help.faq4Q": "Mi icono SVG personalizado no aparece. ¿Por qué?",
+  "help.faq4A":
+    "Los iconos personalizados se depuran por seguridad. El valor debe empezar por <svg y no puede contener una etiqueta script, un atributo de evento on… ni una URL javascript:. Cualquier otra cosa vuelve al icono predeterminado.",
+  "help.faq5Q": "¿Qué pasa si supero el límite de productos de mi plan?",
+  "help.faq5A":
+    "Solo los primeros productos hasta tu límite siguen mostrando el carrusel. No se elimina nada, así que al mejorar el plan se restaura el resto de inmediato.",
+  "help.faq6Q": "¿Qué pasa con mis datos si desinstalo la app?",
+  "help.faq6A":
+    "Todos los datos de GalleryNest de tu tienda —productos seleccionados, asignación de imágenes por variante y ajustes— se eliminan al desinstalar la app.",
+  "help.troubleshooting": "El carrusel no aparece",
+  "help.troubleshoot1":
+    "Comprueba que el bloque de la app del carrusel de GalleryNest esté añadido a la plantilla de producto en el editor de temas.",
+  "help.troubleshoot2":
+    "Comprueba que el producto esté en la lista de seleccionados del Panel.",
+  "help.troubleshoot3":
+    "Comprueba que «Activar GalleryNest en la tienda» esté activado en Ajustes.",
+  "help.troubleshoot4":
+    "Comprueba que estás en una página de producto: el bloque solo se muestra en la plantilla de producto.",
+  "help.support": "¿Sigues con problemas?",
+  "help.supportText":
+    "Envíanos los datos de arriba junto con la URL del producto y lo revisaremos.",
+  "help.supportEmail": "Escribir a soporte",
+  "help.prioritySupportOn": "Tu plan Enterprise incluye soporte prioritario.",
+  "help.prioritySupportOff": "Mejora a Enterprise para tener soporte prioritario.",
+  "help.openSettings": "Abrir ajustes",
+  "help.openDashboard": "Abrir el panel",
 };
 
 const it: Record<TranslationKey, string> = {
   "common.back": "Indietro",
+  "common.cancel": "Annulla",
   "common.language": "Lingua",
   "nav.dashboard": "Pannello",
+  "nav.products": "Prodotti",
+  "nav.analytics": "Analisi",
+  "analytics.pageTitle": "Analisi della galleria",
+  "analytics.intro": "Come gli acquirenti usano le gallerie dei tuoi prodotti.",
+  "analytics.rangeLabel": "Periodo",
+  "analytics.range7": "Ultimi 7 giorni",
+  "analytics.range30": "Ultimi 30 giorni",
+  "analytics.range90": "Ultimi 90 giorni",
+  "analytics.dailyChartTitle": "Visualizzazioni galleria al giorno",
+  "analytics.productTableHeading": "Per prodotto",
+  "analytics.colProduct": "Prodotto",
+  "analytics.noData": "Nessuna attività registrata in questo periodo.",
+  "analytics.peakLabel": "picco {count}",
+  "analytics.emptyHint":
+    "Le statistiche compaiono quando gli acquirenti sfogliano le tue gallerie.",
+  "dashboard.viewAnalytics": "Vedi analisi complete",
   "nav.billing": "Fatturazione",
+  "nav.settings": "Impostazioni",
+  "nav.help": "Aiuto",
+
+  "products.pageTitle": "Prodotti",
+  "products.heroTagline":
+    "Scegli i prodotti che usano lo slider GalleryNest e definisci il suo aspetto e comportamento.",
+  "products.addProducts": "Aggiungi prodotti",
+  "products.manageProducts": "Gestisci prodotti",
+  "products.saveProducts": "Salva prodotti",
+  "products.badgeDefault": "Predefinito",
+  "products.badgeDraft": "Bozza",
+  "products.confirmDiscardHeading": "Eliminare la bozza?",
+  "products.confirmDiscardBody":
+    "Le modifiche non pubblicate di {product} andranno perse. Le opzioni pubblicate restano invariate.",
+  "products.toastDraftPublished": "Bozza pubblicata",
+  "products.badgeCustom": "Personalizzato",
+  "products.defaultsHeading": "Opzioni predefinite di slider e zoom",
+  "products.defaultsIntro":
+    "Si applicano a tutti i prodotti non personalizzati singolarmente.",
+  "products.optionsHeading": "Opzioni di slider e zoom",
+  "products.optionsIntro":
+    "Definisci il comportamento dello slider e dello zoom per questo prodotto specifico.",
+  "products.useShopDefaults": "Usa le opzioni predefinite",
+  "products.useShopDefaultsHelp":
+    "Deseleziona per dare a questo prodotto impostazioni proprie. Se selezionato, segue i valori predefiniti della pagina Prodotti, comprese le modifiche successive.",
+  "products.editDefaults": "Modifica le opzioni predefinite",
+  "products.toastProductsSaved": "Prodotti salvati",
+  "products.toastDefaultsSaved": "Opzioni predefinite salvate",
+  "products.toastOptionsSaved": "Opzioni del prodotto salvate",
+  "products.saveAsDraft": "Salva come bozza",
+  "products.publish": "Pubblica",
+  "products.discardDraft": "Elimina bozza",
+  "products.draftBannerHeading": "Modifiche non pubblicate",
+  "products.draftBannerBody":
+    "Queste opzioni sono salvate come bozza. Il tuo negozio continua a mostrare le opzioni pubblicate finché non le pubblichi.",
+  "products.toastDraftSaved": "Bozza salvata",
+  "products.toastDraftDiscarded": "Bozza eliminata",
+  "products.notFoundHeading": "Prodotto non trovato",
+  "products.notFoundBody":
+    "Questo prodotto non è nel tuo elenco GalleryNest. Potrebbe essere stato rimosso qui, eliminato in Shopify o essere fuori dal limite del tuo piano attuale.",
+  "products.backToProducts": "Torna ai prodotti",
+  "products.confirmRemoveHeading": "Rimuovere da GalleryNest?",
+  "products.confirmRemoveBody":
+    "{product} non userà più lo slider GalleryNest e le sue opzioni personalizzate e la mappatura delle immagini per variante andranno perse. Potrai aggiungerlo di nuovo in seguito, ma quelle impostazioni non torneranno.",
+  "products.confirmRemoveAllBody":
+    "Tutti i {count} prodotti smetteranno di usare lo slider GalleryNest e le loro opzioni personalizzate e mappature delle immagini per variante andranno perse. L'operazione non può essere annullata.",
+  "products.confirmRemoveButton": "Rimuovi",
 
   "dashboard.pageTitle": "Slider immagini prodotto",
   "dashboard.selectProducts": "Seleziona prodotti",
@@ -256,6 +847,33 @@ const it: Record<TranslationKey, string> = {
   "dashboard.sliderSettingsIntro":
     "Scegli i prodotti su cui deve apparire lo slider immagini del negozio. I prodotti non selezionati qui manterranno la galleria standard del tema.",
   "dashboard.layoutGroup": "Layout",
+  "dashboard.imageTransition": "Transizione al clic",
+  "dashboard.hoverTransition": "Transizione al passaggio del mouse",
+  "dashboard.transitionNone": "Nessuna",
+  "dashboard.transitionFade": "Dissolvenza",
+  "dashboard.transitionSlide": "Scorrimento",
+  "dashboard.transitionZoom": "Zoom",
+  "dashboard.stageLayout": "Layout dell'immagine principale",
+  "dashboard.stageLayoutSingle": "Immagine singola",
+  "dashboard.stageLayoutCarousel": "Carosello",
+  "dashboard.carouselPerView": "Immagini visibili",
+  "dashboard.carouselNavigation": "Navigazione del carosello",
+  "dashboard.carouselNavArrows": "Frecce",
+  "dashboard.carouselNavSlider": "Barra sotto",
+  "dashboard.carouselNavBoth": "Entrambe",
+  "dashboard.transitionCarouselNote":
+    "Non usata dal layout a carosello, che scorre invece di cambiare l'immagine.",
+  "dashboard.thumbnailShape": "Forma delle miniature",
+  "dashboard.shapeSquare": "Quadrato netto",
+  "dashboard.shapeRounded": "Quadrato arrotondato",
+  "dashboard.shapeCircle": "Circolare",
+  "dashboard.shapePolaroid": "Polaroid",
+  "dashboard.shapeCard": "Scheda ricca",
+  "dashboard.thumbnailHoverEffect": "Effetto al passaggio del mouse",
+  "dashboard.thumbnailHoverEffectHelp":
+    "Polaroid e scheda ricca mostrano sempre la didascalia. Questo aggiunge un effetto in più.",
+  "dashboard.hoverEffectLift": "Sollevamento e ombra",
+  "dashboard.hoverEffectCaption": "Didascalia sovrapposta",
   "dashboard.thumbnailPosition": "Posizione miniature",
   "dashboard.left": "Sinistra",
   "dashboard.right": "Destra",
@@ -292,6 +910,25 @@ const it: Record<TranslationKey, string> = {
   "dashboard.livePreview": "Anteprima live",
   "dashboard.livePreviewCaption":
     "Riflette le tue impostazioni attuali di miniature e icona zoom.",
+  "dashboard.livePreviewDefaults":
+    "Riflette le tue opzioni predefinite di miniature e icona zoom. I prodotti personalizzati possono differire.",
+  "dashboard.analyticsSection": "Analisi della galleria",
+  "dashboard.analyticsIntro":
+    "Attività degli acquirenti nelle tue gallerie negli ultimi 30 giorni.",
+  "dashboard.analyticsEmpty":
+    "Nessuna attività registrata. I numeri compaiono quando gli acquirenti visitano le pagine prodotto.",
+  "dashboard.analyticsLocked":
+    "Le analisi mostrano come gli acquirenti usano le gallerie: immagini sfogliate, zoom e aperture a schermo intero. Disponibili con il piano Enterprise.",
+  "dashboard.analyticsUpgrade": "Passa a Enterprise",
+  "dashboard.statGalleryViews": "Visualizzazioni galleria",
+  "dashboard.statImageViews": "Immagini sfogliate",
+  "dashboard.statZooms": "Zoom",
+  "dashboard.statLightbox": "Aperture a schermo intero",
+  "dashboard.statGalleryViewsCount": "{count} visualizzazioni",
+  "dashboard.breakdownTitle": "Ripartizione delle attività",
+  "dashboard.topProducts": "Prodotti più visti",
+  "billing.featureAnalytics": "Analisi della galleria",
+  "billing.rowAnalytics": "Analisi della galleria",
   "dashboard.themeSetup": "Configurazione tema",
   "dashboard.themeSetupText":
     "Aggiungi il blocco app GalleryNest al template prodotto nell'editor del tema. Il blocco verifica queste impostazioni e viene mostrato solo sui prodotti selezionati.",
@@ -336,7 +973,35 @@ const it: Record<TranslationKey, string> = {
   "mapping.imagesForVariant": "Immagini per {variant}",
   "mapping.selectedVariant": "la variante selezionata",
   "mapping.noImages": "Nessuna immagine del prodotto trovata.",
+  "mapping.addImages": "Aggiungi immagini",
+  "mapping.addImagesHelp":
+    "Carica immagini su questo prodotto in Shopify. JPG, PNG, GIF o WEBP, fino a 20 MB ciascuna.",
+  "mapping.toastUploaded": "{count} immagine/i caricata/e.",
+  "mapping.toastUploadProcessing":
+    "Shopify le sta ancora elaborando: compariranno qui tra qualche secondo.",
+  "mapping.toastUploadFailed": "Caricamento non riuscito: {reason}",
+  "mapping.toastUploadNoFiles": "Scegli almeno un'immagine da caricare.",
+  "mapping.uploadTooLarge": "{filename} supera i 20 MB.",
+  "mapping.uploadBadType": "{filename} non è un'immagine.",
+  "mapping.uploadTooMany": "Carica al massimo 10 immagini alla volta.",
+  "mapping.addFromShopify": "Aggiungi da Shopify",
+  "mapping.pickerHeading": "Aggiungi immagini da Shopify",
+  "mapping.pickerFiles": "Libreria file",
+  "mapping.pickerProducts": "Altri prodotti",
+  "mapping.pickerSearch": "Cerca immagini",
+  "mapping.pickerEmpty": "Nessuna immagine trovata.",
+  "mapping.pickerLoadMore": "Carica altre",
+  "mapping.pickerAdd": "Aggiungi selezionate",
+  "mapping.pickerSelected": "{count} selezionate",
+  "mapping.pickerCopyNote":
+    "L'immagine viene copiata su questo prodotto. L'originale resta dov'è.",
+  "mapping.pickerBadUrl":
+    "Alcune immagini non sono state aggiunte perché non sono immagini di Shopify.",
+  "mapping.toastAttached": "{count} immagine/i aggiunta/e.",
   "mapping.show": "Mostra",
+  "mapping.caption": "Didascalia",
+  "mapping.captionHelp":
+    "Mostrata dagli stili polaroid, scheda ricca e didascalia sovrapposta. Vale per tutte le varianti. Se vuota viene usato il testo alternativo dell'immagine.",
   "mapping.variantsHeading": "Varianti",
   "mapping.noVariants": "Nessuna variante trovata per questo prodotto.",
   "mapping.mappedCount": "{count} mappate",
@@ -344,13 +1009,204 @@ const it: Record<TranslationKey, string> = {
   "mapping.saveMapping": "Salva mappatura",
   "mapping.toastSaved": "Mappatura immagini salvata",
   "mapping.toastUpgrade": "Aggiorna il tuo piano per mappare questo prodotto.",
+
+  "settings.breadcrumb": "Slider immagini prodotto",
+  "settings.pageTitle": "Impostazioni",
+  "settings.heroTagline":
+    "Opzioni globali valide per tutti i prodotti che usano lo slider GalleryNest.",
+  "settings.generalGroup": "Generale",
+  "settings.appEnabled": "Attiva GalleryNest sul negozio",
+  "settings.appEnabledHelp":
+    "Disattiva questa opzione per ripristinare la galleria del tuo tema su tutti i prodotti senza modificare nessun'altra impostazione.",
+  "settings.statusLive": "Attivo",
+  "settings.statusPaused": "In pausa",
+  "settings.defaultLanguage": "Lingua predefinita",
+  "settings.defaultLanguageHelp":
+    "Usata nelle pagine di amministrazione dell'app quando non è stata scelta una lingua in questo browser.",
+  "settings.zoomGroup": "Zoom",
+  "settings.zoomTrigger": "Attivazione dello zoom",
+  "settings.zoomTriggerHelp":
+    "Con «Al clic», l'icona della lente attiva e disattiva lo zoom, e la galleria a schermo intero si apre facendo clic sull'immagine.",
+  "settings.zoomTriggerHover": "Al passaggio del mouse",
+  "settings.zoomTriggerClick": "Al clic",
+  "settings.zoomTriggerOff": "Disattivato",
+  "settings.zoomLevel": "Livello di zoom",
+  "settings.behaviourGroup": "Comportamento della galleria",
+  "settings.loopSlides": "Scorrimento continuo",
+  "settings.loopSlidesHelp": "Continua dall'ultima immagine alla prima.",
+  "settings.hoverNavigation": "Cambia immagine al passaggio del mouse",
+  "settings.hoverNavigationHelp":
+    "Tenendo il cursore su una metà dell'immagine si avanza tra le immagini, sull'altra metà si torna indietro. Si ferma quando il cursore esce dall'immagine.",
+  "settings.hoverNavigationDisabled":
+    "Non disponibile finché l'attivazione dello zoom è «Al passaggio del mouse»: entrambi reagirebbero allo stesso movimento. Scegli «Al clic» o «Disattivato» per usarlo.",
+  "settings.hoverSpeed": "Velocità al passaggio del mouse",
+  "settings.hoverSpeedHelp":
+    "Ritardo tra le immagini al passaggio del mouse, in millisecondi. Più basso è, più veloce.",
+  "settings.hoverAxis": "Direzione del cursore",
+  "settings.hoverAxisHelp":
+    "Orizzontale divide l'immagine tra sinistra e destra: la metà sinistra torna indietro, la destra avanza. Verticale la divide tra alto e basso.",
+  "settings.hoverAxisHorizontal": "Orizzontale",
+  "settings.hoverAxisVertical": "Verticale",
+  "settings.hoverInvert": "Inverti la direzione del cursore",
+  "settings.hoverInvertHelp":
+    "Scambia le due metà, così la metà che normalmente avanza torna indietro.",
+  "settings.keyboardNavigation": "Navigazione da tastiera",
+  "settings.keyboardNavigationHelp":
+    "Cambia immagine con i tasti freccia. Esc chiude sempre la galleria zoom.",
+  "settings.transitionSpeed": "Velocità della transizione",
+  "settings.transitionSpeedHelp":
+    "Quanto dura il cambio tra le immagini. Ignorato quando la transizione è Nessuna. La navigazione al passaggio del mouse la accorcia per adattarla alla propria velocità.",
+  "settings.replaceThemeGallery": "Sostituisci la galleria del tema",
+  "settings.replaceThemeGalleryHelp":
+    "Se disattivata, GalleryNest viene mostrato accanto alla galleria del tuo tema invece di nasconderla.",
+  "settings.performanceGroup": "Prestazioni",
+  "settings.lazyLoadImages": "Caricamento differito delle miniature",
+  "settings.lazyLoadImagesHelp":
+    "Rimanda le miniature fuori schermo finché non servono. L'immagine principale viene sempre caricata subito.",
+  "settings.appearanceGroup": "Aspetto",
+  "settings.accentColor": "Colore d'accento",
+  "settings.accentColorHelp":
+    "Usato per la miniatura attiva e i controlli, sia nello slider sia nella galleria zoom.",
+  "settings.accentColorInvalid":
+    "Inserisci un colore esadecimale a sei cifre, ad esempio #111111.",
+  "settings.saveSettings": "Salva impostazioni",
+  "settings.resetGroup": "Ripristino",
+  "settings.resetIntro":
+    "Riporta tutte le opzioni di questa pagina ai valori predefiniti. I prodotti selezionati e le impostazioni dello slider non vengono modificati.",
+  "settings.resetButton": "Ripristina i valori predefiniti",
+  "settings.toastSaved": "Impostazioni salvate",
+  "settings.toastReset": "Impostazioni ripristinate ai valori predefiniti",
+  "settings.sliderOptionsMoved":
+    "Le opzioni di slider e zoom si trovano ora nella pagina Prodotti, dove possono essere impostate per singolo prodotto.",
+
+  "help.breadcrumb": "Slider immagini prodotto",
+  "help.pageTitle": "Aiuto",
+  "help.heroTagline":
+    "Configura GalleryNest, scopri come si comporta e risolvi i problemi più comuni.",
+  "help.yourSetup": "La tua configurazione",
+  "help.setupShop": "Negozio",
+  "help.setupPlan": "Piano",
+  "help.setupProducts": "Prodotti che usano lo slider",
+  "help.quickStart": "Guida rapida",
+  "help.step1Title": "Aggiungi il blocco app al tuo tema",
+  "help.step1Text":
+    "Nell'editor del tema, apri il template prodotto e aggiungi il blocco app dello slider GalleryNest. Il blocco legge le tue impostazioni e viene mostrato solo sui prodotti selezionati.",
+  "help.step2Title": "Seleziona i tuoi prodotti",
+  "help.step2Text":
+    "Nel Pannello, scegli i prodotti su cui deve apparire lo slider. I prodotti non selezionati manterranno la galleria standard del tema.",
+  "help.step3Title": "Mappa le immagini per variante",
+  "help.step3Text":
+    "Apri un prodotto selezionato e scegli, per ogni variante, quali immagini del prodotto devono apparire nella galleria zoom.",
+  "help.step4Title": "Regola aspetto e comportamento",
+  "help.step4Text":
+    "Posizione e dimensione delle miniature e icone personalizzate si trovano nel Pannello. Le opzioni globali come zoom, scorrimento continuo e colore d'accento si trovano nella pagina Impostazioni.",
+  "help.faq": "Domande frequenti",
+  "help.faq1Q": "GalleryNest sostituirà la galleria del mio tema?",
+  "help.faq1A":
+    "Sì. Per impostazione predefinita nasconde la galleria prodotto del tuo tema e viene mostrato al suo posto. Disattiva «Sostituisci la galleria del tema» nelle Impostazioni e verranno mostrate entrambe le gallerie.",
+  "help.faq2Q": "Perché su alcuni prodotti mancano le miniature?",
+  "help.faq2A":
+    "Le miniature vengono nascoste automaticamente sui prodotti con una sola variante predefinita e ogni volta che «Nascondi miniature» è attivo nel Pannello.",
+  "help.faq3Q": "Sono supportati video e modelli 3D?",
+  "help.faq3A":
+    "Non ancora. Lo slider mostra solo le immagini del prodotto; video e modelli 3D vengono ignorati.",
+  "help.faq4Q": "La mia icona SVG personalizzata non compare. Perché?",
+  "help.faq4A":
+    "Le icone personalizzate vengono ripulite per motivi di sicurezza. Il valore deve iniziare con <svg e non può contenere un tag script, un attributo evento on… o un URL javascript:. In ogni altro caso viene usata l'icona predefinita.",
+  "help.faq5Q": "Cosa succede se supero il limite di prodotti del mio piano?",
+  "help.faq5A":
+    "Solo i primi prodotti fino al tuo limite continuano a mostrare lo slider. Nulla viene eliminato, quindi passando a un piano superiore gli altri vengono ripristinati subito.",
+  "help.faq6Q": "Cosa succede ai miei dati se disinstallo l'app?",
+  "help.faq6A":
+    "Tutti i dati GalleryNest del tuo negozio — prodotti selezionati, mappatura immagini per variante e impostazioni — vengono eliminati alla disinstallazione dell'app.",
+  "help.troubleshooting": "Lo slider non compare",
+  "help.troubleshoot1":
+    "Verifica che il blocco app dello slider GalleryNest sia aggiunto al template prodotto nell'editor del tema.",
+  "help.troubleshoot2":
+    "Verifica che il prodotto sia nell'elenco dei selezionati nel Pannello.",
+  "help.troubleshoot3":
+    "Verifica che «Attiva GalleryNest sul negozio» sia attivo nelle Impostazioni.",
+  "help.troubleshoot4":
+    "Verifica di essere su una pagina prodotto: il blocco viene mostrato solo nel template prodotto.",
+  "help.support": "Hai ancora problemi?",
+  "help.supportText":
+    "Inviaci i dati qui sopra insieme all'URL del prodotto e daremo un'occhiata.",
+  "help.supportEmail": "Contatta il supporto",
+  "help.prioritySupportOn": "Il tuo piano Enterprise include il supporto prioritario.",
+  "help.prioritySupportOff": "Passa a Enterprise per il supporto prioritario.",
+  "help.openSettings": "Apri le impostazioni",
+  "help.openDashboard": "Apri il pannello",
 };
 
 const de: Record<TranslationKey, string> = {
   "common.back": "Zurück",
+  "common.cancel": "Abbrechen",
   "common.language": "Sprache",
   "nav.dashboard": "Dashboard",
+  "nav.products": "Produkte",
+  "nav.analytics": "Analysen",
+  "analytics.pageTitle": "Galerie-Analysen",
+  "analytics.intro": "Wie Besucher deine Produktgalerien nutzen.",
+  "analytics.rangeLabel": "Zeitraum",
+  "analytics.range7": "Letzte 7 Tage",
+  "analytics.range30": "Letzte 30 Tage",
+  "analytics.range90": "Letzte 90 Tage",
+  "analytics.dailyChartTitle": "Galerie-Aufrufe pro Tag",
+  "analytics.productTableHeading": "Nach Produkt",
+  "analytics.colProduct": "Produkt",
+  "analytics.noData": "Für diesen Zeitraum wurde noch keine Aktivität erfasst.",
+  "analytics.peakLabel": "Spitze {count}",
+  "analytics.emptyHint":
+    "Statistiken erscheinen, sobald Besucher deine Galerien durchsehen.",
+  "dashboard.viewAnalytics": "Vollständige Analysen ansehen",
   "nav.billing": "Abrechnung",
+  "nav.settings": "Einstellungen",
+  "nav.help": "Hilfe",
+
+  "products.pageTitle": "Produkte",
+  "products.heroTagline":
+    "Wähle die Produkte mit dem GalleryNest-Slider und lege fest, wie er aussieht und sich verhält.",
+  "products.addProducts": "Produkte hinzufügen",
+  "products.manageProducts": "Produkte verwalten",
+  "products.saveProducts": "Produkte speichern",
+  "products.badgeDefault": "Standard",
+  "products.badgeDraft": "Entwurf",
+  "products.confirmDiscardHeading": "Entwurf verwerfen?",
+  "products.confirmDiscardBody":
+    "Die nicht veröffentlichten Änderungen an {product} gehen verloren. Die veröffentlichten Optionen bleiben unverändert.",
+  "products.toastDraftPublished": "Entwurf veröffentlicht",
+  "products.badgeCustom": "Angepasst",
+  "products.defaultsHeading": "Standardoptionen für Slider & Zoom",
+  "products.defaultsIntro":
+    "Gelten für alle Produkte, die nicht einzeln angepasst wurden.",
+  "products.optionsHeading": "Slider- & Zoom-Optionen",
+  "products.optionsIntro":
+    "Lege fest, wie sich Slider und Zoom bei genau diesem Produkt verhalten.",
+  "products.useShopDefaults": "Standardoptionen verwenden",
+  "products.useShopDefaultsHelp":
+    "Abwählen, um diesem Produkt eigene Einstellungen zu geben. Solange aktiviert, folgt es den Standardwerten der Produktseite – auch späteren Änderungen.",
+  "products.editDefaults": "Standardoptionen bearbeiten",
+  "products.toastProductsSaved": "Produkte gespeichert",
+  "products.toastDefaultsSaved": "Standardoptionen gespeichert",
+  "products.toastOptionsSaved": "Produktoptionen gespeichert",
+  "products.saveAsDraft": "Als Entwurf speichern",
+  "products.publish": "Veröffentlichen",
+  "products.discardDraft": "Entwurf verwerfen",
+  "products.draftBannerHeading": "Nicht veröffentlichte Änderungen",
+  "products.draftBannerBody":
+    "Diese Optionen sind als Entwurf gespeichert. Dein Shop zeigt weiterhin die veröffentlichten Optionen, bis du sie veröffentlichst.",
+  "products.toastDraftSaved": "Entwurf gespeichert",
+  "products.toastDraftDiscarded": "Entwurf verworfen",
+  "products.notFoundHeading": "Produkt nicht gefunden",
+  "products.notFoundBody":
+    "Dieses Produkt ist nicht in deiner GalleryNest-Liste. Möglicherweise wurde es hier entfernt, in Shopify gelöscht oder liegt außerhalb des Limits deines aktuellen Tarifs.",
+  "products.backToProducts": "Zurück zu den Produkten",
+  "products.confirmRemoveHeading": "Aus GalleryNest entfernen?",
+  "products.confirmRemoveBody":
+    "{product} verwendet dann nicht mehr den GalleryNest-Slider, und die eigenen Optionen sowie die Variantenzuordnung der Bilder gehen verloren. Du kannst es später wieder hinzufügen, diese Einstellungen kommen aber nicht zurück.",
+  "products.confirmRemoveAllBody":
+    "Alle {count} Produkte verwenden dann nicht mehr den GalleryNest-Slider, und ihre eigenen Optionen sowie Variantenzuordnungen der Bilder gehen verloren. Das lässt sich nicht rückgängig machen.",
+  "products.confirmRemoveButton": "Entfernen",
 
   "dashboard.pageTitle": "Produktbilder-Slider",
   "dashboard.selectProducts": "Produkte auswählen",
@@ -371,6 +1227,33 @@ const de: Record<TranslationKey, string> = {
   "dashboard.sliderSettingsIntro":
     "Wähle die Produkte aus, auf denen der Bilder-Slider im Shop erscheinen soll. Nicht ausgewählte Produkte behalten die normale Theme-Galerie.",
   "dashboard.layoutGroup": "Layout",
+  "dashboard.imageTransition": "Übergang beim Klicken",
+  "dashboard.hoverTransition": "Übergang beim Überfahren",
+  "dashboard.transitionNone": "Keiner",
+  "dashboard.transitionFade": "Überblenden",
+  "dashboard.transitionSlide": "Schieben",
+  "dashboard.transitionZoom": "Zoom",
+  "dashboard.stageLayout": "Layout des Hauptbilds",
+  "dashboard.stageLayoutSingle": "Einzelbild",
+  "dashboard.stageLayoutCarousel": "Karussell",
+  "dashboard.carouselPerView": "Sichtbare Bilder",
+  "dashboard.carouselNavigation": "Karussell-Navigation",
+  "dashboard.carouselNavArrows": "Pfeile",
+  "dashboard.carouselNavSlider": "Leiste darunter",
+  "dashboard.carouselNavBoth": "Beides",
+  "dashboard.transitionCarouselNote":
+    "Wird vom Karussell-Layout nicht verwendet — es scrollt, statt das Bild zu wechseln.",
+  "dashboard.thumbnailShape": "Form der Miniaturansichten",
+  "dashboard.shapeSquare": "Scharfes Quadrat",
+  "dashboard.shapeRounded": "Abgerundetes Quadrat",
+  "dashboard.shapeCircle": "Rund",
+  "dashboard.shapePolaroid": "Polaroid",
+  "dashboard.shapeCard": "Rich Card",
+  "dashboard.thumbnailHoverEffect": "Effekt beim Überfahren",
+  "dashboard.thumbnailHoverEffectHelp":
+    "Polaroid und Rich Card zeigen ihre Bildunterschrift immer. Dies fügt einen Effekt hinzu.",
+  "dashboard.hoverEffectLift": "Anheben & Schatten",
+  "dashboard.hoverEffectCaption": "Überlagerte Bildunterschrift",
   "dashboard.thumbnailPosition": "Position der Miniaturansichten",
   "dashboard.left": "Links",
   "dashboard.right": "Rechts",
@@ -407,6 +1290,25 @@ const de: Record<TranslationKey, string> = {
   "dashboard.livePreview": "Live-Vorschau",
   "dashboard.livePreviewCaption":
     "Zeigt deine aktuellen Einstellungen für Miniaturansichten und Zoom-Symbol.",
+  "dashboard.livePreviewDefaults":
+    "Zeigt deine Standardoptionen für Miniaturansichten und Zoom-Symbol. Angepasste Produkte können abweichen.",
+  "dashboard.analyticsSection": "Galerie-Analysen",
+  "dashboard.analyticsIntro":
+    "Aktivität der Kundinnen und Kunden in deinen Galerien der letzten 30 Tage.",
+  "dashboard.analyticsEmpty":
+    "Noch keine Aktivität erfasst. Zahlen erscheinen, sobald Besucher deine Produktseiten aufrufen.",
+  "dashboard.analyticsLocked":
+    "Galerie-Analysen zeigen, wie Besucher deine Galerien nutzen: durchgeblätterte Bilder, Zooms und Vollbild-Öffnungen. Verfügbar im Enterprise-Tarif.",
+  "dashboard.analyticsUpgrade": "Auf Enterprise upgraden",
+  "dashboard.statGalleryViews": "Galerie-Aufrufe",
+  "dashboard.statImageViews": "Durchgeblätterte Bilder",
+  "dashboard.statZooms": "Zooms",
+  "dashboard.statLightbox": "Vollbild-Öffnungen",
+  "dashboard.statGalleryViewsCount": "{count} Aufrufe",
+  "dashboard.breakdownTitle": "Aktivitätsübersicht",
+  "dashboard.topProducts": "Meistgesehene Produkte",
+  "billing.featureAnalytics": "Galerie-Analysen",
+  "billing.rowAnalytics": "Galerie-Analysen",
   "dashboard.themeSetup": "Theme-Einrichtung",
   "dashboard.themeSetupText":
     "Füge den GalleryNest-App-Block im Theme-Editor zur Produktvorlage hinzu. Der Block prüft diese Einstellungen und wird nur bei ausgewählten Produkten angezeigt.",
@@ -451,7 +1353,35 @@ const de: Record<TranslationKey, string> = {
   "mapping.imagesForVariant": "Bilder für {variant}",
   "mapping.selectedVariant": "die ausgewählte Variante",
   "mapping.noImages": "Keine Produktbilder gefunden.",
+  "mapping.addImages": "Bilder hinzufügen",
+  "mapping.addImagesHelp":
+    "Lade Bilder zu diesem Produkt in Shopify hoch. JPG, PNG, GIF oder WEBP, jeweils bis 20 MB.",
+  "mapping.toastUploaded": "{count} Bild(er) hochgeladen.",
+  "mapping.toastUploadProcessing":
+    "Shopify verarbeitet sie noch – sie erscheinen hier in wenigen Sekunden.",
+  "mapping.toastUploadFailed": "Hochladen fehlgeschlagen: {reason}",
+  "mapping.toastUploadNoFiles": "Wähle mindestens ein Bild zum Hochladen aus.",
+  "mapping.uploadTooLarge": "{filename} ist größer als 20 MB.",
+  "mapping.uploadBadType": "{filename} ist kein Bild.",
+  "mapping.uploadTooMany": "Lade höchstens 10 Bilder auf einmal hoch.",
+  "mapping.addFromShopify": "Aus Shopify hinzufügen",
+  "mapping.pickerHeading": "Bilder aus Shopify hinzufügen",
+  "mapping.pickerFiles": "Dateibibliothek",
+  "mapping.pickerProducts": "Andere Produkte",
+  "mapping.pickerSearch": "Bilder suchen",
+  "mapping.pickerEmpty": "Keine Bilder gefunden.",
+  "mapping.pickerLoadMore": "Mehr laden",
+  "mapping.pickerAdd": "Ausgewählte hinzufügen",
+  "mapping.pickerSelected": "{count} ausgewählt",
+  "mapping.pickerCopyNote":
+    "Das Bild wird auf dieses Produkt kopiert. Das Original bleibt, wo es ist.",
+  "mapping.pickerBadUrl":
+    "Einige Bilder konnten nicht hinzugefügt werden, da es keine Shopify-Bilder sind.",
+  "mapping.toastAttached": "{count} Bild(er) hinzugefügt.",
   "mapping.show": "Anzeigen",
+  "mapping.caption": "Bildunterschrift",
+  "mapping.captionHelp":
+    "Wird von den Stilen Polaroid, Rich Card und überlagerte Bildunterschrift angezeigt. Gilt für alle Varianten. Ohne Eingabe wird der Alt-Text des Bildes verwendet.",
   "mapping.variantsHeading": "Varianten",
   "mapping.noVariants": "Keine Varianten für dieses Produkt gefunden.",
   "mapping.mappedCount": "{count} zugeordnet",
@@ -459,13 +1389,204 @@ const de: Record<TranslationKey, string> = {
   "mapping.saveMapping": "Zuordnung speichern",
   "mapping.toastSaved": "Bildzuordnung gespeichert",
   "mapping.toastUpgrade": "Aktualisiere deinen Plan, um dieses Produkt zuzuordnen.",
+
+  "settings.breadcrumb": "Produktbilder-Slider",
+  "settings.pageTitle": "Einstellungen",
+  "settings.heroTagline":
+    "App-weite Optionen, die für alle Produkte mit dem GalleryNest-Slider gelten.",
+  "settings.generalGroup": "Allgemein",
+  "settings.appEnabled": "GalleryNest im Shop aktivieren",
+  "settings.appEnabledHelp":
+    "Deaktiviere dies, um bei allen Produkten die Galerie deines Themes wiederherzustellen, ohne andere Einstellungen zu ändern.",
+  "settings.statusLive": "Aktiv",
+  "settings.statusPaused": "Pausiert",
+  "settings.defaultLanguage": "Standardsprache",
+  "settings.defaultLanguageHelp":
+    "Wird für die Admin-Seiten der App verwendet, wenn in diesem Browser keine Sprache gewählt wurde.",
+  "settings.zoomGroup": "Zoom",
+  "settings.zoomTrigger": "Zoom auslösen",
+  "settings.zoomTriggerHelp":
+    "Bei „Per Klick“ schaltet das Lupensymbol den Zoom ein und aus, und die Vollbildgalerie öffnet sich per Klick auf das Bild.",
+  "settings.zoomTriggerHover": "Beim Überfahren",
+  "settings.zoomTriggerClick": "Per Klick",
+  "settings.zoomTriggerOff": "Aus",
+  "settings.zoomLevel": "Zoomstufe",
+  "settings.behaviourGroup": "Galerieverhalten",
+  "settings.loopSlides": "Endlos durchblättern",
+  "settings.loopSlidesHelp": "Vom letzten Bild zurück zum ersten springen.",
+  "settings.hoverNavigation": "Bilder beim Überfahren wechseln",
+  "settings.hoverNavigationHelp":
+    "Bleibt der Zeiger auf der einen Bildhälfte, wird vorwärts durch die Bilder geblättert, auf der anderen Hälfte rückwärts. Stoppt, sobald der Zeiger das Bild verlässt.",
+  "settings.hoverNavigationDisabled":
+    "Nicht verfügbar, solange „Zoom auslösen“ auf „Beim Überfahren“ steht – beide würden auf dieselbe Mausbewegung reagieren. Wähle „Per Klick“ oder „Aus“, um dies zu nutzen.",
+  "settings.hoverSpeed": "Geschwindigkeit beim Überfahren",
+  "settings.hoverSpeedHelp":
+    "Verzögerung zwischen den Bildern beim Überfahren, in Millisekunden. Kleiner ist schneller.",
+  "settings.hoverAxis": "Richtung beim Überfahren",
+  "settings.hoverAxisHelp":
+    "Horizontal teilt das Bild in links und rechts – die linke Hälfte blättert zurück, die rechte vorwärts. Vertikal teilt es in oben und unten.",
+  "settings.hoverAxisHorizontal": "Horizontal",
+  "settings.hoverAxisVertical": "Vertikal",
+  "settings.hoverInvert": "Richtung umkehren",
+  "settings.hoverInvertHelp":
+    "Vertauscht die beiden Hälften, sodass die Hälfte, die normalerweise vorwärts blättert, rückwärts blättert.",
+  "settings.keyboardNavigation": "Tastaturnavigation",
+  "settings.keyboardNavigationHelp":
+    "Mit den Pfeiltasten zwischen Bildern wechseln. Esc schließt die Zoom-Galerie immer.",
+  "settings.transitionSpeed": "Übergangsgeschwindigkeit",
+  "settings.transitionSpeedHelp":
+    "Wie lange der Bildwechsel dauert. Wird ignoriert, wenn der Übergang Keiner ist. Die Navigation beim Überfahren verkürzt ihn passend zur Hover-Geschwindigkeit.",
+  "settings.replaceThemeGallery": "Theme-Galerie ersetzen",
+  "settings.replaceThemeGalleryHelp":
+    "Wenn deaktiviert, wird GalleryNest neben der Galerie deines Themes angezeigt, statt sie auszublenden.",
+  "settings.performanceGroup": "Performance",
+  "settings.lazyLoadImages": "Miniaturansichten verzögert laden",
+  "settings.lazyLoadImagesHelp":
+    "Lädt Miniaturansichten außerhalb des sichtbaren Bereichs erst bei Bedarf. Das Hauptbild wird immer sofort geladen.",
+  "settings.appearanceGroup": "Darstellung",
+  "settings.accentColor": "Akzentfarbe",
+  "settings.accentColorHelp":
+    "Wird für die aktive Miniaturansicht und die Steuerelemente verwendet – im Slider und in der Zoom-Galerie.",
+  "settings.accentColorInvalid":
+    "Gib eine sechsstellige Hex-Farbe ein, zum Beispiel #111111.",
+  "settings.saveSettings": "Einstellungen speichern",
+  "settings.resetGroup": "Zurücksetzen",
+  "settings.resetIntro":
+    "Setzt alle Optionen auf dieser Seite auf den Standard zurück. Deine ausgewählten Produkte und die Slider-Einstellungen bleiben unverändert.",
+  "settings.resetButton": "Auf Standard zurücksetzen",
+  "settings.toastSaved": "Einstellungen gespeichert",
+  "settings.toastReset": "Einstellungen auf Standard zurückgesetzt",
+  "settings.sliderOptionsMoved":
+    "Slider- und Zoom-Optionen findest du jetzt auf der Produktseite, wo sie pro Produkt festgelegt werden können.",
+
+  "help.breadcrumb": "Produktbilder-Slider",
+  "help.pageTitle": "Hilfe",
+  "help.heroTagline":
+    "GalleryNest einrichten, das Verhalten verstehen und die häufigsten Probleme lösen.",
+  "help.yourSetup": "Deine Einrichtung",
+  "help.setupShop": "Shop",
+  "help.setupPlan": "Plan",
+  "help.setupProducts": "Produkte mit Slider",
+  "help.quickStart": "Schnellstart",
+  "help.step1Title": "App-Block zu deinem Theme hinzufügen",
+  "help.step1Text":
+    "Öffne im Theme-Editor deine Produktvorlage und füge den App-Block „GalleryNest Produkt-Slider“ hinzu. Der Block liest deine Einstellungen und wird nur bei den ausgewählten Produkten angezeigt.",
+  "help.step2Title": "Produkte auswählen",
+  "help.step2Text":
+    "Wähle im Dashboard die Produkte aus, auf denen der Slider erscheinen soll. Nicht ausgewählte Produkte behalten die normale Theme-Galerie.",
+  "help.step3Title": "Variantenbilder zuordnen",
+  "help.step3Text":
+    "Öffne ein ausgewähltes Produkt und lege für jede Variante fest, welche Produktbilder in der Zoom-Galerie erscheinen sollen.",
+  "help.step4Title": "Aussehen und Verhalten anpassen",
+  "help.step4Text":
+    "Position und Größe der Miniaturansichten sowie eigene Symbole findest du im Dashboard. App-weite Optionen wie Zoom, Endlosdurchlauf und Akzentfarbe findest du auf der Seite Einstellungen.",
+  "help.faq": "Häufige Fragen",
+  "help.faq1Q": "Ersetzt GalleryNest die Galerie meines Themes?",
+  "help.faq1A":
+    "Ja. Standardmäßig wird die Produktgalerie deines Themes ausgeblendet und GalleryNest an ihrer Stelle angezeigt. Deaktiviere „Theme-Galerie ersetzen“ in den Einstellungen, dann werden beide Galerien angezeigt.",
+  "help.faq2Q": "Warum fehlen bei manchen Produkten die Miniaturansichten?",
+  "help.faq2A":
+    "Miniaturansichten werden bei Produkten mit nur einer Standardvariante automatisch ausgeblendet – und immer dann, wenn „Miniaturansichten ausblenden“ im Dashboard aktiviert ist.",
+  "help.faq3Q": "Werden Videos und 3D-Modelle unterstützt?",
+  "help.faq3A":
+    "Noch nicht. Der Slider zeigt nur Produktbilder; Videos und 3D-Modelle werden übersprungen.",
+  "help.faq4Q": "Mein eigenes SVG-Symbol wird nicht angezeigt. Warum?",
+  "help.faq4A":
+    "Eigene Symbole werden aus Sicherheitsgründen bereinigt. Der Wert muss mit <svg beginnen und darf kein script-Tag, kein on…-Event-Attribut und keine javascript:-URL enthalten. Andernfalls wird das Standardsymbol verwendet.",
+  "help.faq5Q": "Was passiert, wenn ich das Produktlimit meines Plans überschreite?",
+  "help.faq5A":
+    "Nur die ersten Produkte bis zu deinem Limit zeigen den Slider weiterhin an. Es wird nichts gelöscht – nach einem Upgrade sind die übrigen sofort wieder da.",
+  "help.faq6Q": "Was passiert mit meinen Daten, wenn ich die App deinstalliere?",
+  "help.faq6A":
+    "Alle GalleryNest-Daten deines Shops – ausgewählte Produkte, Variantenbild-Zuordnung und Einstellungen – werden bei der Deinstallation gelöscht.",
+  "help.troubleshooting": "Der Slider wird nicht angezeigt",
+  "help.troubleshoot1":
+    "Prüfe, ob der App-Block „GalleryNest Produkt-Slider“ im Theme-Editor zur Produktvorlage hinzugefügt wurde.",
+  "help.troubleshoot2":
+    "Prüfe, ob das Produkt im Dashboard in der Auswahlliste steht.",
+  "help.troubleshoot3":
+    "Prüfe, ob „GalleryNest im Shop aktivieren“ in den Einstellungen aktiv ist.",
+  "help.troubleshoot4":
+    "Prüfe, ob du auf einer Produktseite bist – der Block wird nur in der Produktvorlage angezeigt.",
+  "help.support": "Immer noch ein Problem?",
+  "help.supportText":
+    "Schicke uns die Angaben von oben zusammen mit der Produkt-URL, dann sehen wir es uns an.",
+  "help.supportEmail": "Support kontaktieren",
+  "help.prioritySupportOn": "Dein Enterprise-Plan enthält priorisierten Support.",
+  "help.prioritySupportOff": "Wechsle zu Enterprise für priorisierten Support.",
+  "help.openSettings": "Einstellungen öffnen",
+  "help.openDashboard": "Dashboard öffnen",
 };
 
 const fr: Record<TranslationKey, string> = {
   "common.back": "Retour",
+  "common.cancel": "Annuler",
   "common.language": "Langue",
   "nav.dashboard": "Tableau de bord",
+  "nav.products": "Produits",
+  "nav.analytics": "Statistiques",
+  "analytics.pageTitle": "Statistiques de la galerie",
+  "analytics.intro": "Comment les acheteurs utilisent vos galeries produit.",
+  "analytics.rangeLabel": "Période",
+  "analytics.range7": "7 derniers jours",
+  "analytics.range30": "30 derniers jours",
+  "analytics.range90": "90 derniers jours",
+  "analytics.dailyChartTitle": "Vues de la galerie par jour",
+  "analytics.productTableHeading": "Par produit",
+  "analytics.colProduct": "Produit",
+  "analytics.noData": "Aucune activité enregistrée pour cette période.",
+  "analytics.peakLabel": "pic {count}",
+  "analytics.emptyHint":
+    "Les statistiques apparaissent dès que les acheteurs parcourent vos galeries.",
+  "dashboard.viewAnalytics": "Voir toutes les statistiques",
   "nav.billing": "Facturation",
+  "nav.settings": "Paramètres",
+  "nav.help": "Aide",
+
+  "products.pageTitle": "Produits",
+  "products.heroTagline":
+    "Choisissez les produits qui utilisent le carrousel GalleryNest et définissez son apparence et son comportement.",
+  "products.addProducts": "Ajouter des produits",
+  "products.manageProducts": "Gérer les produits",
+  "products.saveProducts": "Enregistrer les produits",
+  "products.badgeDefault": "Par défaut",
+  "products.badgeDraft": "Brouillon",
+  "products.confirmDiscardHeading": "Supprimer le brouillon ?",
+  "products.confirmDiscardBody":
+    "Les modifications non publiées de {product} seront perdues. Ses options publiées restent inchangées.",
+  "products.toastDraftPublished": "Brouillon publié",
+  "products.badgeCustom": "Personnalisé",
+  "products.defaultsHeading": "Options par défaut du carrousel et du zoom",
+  "products.defaultsIntro":
+    "Elles s'appliquent à tous les produits qui n'ont pas été personnalisés individuellement.",
+  "products.optionsHeading": "Options de carrousel et de zoom",
+  "products.optionsIntro":
+    "Définissez le comportement du carrousel et du zoom pour ce produit en particulier.",
+  "products.useShopDefaults": "Utiliser les options par défaut",
+  "products.useShopDefaultsHelp":
+    "Décochez pour donner à ce produit ses propres réglages. Tant que la case est cochée, il suit les valeurs par défaut de la page Produits, y compris les modifications ultérieures.",
+  "products.editDefaults": "Modifier les options par défaut",
+  "products.toastProductsSaved": "Produits enregistrés",
+  "products.toastDefaultsSaved": "Options par défaut enregistrées",
+  "products.toastOptionsSaved": "Options du produit enregistrées",
+  "products.saveAsDraft": "Enregistrer comme brouillon",
+  "products.publish": "Publier",
+  "products.discardDraft": "Supprimer le brouillon",
+  "products.draftBannerHeading": "Modifications non publiées",
+  "products.draftBannerBody":
+    "Ces options sont enregistrées comme brouillon. Votre boutique affiche toujours les options publiées jusqu'à ce que vous les publiiez.",
+  "products.toastDraftSaved": "Brouillon enregistré",
+  "products.toastDraftDiscarded": "Brouillon supprimé",
+  "products.notFoundHeading": "Produit introuvable",
+  "products.notFoundBody":
+    "Ce produit ne figure pas dans votre liste GalleryNest. Il a peut-être été retiré ici, supprimé dans Shopify, ou il dépasse la limite de votre forfait actuel.",
+  "products.backToProducts": "Retour aux produits",
+  "products.confirmRemoveHeading": "Retirer de GalleryNest ?",
+  "products.confirmRemoveBody":
+    "{product} n'utilisera plus le carrousel GalleryNest, et ses options personnalisées ainsi que son association d'images par variante seront perdues. Vous pourrez l'ajouter à nouveau plus tard, mais ces réglages ne reviendront pas.",
+  "products.confirmRemoveAllBody":
+    "Les {count} produits cesseront d'utiliser le carrousel GalleryNest, et leurs options personnalisées ainsi que leurs associations d'images par variante seront perdues. Cette action est irréversible.",
+  "products.confirmRemoveButton": "Retirer",
 
   "dashboard.pageTitle": "Carrousel d'images produit",
   "dashboard.selectProducts": "Sélectionner des produits",
@@ -486,6 +1607,33 @@ const fr: Record<TranslationKey, string> = {
   "dashboard.sliderSettingsIntro":
     "Choisissez les produits sur lesquels le carrousel d'images de la boutique doit apparaître. Les produits non sélectionnés ici conserveront la galerie standard du thème.",
   "dashboard.layoutGroup": "Disposition",
+  "dashboard.imageTransition": "Transition au clic",
+  "dashboard.hoverTransition": "Transition au survol",
+  "dashboard.transitionNone": "Aucune",
+  "dashboard.transitionFade": "Fondu",
+  "dashboard.transitionSlide": "Glissement",
+  "dashboard.transitionZoom": "Zoom",
+  "dashboard.stageLayout": "Disposition de l'image principale",
+  "dashboard.stageLayoutSingle": "Image unique",
+  "dashboard.stageLayoutCarousel": "Carrousel",
+  "dashboard.carouselPerView": "Images visibles",
+  "dashboard.carouselNavigation": "Navigation du carrousel",
+  "dashboard.carouselNavArrows": "Flèches",
+  "dashboard.carouselNavSlider": "Barre en dessous",
+  "dashboard.carouselNavBoth": "Les deux",
+  "dashboard.transitionCarouselNote":
+    "Non utilisée par la disposition carrousel, qui défile au lieu de changer l'image.",
+  "dashboard.thumbnailShape": "Forme des vignettes",
+  "dashboard.shapeSquare": "Carré net",
+  "dashboard.shapeRounded": "Carré arrondi",
+  "dashboard.shapeCircle": "Circulaire",
+  "dashboard.shapePolaroid": "Polaroid",
+  "dashboard.shapeCard": "Carte enrichie",
+  "dashboard.thumbnailHoverEffect": "Effet au survol",
+  "dashboard.thumbnailHoverEffectHelp":
+    "Polaroid et carte enrichie affichent toujours leur légende. Ceci ajoute un effet par-dessus.",
+  "dashboard.hoverEffectLift": "Élévation et ombre",
+  "dashboard.hoverEffectCaption": "Légende superposée",
   "dashboard.thumbnailPosition": "Position des vignettes",
   "dashboard.left": "Gauche",
   "dashboard.right": "Droite",
@@ -522,6 +1670,25 @@ const fr: Record<TranslationKey, string> = {
   "dashboard.livePreview": "Aperçu en direct",
   "dashboard.livePreviewCaption":
     "Reflète vos paramètres actuels de vignettes et d'icône de zoom.",
+  "dashboard.livePreviewDefaults":
+    "Reflète vos options par défaut de vignettes et d'icône de zoom. Les produits personnalisés peuvent différer.",
+  "dashboard.analyticsSection": "Statistiques de la galerie",
+  "dashboard.analyticsIntro":
+    "Activité des acheteurs dans vos galeries au cours des 30 derniers jours.",
+  "dashboard.analyticsEmpty":
+    "Aucune activité enregistrée. Les chiffres apparaissent dès que des acheteurs visitent vos pages produit.",
+  "dashboard.analyticsLocked":
+    "Les statistiques montrent comment les acheteurs utilisent vos galeries : images parcourues, zooms et ouvertures en plein écran. Disponible avec le forfait Enterprise.",
+  "dashboard.analyticsUpgrade": "Passer à Enterprise",
+  "dashboard.statGalleryViews": "Vues de la galerie",
+  "dashboard.statImageViews": "Images parcourues",
+  "dashboard.statZooms": "Zooms",
+  "dashboard.statLightbox": "Ouvertures plein écran",
+  "dashboard.statGalleryViewsCount": "{count} vues",
+  "dashboard.breakdownTitle": "Répartition de l'activité",
+  "dashboard.topProducts": "Produits les plus vus",
+  "billing.featureAnalytics": "Statistiques de la galerie",
+  "billing.rowAnalytics": "Statistiques de la galerie",
   "dashboard.themeSetup": "Configuration du thème",
   "dashboard.themeSetupText":
     "Ajoutez le bloc d'application GalleryNest au modèle de produit dans l'éditeur de thème. Le bloc vérifie ces paramètres et ne s'affiche que sur les produits sélectionnés.",
@@ -567,7 +1734,35 @@ const fr: Record<TranslationKey, string> = {
   "mapping.imagesForVariant": "Images pour {variant}",
   "mapping.selectedVariant": "la variante sélectionnée",
   "mapping.noImages": "Aucune image de produit trouvée.",
+  "mapping.addImages": "Ajouter des images",
+  "mapping.addImagesHelp":
+    "Téléversez des images vers ce produit dans Shopify. JPG, PNG, GIF ou WEBP, jusqu'à 20 Mo chacune.",
+  "mapping.toastUploaded": "{count} image(s) téléversée(s).",
+  "mapping.toastUploadProcessing":
+    "Shopify les traite encore : elles apparaîtront ici dans quelques secondes.",
+  "mapping.toastUploadFailed": "Échec du téléversement : {reason}",
+  "mapping.toastUploadNoFiles": "Choisissez au moins une image à téléverser.",
+  "mapping.uploadTooLarge": "{filename} dépasse 20 Mo.",
+  "mapping.uploadBadType": "{filename} n'est pas une image.",
+  "mapping.uploadTooMany": "Téléversez au maximum 10 images à la fois.",
+  "mapping.addFromShopify": "Ajouter depuis Shopify",
+  "mapping.pickerHeading": "Ajouter des images depuis Shopify",
+  "mapping.pickerFiles": "Bibliothèque de fichiers",
+  "mapping.pickerProducts": "Autres produits",
+  "mapping.pickerSearch": "Rechercher des images",
+  "mapping.pickerEmpty": "Aucune image trouvée.",
+  "mapping.pickerLoadMore": "Charger plus",
+  "mapping.pickerAdd": "Ajouter la sélection",
+  "mapping.pickerSelected": "{count} sélectionnée(s)",
+  "mapping.pickerCopyNote":
+    "L'image est copiée sur ce produit. L'originale reste à sa place.",
+  "mapping.pickerBadUrl":
+    "Certaines images n'ont pas pu être ajoutées car ce ne sont pas des images Shopify.",
+  "mapping.toastAttached": "{count} image(s) ajoutée(s).",
   "mapping.show": "Afficher",
+  "mapping.caption": "Légende",
+  "mapping.captionHelp":
+    "Affichée par les styles polaroid, carte enrichie et légende superposée. S'applique à toutes les variantes. À défaut, le texte alternatif de l'image est utilisé.",
   "mapping.variantsHeading": "Variantes",
   "mapping.noVariants": "Aucune variante trouvée pour ce produit.",
   "mapping.mappedCount": "{count} associées",
@@ -575,6 +1770,133 @@ const fr: Record<TranslationKey, string> = {
   "mapping.saveMapping": "Enregistrer l'association",
   "mapping.toastSaved": "Association d'images enregistrée",
   "mapping.toastUpgrade": "Améliorez votre forfait pour associer ce produit.",
+
+  "settings.breadcrumb": "Carrousel d'images produit",
+  "settings.pageTitle": "Paramètres",
+  "settings.heroTagline":
+    "Options globales qui s'appliquent à tous les produits utilisant le carrousel GalleryNest.",
+  "settings.generalGroup": "Général",
+  "settings.appEnabled": "Activer GalleryNest sur la boutique",
+  "settings.appEnabledHelp":
+    "Désactivez cette option pour rétablir la galerie de votre thème sur tous les produits, sans modifier aucun autre paramètre.",
+  "settings.statusLive": "Actif",
+  "settings.statusPaused": "En pause",
+  "settings.defaultLanguage": "Langue par défaut",
+  "settings.defaultLanguageHelp":
+    "Utilisée pour les pages d'administration de l'application lorsqu'aucune langue n'a été choisie dans ce navigateur.",
+  "settings.zoomGroup": "Zoom",
+  "settings.zoomTrigger": "Déclenchement du zoom",
+  "settings.zoomTriggerHelp":
+    "Avec « Au clic », l'icône de loupe active et désactive le zoom, et la galerie plein écran s'ouvre en cliquant sur l'image.",
+  "settings.zoomTriggerHover": "Au survol",
+  "settings.zoomTriggerClick": "Au clic",
+  "settings.zoomTriggerOff": "Désactivé",
+  "settings.zoomLevel": "Niveau de zoom",
+  "settings.behaviourGroup": "Comportement de la galerie",
+  "settings.loopSlides": "Défilement en boucle",
+  "settings.loopSlidesHelp": "Passer de la dernière image à la première.",
+  "settings.hoverNavigation": "Changer d'image au survol",
+  "settings.hoverNavigationHelp":
+    "En laissant le curseur sur une moitié de l'image, les images défilent vers l'avant ; sur l'autre moitié, vers l'arrière. S'arrête dès que le curseur quitte l'image.",
+  "settings.hoverNavigationDisabled":
+    "Indisponible tant que le déclenchement du zoom est réglé sur « Au survol » : les deux réagiraient au même mouvement de souris. Choisissez « Au clic » ou « Désactivé » pour l'utiliser.",
+  "settings.hoverSpeed": "Vitesse au survol",
+  "settings.hoverSpeedHelp":
+    "Délai entre les images au survol, en millisecondes. Plus la valeur est faible, plus c'est rapide.",
+  "settings.hoverAxis": "Direction au survol",
+  "settings.hoverAxisHelp":
+    "Horizontal divise l'image entre gauche et droite : la moitié gauche recule, la droite avance. Vertical la divise entre haut et bas.",
+  "settings.hoverAxisHorizontal": "Horizontal",
+  "settings.hoverAxisVertical": "Vertical",
+  "settings.hoverInvert": "Inverser la direction au survol",
+  "settings.hoverInvertHelp":
+    "Intervertit les deux moitiés : la moitié qui avance normalement recule à la place.",
+  "settings.keyboardNavigation": "Navigation au clavier",
+  "settings.keyboardNavigationHelp":
+    "Changez d'image avec les touches fléchées. Échap ferme toujours la galerie zoom.",
+  "settings.transitionSpeed": "Vitesse de la transition",
+  "settings.transitionSpeedHelp":
+    "Durée du changement entre les images. Ignoré lorsque la transition est Aucune. La navigation au survol la raccourcit pour s'adapter à sa vitesse.",
+  "settings.replaceThemeGallery": "Remplacer la galerie du thème",
+  "settings.replaceThemeGalleryHelp":
+    "Si désactivé, GalleryNest s'affiche à côté de la galerie de votre thème au lieu de la masquer.",
+  "settings.performanceGroup": "Performance",
+  "settings.lazyLoadImages": "Chargement différé des vignettes",
+  "settings.lazyLoadImagesHelp":
+    "Reporte le chargement des vignettes hors écran jusqu'à ce qu'elles soient nécessaires. L'image principale est toujours chargée immédiatement.",
+  "settings.appearanceGroup": "Apparence",
+  "settings.accentColor": "Couleur d'accentuation",
+  "settings.accentColorHelp":
+    "Utilisée pour la vignette active et les contrôles, dans le carrousel comme dans la galerie zoom.",
+  "settings.accentColorInvalid":
+    "Saisissez une couleur hexadécimale à six chiffres, par exemple #111111.",
+  "settings.saveSettings": "Enregistrer les paramètres",
+  "settings.resetGroup": "Réinitialisation",
+  "settings.resetIntro":
+    "Rétablit toutes les options de cette page à leur valeur par défaut. Vos produits sélectionnés et les paramètres du carrousel ne sont pas affectés.",
+  "settings.resetButton": "Rétablir les valeurs par défaut",
+  "settings.toastSaved": "Paramètres enregistrés",
+  "settings.toastReset": "Paramètres rétablis aux valeurs par défaut",
+  "settings.sliderOptionsMoved":
+    "Les options de carrousel et de zoom se trouvent désormais sur la page Produits, où elles peuvent être définies par produit.",
+
+  "help.breadcrumb": "Carrousel d'images produit",
+  "help.pageTitle": "Aide",
+  "help.heroTagline":
+    "Configurez GalleryNest, comprenez son fonctionnement et résolvez les problèmes les plus courants.",
+  "help.yourSetup": "Votre configuration",
+  "help.setupShop": "Boutique",
+  "help.setupPlan": "Forfait",
+  "help.setupProducts": "Produits utilisant le carrousel",
+  "help.quickStart": "Démarrage rapide",
+  "help.step1Title": "Ajoutez le bloc d'application à votre thème",
+  "help.step1Text":
+    "Dans l'éditeur de thème, ouvrez votre modèle de produit et ajoutez le bloc d'application du carrousel GalleryNest. Le bloc lit vos paramètres et ne s'affiche que sur les produits sélectionnés.",
+  "help.step2Title": "Sélectionnez vos produits",
+  "help.step2Text":
+    "Dans le tableau de bord, choisissez les produits sur lesquels le carrousel doit apparaître. Les produits non sélectionnés conservent la galerie standard du thème.",
+  "help.step3Title": "Associez les images par variante",
+  "help.step3Text":
+    "Ouvrez un produit sélectionné et choisissez, pour chaque variante, les images du produit qui doivent apparaître dans la galerie zoom.",
+  "help.step4Title": "Ajustez l'apparence et le comportement",
+  "help.step4Text":
+    "La position et la taille des vignettes ainsi que les icônes personnalisées se trouvent dans le tableau de bord. Les options globales telles que le zoom, la boucle et la couleur d'accentuation se trouvent sur la page Paramètres.",
+  "help.faq": "Questions fréquentes",
+  "help.faq1Q": "GalleryNest va-t-il remplacer la galerie de mon thème ?",
+  "help.faq1A":
+    "Oui. Par défaut, il masque la galerie produit de votre thème et s'affiche à sa place. Désactivez « Remplacer la galerie du thème » dans les Paramètres et les deux galeries seront affichées.",
+  "help.faq2Q": "Pourquoi les vignettes sont-elles absentes sur certains produits ?",
+  "help.faq2A":
+    "Les vignettes sont masquées automatiquement sur les produits qui n'ont qu'une seule variante par défaut, et dès que « Masquer les vignettes » est activé dans le tableau de bord.",
+  "help.faq3Q": "Les vidéos et les modèles 3D sont-ils pris en charge ?",
+  "help.faq3A":
+    "Pas encore. Le carrousel n'affiche que les images du produit ; les vidéos et les modèles 3D sont ignorés.",
+  "help.faq4Q": "Mon icône SVG personnalisée ne s'affiche pas. Pourquoi ?",
+  "help.faq4A":
+    "Les icônes personnalisées sont nettoyées pour des raisons de sécurité. La valeur doit commencer par <svg et ne peut pas contenir de balise script, d'attribut d'événement on… ni d'URL javascript:. Dans tous les autres cas, l'icône par défaut est utilisée.",
+  "help.faq5Q": "Que se passe-t-il si je dépasse la limite de produits de mon forfait ?",
+  "help.faq5A":
+    "Seuls les premiers produits, jusqu'à votre limite, continuent d'afficher le carrousel. Rien n'est supprimé : une montée en gamme rétablit les autres immédiatement.",
+  "help.faq6Q": "Que deviennent mes données si je désinstalle l'application ?",
+  "help.faq6A":
+    "Toutes les données GalleryNest de votre boutique — produits sélectionnés, association d'images par variante et paramètres — sont supprimées lors de la désinstallation.",
+  "help.troubleshooting": "Le carrousel ne s'affiche pas",
+  "help.troubleshoot1":
+    "Vérifiez que le bloc d'application du carrousel GalleryNest est bien ajouté au modèle de produit dans l'éditeur de thème.",
+  "help.troubleshoot2":
+    "Vérifiez que le produit figure dans la liste sélectionnée du tableau de bord.",
+  "help.troubleshoot3":
+    "Vérifiez que « Activer GalleryNest sur la boutique » est activé dans les Paramètres.",
+  "help.troubleshoot4":
+    "Vérifiez que vous êtes sur une page produit : le bloc ne s'affiche que sur le modèle de produit.",
+  "help.support": "Toujours bloqué ?",
+  "help.supportText":
+    "Envoyez-nous les informations ci-dessus avec l'URL du produit et nous y jetterons un œil.",
+  "help.supportEmail": "Contacter le support",
+  "help.prioritySupportOn": "Votre forfait Enterprise inclut le support prioritaire.",
+  "help.prioritySupportOff": "Passez à Enterprise pour bénéficier du support prioritaire.",
+  "help.openSettings": "Ouvrir les paramètres",
+  "help.openDashboard": "Ouvrir le tableau de bord",
 };
 
 export const translations: Record<SupportedLocale, Record<TranslationKey, string>> = {

@@ -38,8 +38,13 @@ model ProductSliderSetting {
   shop              String   @unique
   productIds        String   @default("[]")
   products          String   @default("[]")
+  stageLayout          String  @default("single")
+  carouselPerView      Int     @default(3)
+  carouselNavigation   String  @default("arrows")
   thumbnailPosition String   @default("left")
   thumbnailSize     Int      @default(76)
+  thumbnailShape       String  @default("square")
+  thumbnailHoverEffect String  @default("none")
   syncVariantImages Boolean  @default(true)
   hideThumbnails    Boolean  @default(false)
   hideZoomIcon      Boolean  @default(false)
@@ -47,6 +52,25 @@ model ProductSliderSetting {
   previousArrowSvg  String   @default("")
   nextArrowSvg      String   @default("")
   zoomIconSvg       String   @default("")
+
+  // App-level settings (managed from /app/settings)
+  appEnabled          Boolean @default(true)
+  defaultLocale       String  @default("en")
+  zoomTrigger         String  @default("hover")
+  zoomLevel           Int     @default(200)
+  loopSlides          Boolean @default(true)
+  keyboardNavigation  Boolean @default(true)
+  replaceThemeGallery Boolean @default(true)
+  lazyLoadImages      Boolean @default(true)
+  accentColor         String  @default("#111111")
+  hoverNavigation      Boolean @default(false)
+  hoverNavigationSpeed Int     @default(1200)
+  hoverNavigationAxis  String  @default("horizontal")
+  hoverNavigationInvert Boolean @default(false)
+  imageTransition      String  @default("fade")
+  hoverTransition      String  @default("fade")
+  transitionSpeed      Int     @default(300)
+
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 }
@@ -58,4 +82,23 @@ model ShopBilling {
   subscriptionId String?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+}
+
+/// Aggregated gallery interactions, one row per shop + product + day + event type.
+///
+/// Deliberately holds no shopper identifier, session id, IP or precise timestamp. That
+/// is what keeps it outside the scope of the customer redaction webhooks — adding any
+/// per-shopper column would change that, and those handlers would need revisiting.
+model GalleryStat {
+  id        String   @id @default(cuid())
+  shop      String
+  productId String
+  /// UTC YYYY-MM-DD. A string, so grouping by day needs no date functions on SQLite.
+  day       String
+  eventType String
+  count     Int      @default(0)
+  updatedAt DateTime @updatedAt
+
+  @@unique([shop, productId, day, eventType])
+  @@index([shop, day])
 }

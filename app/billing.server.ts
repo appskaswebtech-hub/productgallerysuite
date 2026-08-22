@@ -10,7 +10,13 @@ import {
   type GalleryNestPlan,
 } from "./billing-plans";
 
-export { PLAN_PRICES, STARTER_PLAN, type GalleryNestPlan } from "./billing-plans";
+export {
+  PLAN_PRICES,
+  STARTER_PLAN,
+  canUseFeature,
+  type GalleryNestPlan,
+  type PlanFeature,
+} from "./billing-plans";
 
 export const planProductLimit = (plan: GalleryNestPlan) => PLAN_LIMITS[plan];
 
@@ -31,6 +37,17 @@ const normalizePlan = (plan: string | null | undefined): GalleryNestPlan => {
   return STARTER_PLAN;
 };
 
+/**
+ * Refreshes the shop's plan from Shopify and records it.
+ *
+ * The billing check is a live Admin API call, so it can fail for reasons that have
+ * nothing to do with this shop — a dropped connection, DNS, a Shopify blip. That must
+ * not take down the pages that merely *display* the plan, so a failed check falls back
+ * to the last value we successfully stored and reports itself as `stale` rather than
+ * throwing. The DB is deliberately left untouched in that case: a network failure is
+ * no evidence the subscription changed, and overwriting would downgrade a paying shop
+ * to Starter.
+ */
 export const syncBillingPlan = async ({
   billing,
   shop,
@@ -38,10 +55,23 @@ export const syncBillingPlan = async ({
   billing: Awaited<ReturnType<typeof authenticate.admin>>["billing"];
   shop: string;
 }) => {
-  const billingCheck = await billing.check({
-    plans: [...BILLING_PLANS],
-    isTest: BILLING_TEST,
-  });
+  let billingCheck: Awaited<ReturnType<typeof billing.check>>;
+  try {
+    billingCheck = await billing.check({
+      plans: [...BILLING_PLANS],
+      isTest: BILLING_TEST,
+    });
+  } catch (error) {
+    console.error(`[billing] check failed for ${shop}, using cached plan:`, error);
+    const cached = await prisma.shopBilling.findUnique({ where: { shop } });
+
+    return {
+      plan: normalizePlan(cached?.plan),
+      subscriptionId: cached?.subscriptionId ?? null,
+      stale: true,
+    };
+  }
+
   const subscription = billingCheck.appSubscriptions?.find(
     (appSubscription) =>
       appSubscription.name === BASIC_PLAN || appSubscription.name === ENTERPRISE_PLAN,
@@ -64,6 +94,7 @@ export const syncBillingPlan = async ({
   return {
     plan,
     subscriptionId: subscription?.id ?? null,
+    stale: false,
   };
 };
 

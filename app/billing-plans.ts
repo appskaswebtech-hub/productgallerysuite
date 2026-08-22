@@ -14,6 +14,22 @@ export const PLAN_LIMITS: Record<GalleryNestPlan, number | null> = {
   [ENTERPRISE_PLAN]: null,
 };
 
+/**
+ * Capabilities a plan unlocks, as opposed to `PLAN_LIMITS` which only sizes the
+ * catalogue. Kept in this pure module so the admin UI can decide what to render
+ * without pulling in Prisma.
+ */
+export type PlanFeature = "analytics";
+
+export const PLAN_FEATURES: Record<GalleryNestPlan, readonly PlanFeature[]> = {
+  [STARTER_PLAN]: [],
+  [BASIC_PLAN]: [],
+  [ENTERPRISE_PLAN]: ["analytics"],
+};
+
+export const canUseFeature = (plan: GalleryNestPlan, feature: PlanFeature) =>
+  PLAN_FEATURES[plan].includes(feature);
+
 export const PLAN_PRICES: Record<GalleryNestPlan, string> = {
   [STARTER_PLAN]: "Free",
   [BASIC_PLAN]: "$9.99",

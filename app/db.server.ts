@@ -24,7 +24,11 @@ const hasCurrentSchema = (client: PrismaClient | undefined) => {
     client &&
       "productSliderSetting" in client &&
       typeof client.productSliderSetting?.findUnique === "function" &&
-      productSliderFields?.some((field) => field.name === "thumbnailSize"),
+      // Tracks the newest column, so a client generated before it is treated as stale.
+      productSliderFields?.some((field) => field.name === "carouselNavigation") &&
+      // Field checks alone miss a newly added *model*, which is how a stale client
+      // survives `prisma generate` and then throws on first use.
+      "galleryStat" in client,
   );
 };
 

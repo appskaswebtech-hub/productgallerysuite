@@ -4,6 +4,7 @@
   --gn-surface: #ffffff;
   --gn-muted: rgba(18, 18, 18, 0.58);
   --gn-thumb-size: 76px;
+  --gn-zoom-scale: 2;
   display: grid;
   gap: 10px;
   width: 100%;
@@ -69,7 +70,141 @@
 }
 
 .gn-slider__stage.is-zooming .gn-slider__main {
-  transform: scale(2);
+  transform: scale(var(--gn-zoom-scale, 2));
+}
+
+/* ---- Carousel stage ------------------------------------------------------ */
+
+/* The slides carry the square ratio now; leaving the stage square would letterbox the
+   whole row inside it. */
+.gn-slider__stage--carousel {
+  aspect-ratio: auto;
+}
+
+.gn-slider__track {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  /* The arrows drive this, so the native bar is noise. */
+  scrollbar-width: none;
+}
+
+.gn-slider__track::-webkit-scrollbar {
+  display: none;
+}
+
+.gn-slider__slide {
+  position: relative;
+  flex: 0 0 calc((100% - (var(--gn-per-view, 3) - 1) * 8px) / var(--gn-per-view, 3));
+  aspect-ratio: 1 / 1;
+  /* Its own clipping context, so a zoomed slide is cropped to itself rather than
+     spilling over its neighbours. */
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+
+/**
+ * Scoped to the slide, never the stage. The stage-level rule above would match every
+ * image in the track at once and scale the entire row.
+ */
+.gn-slider__slide.is-zooming .gn-slider__main {
+  transform: scale(var(--gn-zoom-scale, 2));
+}
+
+/* The drag bar. Lives inside the stage, below the track, so it lands under the images
+   whichever column the thumbnail strip occupies. */
+.gn-slider__scroller {
+  position: relative;
+  height: 6px;
+  margin-top: 10px;
+  border-radius: 999px;
+  background: rgba(18, 18, 18, 0.1);
+  cursor: pointer;
+  /* Without this a drag on a phone scrolls the page instead of the carousel. */
+  touch-action: none;
+}
+
+.gn-slider__scroller:focus-visible {
+  outline: 2px solid var(--gn-active);
+  outline-offset: 3px;
+}
+
+.gn-slider__scroller-thumb {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  /* A long gallery would otherwise leave a sliver too small to grab. */
+  min-width: 24px;
+  border-radius: 999px;
+  background: var(--gn-active);
+}
+
+/**
+ * The transition wrapper exists so the image's own `transform` stays free for zoom.
+ * Animating both on one element would let the transition override the zoom scale
+ * mid-navigation, popping an armed magnifier out and back on every image change.
+ */
+.gn-slider__frame {
+  width: 100%;
+  height: 100%;
+}
+
+.gn-slider__frame.gn-anim--fade {
+  animation: gn-fade var(--gn-transition-speed, 300ms) ease;
+}
+
+.gn-slider__frame.gn-anim--slide-forward {
+  animation: gn-slide-forward var(--gn-transition-speed, 300ms) ease;
+}
+
+.gn-slider__frame.gn-anim--slide-back {
+  animation: gn-slide-back var(--gn-transition-speed, 300ms) ease;
+}
+
+.gn-slider__frame.gn-anim--zoom {
+  animation: gn-zoom-in var(--gn-transition-speed, 300ms) ease;
+}
+
+@keyframes gn-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes gn-slide-forward {
+  from { opacity: 0; transform: translateX(12%); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes gn-slide-back {
+  from { opacity: 0; transform: translateX(-12%); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes gn-zoom-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/**
+ * Motion-sensitive shoppers get the fade for every setting rather than nothing at all:
+ * the merchant's choice still does something visible, and no travel or scaling is
+ * involved. `none` stays instant, since there is no animation to reduce.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .gn-slider__frame.gn-anim--slide-forward,
+  .gn-slider__frame.gn-anim--slide-back,
+  .gn-slider__frame.gn-anim--zoom {
+    animation-name: gn-fade;
+  }
+}
+
+.gn-slider__button[disabled] {
+  opacity: 0.35;
+  cursor: default;
 }
 
 .gn-slider__button {
@@ -130,6 +265,14 @@
   background: var(--gn-surface);
 }
 
+.gn-slider__zoom-icon.is-active,
+.gn-slider__zoom-icon.is-active:hover {
+  background: var(--gn-active);
+  border-color: var(--gn-active);
+  color: var(--gn-surface);
+  cursor: zoom-out;
+}
+
 .gn-slider__zoom-icon--top-left {
   top: 12px;
   left: 12px;
@@ -173,6 +316,11 @@
   background: transparent;
   color: #ffffff;
   cursor: pointer;
+}
+
+.gn-lightbox__nav[disabled] {
+  opacity: 0.35;
+  cursor: default;
 }
 
 .gn-lightbox__close svg,
@@ -317,6 +465,112 @@
   object-fit: contain;
 }
 
+/* ---- Thumbnail shape ---------------------------------------------------- */
+
+.gn-thumbs--rounded .gn-slider__thumb {
+  border-radius: 10px;
+}
+
+.gn-thumbs--circle .gn-slider__thumb {
+  border-radius: 50%;
+}
+
+/* Top/bottom strips switch the image to `contain`, which inside a circle leaves the
+   corners empty and the crop looking broken. Cover is the only fit that reads as round. */
+.gn-thumbs--circle .gn-slider__thumb img {
+  object-fit: cover !important;
+}
+
+/* Polaroid and card grow a caption strip under the image, so they are taller than wide:
+   the fixed square height has to give way and the size token applies to the image only. */
+.gn-thumbs--polaroid .gn-slider__thumb,
+.gn-thumbs--card .gn-slider__thumb {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+}
+
+.gn-thumbs--polaroid .gn-slider__thumb img,
+.gn-thumbs--card .gn-slider__thumb img {
+  height: var(--gn-thumb-size);
+  flex: 0 0 auto;
+}
+
+.gn-thumbs--polaroid .gn-slider__thumb {
+  padding: 6px 6px 0 6px;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+}
+
+.gn-thumbs--polaroid .gn-slider__caption {
+  padding: 6px 2px 8px 2px;
+}
+
+.gn-thumbs--card .gn-slider__thumb {
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.gn-thumbs--card .gn-slider__caption {
+  padding: 8px 8px 10px 8px;
+  text-align: left;
+}
+
+.gn-slider__caption {
+  font-size: 11px;
+  line-height: 1.3;
+  color: #333333;
+  text-align: center;
+  /* Two lines at most, so one long caption cannot stretch the whole strip. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+/* ---- Thumbnail hover effect --------------------------------------------- */
+
+/* `:focus-visible` throughout: the thumb is a real <button>, so a hover-only rule would
+   make both effects invisible to anyone navigating by keyboard. */
+.gn-thumbs--hover-lift .gn-slider__thumb {
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.gn-thumbs--hover-lift .gn-slider__thumb:hover,
+.gn-thumbs--hover-lift .gn-slider__thumb:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.22);
+}
+
+.gn-thumbs--hover-caption .gn-slider__thumb {
+  position: relative;
+}
+
+.gn-thumbs--hover-caption .gn-slider__caption--overlay {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 4px 5px;
+  background: rgba(0, 0, 0, 0.72);
+  color: #ffffff;
+  opacity: 0;
+  transition: opacity 160ms ease;
+  pointer-events: none;
+}
+
+.gn-thumbs--hover-caption .gn-slider__thumb:hover .gn-slider__caption--overlay,
+.gn-thumbs--hover-caption .gn-slider__thumb:focus-visible .gn-slider__caption--overlay {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gn-thumbs--hover-lift .gn-slider__thumb:hover,
+  .gn-thumbs--hover-lift .gn-slider__thumb:focus-visible {
+    transform: none;
+  }
+}
+
 .gn-slider--top .gn-slider__stage,
 .gn-slider--bottom .gn-slider__stage {
   width: 100%;
@@ -349,8 +603,25 @@
     max-height: none !important;
   }
 
+  /* Three or four across a phone is unusable whatever the merchant chose. */
+  .gn-slider {
+    --gn-per-view: 2;
+  }
+
   .gn-slider__thumb {
     width: min(var(--gn-thumb-size), 66px);
+    height: min(var(--gn-thumb-size), 66px);
+  }
+
+  /* The clamp has to land on the image for these two, or it eats the caption strip
+     along with the picture and the thumbnail collapses. */
+  .gn-thumbs--polaroid .gn-slider__thumb,
+  .gn-thumbs--card .gn-slider__thumb {
+    height: auto;
+  }
+
+  .gn-thumbs--polaroid .gn-slider__thumb img,
+  .gn-thumbs--card .gn-slider__thumb img {
     height: min(var(--gn-thumb-size), 66px);
   }
 

@@ -42,6 +42,7 @@ const PLAN_FEATURE_KEYS: Record<GalleryNestPlan, TranslationKey[]> = {
     "billing.featureUseUnlimited",
     "billing.featureEverythingBasic",
     "billing.featureUnlimitedMapping",
+    "billing.featureAnalytics",
     "billing.rowPrioritySupport",
   ],
 };
@@ -66,6 +67,10 @@ const COMPARISON_ROW_KEYS: {
   {
     labelKey: "billing.rowCustomArrows",
     values: { [STARTER_PLAN]: "—", [BASIC_PLAN]: "✓", [ENTERPRISE_PLAN]: "✓" },
+  },
+  {
+    labelKey: "billing.rowAnalytics",
+    values: { [STARTER_PLAN]: "—", [BASIC_PLAN]: "—", [ENTERPRISE_PLAN]: "✓" },
   },
   {
     labelKey: "billing.rowPrioritySupport",
