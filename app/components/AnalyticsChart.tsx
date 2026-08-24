@@ -4,10 +4,15 @@ import { useLanguage } from "../i18n/LanguageContext";
  * Daily trend of a single metric, as hand-rolled inline SVG — Polaris ships no chart
  * component.
  *
- * Deliberately one series in one hue. The app's four stat-card accents fail a
- * colour-blindness check as a *data* palette (blue and purple sit at ΔE 14.9 for normal
- * vision, below the 15 floor), so they are safe as labelled card borders but must not
- * become chart series. A single series also needs no legend — the heading names it.
+ * **One series, one hue — and that is not a limitation to be fixed.** This plots
+ * `gallery_view` alone, so a second colour here would encode nothing; varying the hue
+ * across the bars of a single series is the archetypal chart mistake. A single series also
+ * needs no legend, because the section heading names it.
+ *
+ * The hue is `gallery_view`'s colour from the palette on `METRICS` in `app.analytics.tsx`,
+ * so this chart, that metric's stat tile and its breakdown bar all agree. (An earlier note
+ * here warned that the stat accents failed a CVD check and were barred from charts; the
+ * palette has since been re-stepped and validated, so that warning no longer applies.)
  */
 
 /** Passes the 3:1 contrast floor against the white card surface. */

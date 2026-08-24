@@ -8,6 +8,25 @@ embedded = true
 [build]
 automatically_update_urls_on_dev = true
 
+# Required by this organization's config schema, not by the app.
+#
+# `shopify app deploy` failed with "[events]: Required" even though Shopify documents this
+# section as optional. The schema is fetched per organization from the App Management
+# `unstable` endpoint, so the requirement comes from Shopify's side — the CLI just enforces
+# whatever it is handed. Removing this block brings the error straight back.
+#
+# `subscription = []` is the point: it satisfies the required key while declaring **no**
+# event subscriptions, so the app receives no event deliveries and needs no endpoint to
+# handle them. `api_version` must be exactly "unstable" — the server rejects a dated
+# version here ("Expected 'unstable'. Received '2026-04'"), and it is inert with no
+# subscriptions to apply it to.
+#
+# Try deleting this block after Shopify fixes the schema; if the deploy still succeeds,
+# it is no longer needed.
+[events]
+api_version = "unstable"
+subscription = []
+
 [webhooks]
 api_version = "2026-04"
 
@@ -22,7 +41,10 @@ api_version = "2026-04"
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "read_products,write_products,read_files"
+# write_files is required by `fileUpdate`, which detaches media from a product when the
+# editor's × is used. It is the replacement Shopify names for the deprecated
+# productDeleteMedia, so this scope is the cost of not shipping a deprecated mutation.
+scopes = "read_products,write_products,read_files,write_files"
 
 [auth]
 redirect_urls = [ "https://gallerynest.kaswebtechsolutions.com/auth/callback" ]

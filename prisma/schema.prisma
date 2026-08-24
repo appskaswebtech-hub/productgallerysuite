@@ -70,6 +70,10 @@ model ProductSliderSetting {
   imageTransition      String  @default("fade")
   hoverTransition      String  @default("fade")
   transitionSpeed      Int     @default(300)
+  // Which theme's gallery markup to target. "auto" keeps the historical selector
+  // heuristic; customGallerySelector is only read when themeProfile is "custom".
+  themeProfile          String  @default("auto")
+  customGallerySelector String  @default("")
 
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt

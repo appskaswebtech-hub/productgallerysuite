@@ -1,7 +1,7 @@
 "use strict";
 
 (() => {
-  const VERSION = "2026-06-12-tagged-variant-media-v1";
+  const VERSION = "2026-08-24-theme-profiles-v1";
   const ROOT_SELECTOR = "[data-gallery-nest-slider]";
   const POSITION_CLASSES = [
     "gn-slider--left",
@@ -9,6 +9,26 @@
     "gn-slider--top",
     "gn-slider--bottom",
   ];
+  /**
+   * Per-theme gallery containers, tried *before* the generic list below.
+   *
+   * Additive by design: a profile that matches nothing falls through to `GALLERY_SELECTORS`
+   * and then to the image-URL fallback, so picking the wrong theme degrades to the historic
+   * behaviour rather than breaking the gallery.
+   *
+   * Confidence varies and is worth knowing before trusting one. Dawn and Impulse are the
+   * selectors this app has always shipped and are well proven. Debut's are longstanding
+   * public markup. **Horizon and Prestige are unverified** — sourced from documentation
+   * rather than a running store — which is exactly why the `custom` profile exists.
+   */
+  const THEME_SELECTORS = {
+    horizon: [".media-gallery__grid", ".product-media-container", ".product-media"],
+    dawn: [".product__media-wrapper", "media-gallery", "[id^='MediaGallery-']"],
+    impulse: [".product__photos", ".product-single__media-group", ".product__main-photos"],
+    debut: [".product-single__photos", "#ProductPhoto", ".product-single__photo"],
+    prestige: [".Product__Gallery", ".Product__SlideshowNavScroller"],
+  };
+
   const GALLERY_SELECTORS = [
     ".product__media-wrapper",
     ".product__media-list",
@@ -31,6 +51,8 @@
       prev: "Previous image",
       next: "Next image",
       viewImage: (n) => `View image ${n}`,
+      viewVideo: (n) => `Play video ${n}`,
+      openVideo: "Play video",
       openGallery: "Open image gallery",
       zoomIn: "Turn on zoom",
       zoomOut: "Turn off zoom",
@@ -43,6 +65,8 @@
       prev: "Imagen anterior",
       next: "Imagen siguiente",
       viewImage: (n) => `Ver imagen ${n}`,
+      viewVideo: (n) => `Reproducir el video ${n}`,
+      openVideo: "Reproducir el video",
       openGallery: "Abrir galería de imágenes",
       zoomIn: "Activar el zoom",
       zoomOut: "Desactivar el zoom",
@@ -55,6 +79,8 @@
       prev: "Immagine precedente",
       next: "Immagine successiva",
       viewImage: (n) => `Visualizza immagine ${n}`,
+      viewVideo: (n) => `Riproduci il video ${n}`,
+      openVideo: "Riproduci il video",
       openGallery: "Apri galleria immagini",
       zoomIn: "Attiva lo zoom",
       zoomOut: "Disattiva lo zoom",
@@ -67,6 +93,8 @@
       prev: "Vorheriges Bild",
       next: "Nächstes Bild",
       viewImage: (n) => `Bild ${n} ansehen`,
+      viewVideo: (n) => `Video ${n} abspielen`,
+      openVideo: "Video abspielen",
       openGallery: "Bildergalerie öffnen",
       zoomIn: "Zoom einschalten",
       zoomOut: "Zoom ausschalten",
@@ -79,6 +107,8 @@
       prev: "Image précédente",
       next: "Image suivante",
       viewImage: (n) => `Voir l'image ${n}`,
+      viewVideo: (n) => `Lire la vidéo ${n}`,
+      openVideo: "Lire la vidéo",
       openGallery: "Ouvrir la galerie d'images",
       zoomIn: "Activer le zoom",
       zoomOut: "Désactiver le zoom",
@@ -112,6 +142,51 @@
 
   const normalizeId = (id) => String(id || "").split("/").pop();
 
+  /**
+   * Every id an entry can legitimately be addressed by.
+   *
+   * Image entries carry two: the media id and the ProductImage id. The admin keys
+   * `variantImageMap` and `imageCaptions` by the latter, while Liquid may hand back
+   * either, so anything matching an entry against merchant data has to try both — see
+   * the comment in `product-slider.liquid`.
+   */
+  const mediaKeys = (item) =>
+    [normalizeId(item?.id), normalizeId(item?.imageId)].filter(Boolean);
+
+  const isVideoItem = (item) =>
+    item?.type === "video" || item?.type === "external_video";
+
+  /** A video with no playable source is a poster and nothing else — not worth a badge. */
+  const isPlayable = (item) =>
+    (item?.type === "video" && item.sources?.length > 0) ||
+    (item?.type === "external_video" && Boolean(item.embedUrl));
+
+  /**
+   * Reorders the gallery to the sequence the merchant arranged in the app.
+   *
+   * Ranks through `mediaKeys`, never `item.id`: the admin stores the ProductImage id for
+   * an image but the media id for a video, and only `mediaKeys` reconciles the two — using
+   * `item.id` alone would silently leave videos unsorted.
+   *
+   * Mirrors `applyMediaOrder` in the admin: stable sort, unranked media last, so a fresh
+   * upload the saved order does not mention lands at the end on both ends of the app.
+   * `MAX_SAFE_INTEGER` rather than `Infinity`, or two unranked entries compare as `NaN`.
+   */
+  const orderMedia = (media, order) => {
+    if (!Array.isArray(order) || !order.length) return media;
+
+    const rank = new Map(order.map((id, index) => [normalizeId(id), index]));
+    const rankOf = (item) => {
+      for (const key of mediaKeys(item)) {
+        const position = rank.get(key);
+        if (position !== undefined) return position;
+      }
+      return Number.MAX_SAFE_INTEGER;
+    };
+
+    return [...media].sort((a, b) => rankOf(a) - rankOf(b));
+  };
+
   const getMedia = (root) =>
     parseJson(root, "[data-gallery-nest-media]").filter((media) => media.src);
 
@@ -144,6 +219,22 @@
   };
 
   const icon = (name, customSvg) => sanitizeSvg(customSvg) || defaultIcon(name);
+
+  /**
+   * The play triangle laid over a video's poster.
+   *
+   * Playback is lightbox-only, so in the slider this badge is the *whole* signal that an
+   * entry is a video — without it a video is indistinguishable from a photo until the
+   * shopper happens to open it.
+   */
+  const playBadge = () => {
+    const badge = document.createElement("span");
+    badge.className = "gn-play-badge";
+    badge.setAttribute("aria-hidden", "true");
+    badge.innerHTML =
+      '<svg viewBox="0 0 24 24"><path d="M8 5.14v13.72a1 1 0 0 0 1.53.85l10.79-6.86a1 1 0 0 0 0-1.7L9.53 4.29A1 1 0 0 0 8 5.14Z"/></svg>';
+    return badge;
+  };
 
   const safeAccentColor = (color) =>
     /^#[0-9a-f]{6}$/i.test(String(color || "")) ? String(color).toLowerCase() : "";
@@ -246,18 +337,75 @@
     }
   };
 
-  const galleryHost = (node) =>
+  /**
+   * The selectors the merchant's theme choice puts ahead of the generic list.
+   *
+   * The theme editor wins over the shop setting, and an empty dataset value means the block
+   * was left on "Use app setting" — which is why this checks for a non-empty string rather
+   * than mere presence.
+   */
+  const themeSelectors = (root, settings) => {
+    const profile =
+      root.dataset.themeProfile || settings.themeProfile || "auto";
+
+    if (profile === "custom") {
+      const selector =
+        root.dataset.themeSelector || settings.customGallerySelector || "";
+      return selector ? [selector] : [];
+    }
+
+    return THEME_SELECTORS[profile] || [];
+  };
+
+  /**
+   * `querySelectorAll` throws on a malformed selector, and the `custom` profile's value is
+   * typed by hand in the theme editor. Unguarded, a single typo would take the whole gallery
+   * down; here it just contributes no matches and the next pass takes over.
+   */
+  const queryAll = (selector) => {
+    try {
+      return Array.from(document.querySelectorAll(selector));
+    } catch {
+      console.warn(`[gallery-nest] ignoring invalid gallery selector: ${selector}`);
+      return [];
+    }
+  };
+
+  /**
+   * Climbs to the nearest ancestor matching one of the theme profile's selectors.
+   *
+   * Guarded like `queryAll`, for the same reason: the `custom` profile's selector is typed
+   * by hand and `closest` throws on a malformed one.
+   */
+  const galleryHostFromProfile = (node, profileSelectors = []) => {
+    for (const selector of profileSelectors) {
+      try {
+        const match = node.closest(selector);
+        if (match) return match;
+      } catch {
+        // Reported once by `queryAll`; climbing silently skips it.
+      }
+    }
+    return null;
+  };
+
+  const galleryHost = (node, profileSelectors = []) =>
+    // The theme's own selectors first: on a theme whose wrapper is none of the three below,
+    // climbing straight to those would overshoot the real container.
+    galleryHostFromProfile(node, profileSelectors) ||
     node.closest(".product__media-wrapper") ||
     node.closest(".product-gallery") ||
     node.closest(".product-single__media-group") ||
     node;
 
-  const findNativeGallery = (root, media) => {
-    const nativeGallery = GALLERY_SELECTORS.flatMap((selector) =>
-      Array.from(document.querySelectorAll(selector)),
-    )
+  const findNativeGallery = (root, media, profileSelectors = []) => {
+    // Profile pass first, then the generic union — order is the whole mechanism.
+    const nativeGallery = [...profileSelectors, ...GALLERY_SELECTORS]
+      .flatMap(queryAll)
       .filter((node) => node && !node.contains(root) && node !== root)
-      .map(galleryHost)
+      // Wrapped, not passed by reference: `map` supplies (value, index, array), so
+      // `galleryHost` would receive the index as its selector list.
+      .map((node) => galleryHost(node, profileSelectors))
       .find((node, index, nodes) => node && nodes.indexOf(node) === index);
 
     if (nativeGallery) return nativeGallery;
@@ -275,6 +423,7 @@
       .filter((image) => mediaUrls.has(normalizeImageUrl(image.currentSrc || image.src)))
       .map(
         (image) =>
+          galleryHostFromProfile(image, profileSelectors) ||
           image.closest(
             ".product__media-wrapper, product-media-gallery, media-gallery, .product-gallery, .product__photos, .product-single__media-group",
           ) ||
@@ -284,9 +433,17 @@
       .find(Boolean);
   };
 
-  const replaceNativeGallery = (root, media) => {
-    const host = findNativeGallery(root, media);
-    if (!host) return;
+  const replaceNativeGallery = (root, media, profileSelectors = []) => {
+    const host = findNativeGallery(root, media, profileSelectors);
+    if (!host) {
+      // The one genuinely diagnostic case: the gallery could not be located at all, so the
+      // slider renders in place instead of replacing the theme's. Names the theme's
+      // container as the thing to capture for a new profile.
+      console.warn(
+        "[gallery-nest] no theme gallery found to replace — set Theme to \"Custom selector\" and supply your gallery's container selector",
+      );
+      return;
+    }
 
     host.prepend(root);
     host.classList.add("gn-slider-host");
@@ -320,7 +477,9 @@
 
     if (Array.isArray(mappedIds)) {
       const selectedIds = new Set(mappedIds.map(normalizeId));
-      const mappedMedia = media.filter((item) => selectedIds.has(normalizeId(item.id)));
+      const mappedMedia = media.filter((item) =>
+        mediaKeys(item).some((key) => selectedIds.has(key)),
+      );
       if (mappedMedia.length) return mappedMedia;
     }
 
@@ -329,6 +488,25 @@
     );
 
     return taggedMedia.length ? taggedMedia : media;
+  };
+
+  /**
+   * Stops whatever a lightbox viewer node is playing and releases the bytes behind it.
+   *
+   * `pause()` alone is not enough. A `<video>` fed by `<source>` children has no `src`
+   * attribute to clear, so the documented way to abort its in-flight fetch is to empty
+   * the children and re-`load()` — without that, a shopper who opens three videos leaves
+   * three downloads running. An `<iframe>` needs its `src` dropped or the embedded
+   * YouTube player keeps playing audio from a node no one can see.
+   */
+  const stopMedia = (node) => {
+    if (!node) return;
+    if (typeof node.pause === "function") node.pause();
+    node.removeAttribute("src");
+    if (typeof node.load === "function") {
+      node.replaceChildren();
+      node.load();
+    }
   };
 
   const openLightbox = (media, startIndex, settings) => {
@@ -349,7 +527,7 @@
             ? `<button class="gn-lightbox__nav gn-lightbox__nav--prev" type="button" aria-label="${t("prev")}">${icon("prev", settings.previousArrowSvg)}</button>`
             : ""
         }
-        <img class="gn-lightbox__image" alt="">
+        <div class="gn-lightbox__frame"></div>
         ${
           media.length > 1
             ? `<button class="gn-lightbox__nav gn-lightbox__nav--next" type="button" aria-label="${t("next")}">${icon("next", settings.nextArrowSvg)}</button>`
@@ -360,7 +538,7 @@
     `;
 
     const counter = lightbox.querySelector(".gn-lightbox__counter");
-    const image = lightbox.querySelector(".gn-lightbox__image");
+    const viewerFrame = lightbox.querySelector(".gn-lightbox__frame");
     const close = lightbox.querySelector(".gn-lightbox__close");
     const prev = lightbox.querySelector(".gn-lightbox__nav--prev");
     const next = lightbox.querySelector(".gn-lightbox__nav--next");
@@ -372,13 +550,70 @@
     const accentColor = safeAccentColor(settings.accentColor);
     if (accentColor) lightbox.style.setProperty("--gn-active", accentColor);
 
+    /**
+     * Replaces whatever is in the viewer with the element this entry needs.
+     *
+     * The previous node is always discarded rather than reused. A `<video>` left in the
+     * DOM keeps playing audio after the shopper has moved on, and an `<iframe>` keeps a
+     * YouTube player alive behind a closed lightbox — so tearing down is the point of
+     * this function, not a side effect of it.
+     */
+    const renderViewer = (item) => {
+      const previous = viewerFrame.firstElementChild;
+      if (previous) {
+        stopMedia(previous);
+        previous.remove();
+      }
+
+      if (item.type === "video" && item.sources?.length) {
+        const video = document.createElement("video");
+        video.className = "gn-lightbox__video";
+        video.controls = true;
+        video.playsInline = true;
+        video.preload = "metadata";
+        video.poster = item.zoom || item.src;
+        // `alt` has no meaning on <video>; the accessible name goes on the label.
+        if (item.alt) video.setAttribute("aria-label", item.alt);
+        // Highest resolution first. The browser takes the first source it can play rather
+        // than the best one, and every rendition here is H.264 — so whichever is listed
+        // first is simply the one that gets used.
+        const sources = [...item.sources].sort((a, b) => (b.height || 0) - (a.height || 0));
+        for (const source of sources) {
+          const node = document.createElement("source");
+          node.src = source.url;
+          node.type = source.mimeType;
+          video.append(node);
+        }
+        viewerFrame.append(video);
+        return video;
+      }
+
+      if (item.type === "external_video" && item.embedUrl) {
+        const embed = document.createElement("iframe");
+        embed.className = "gn-lightbox__embed";
+        embed.src = item.embedUrl;
+        embed.title = item.alt || t("galleryLabel");
+        embed.allow = "accelerometer; encrypted-media; picture-in-picture; fullscreen";
+        embed.allowFullscreen = true;
+        embed.setAttribute("frameborder", "0");
+        viewerFrame.append(embed);
+        return embed;
+      }
+
+      const image = document.createElement("img");
+      image.className = "gn-lightbox__image";
+      image.src = item.zoom || item.src;
+      image.alt = item.alt || "";
+      viewerFrame.append(image);
+      return image;
+    };
+
     const setActive = (index) => {
       activeIndex = settings.loopSlides === false
         ? Math.min(Math.max(index, 0), media.length - 1)
         : (index + media.length) % media.length;
       const item = media[activeIndex];
-      image.src = item.zoom || item.src;
-      image.alt = item.alt || "";
+      renderViewer(item);
       counter.textContent = `${activeIndex + 1} / ${media.length}`;
       if (settings.loopSlides === false) {
         if (prev) prev.disabled = activeIndex === 0;
@@ -392,6 +627,8 @@
     const closeLightbox = () => {
       document.removeEventListener("keydown", onKeydown);
       document.documentElement.style.overflow = previousOverflow;
+      // Removing `lightbox` alone does not reliably stop audio in every browser.
+      stopMedia(viewerFrame.firstElementChild);
       lightbox.remove();
     };
 
@@ -399,6 +636,9 @@
       // Escape always closes, regardless of the keyboard navigation setting.
       if (event.key === "Escape") closeLightbox();
       if (settings.keyboardNavigation === false || media.length <= 1) return;
+      // A focused <video> owns the arrow keys for seeking, and an <iframe> owns them
+      // outright. Stealing them here would make the player's own controls unusable.
+      if (viewerFrame.contains(event.target)) return;
       if (event.key === "ArrowLeft") setActive(activeIndex - 1);
       if (event.key === "ArrowRight") setActive(activeIndex + 1);
     };
@@ -407,8 +647,9 @@
       const thumb = document.createElement("button");
       thumb.type = "button";
       thumb.className = "gn-lightbox__thumb";
-      thumb.setAttribute("aria-label", t("viewImage", index + 1));
+      thumb.setAttribute("aria-label", isVideoItem(item) ? t("viewVideo", index + 1) : t("viewImage", index + 1));
       thumb.innerHTML = `<img src="${item.thumb || item.src}" alt=""${thumbLoadingAttrs(settings)}>`;
+      if (isPlayable(item)) thumb.append(playBadge());
       thumb.addEventListener("click", () => setActive(index));
       thumbs.append(thumb);
     });
@@ -580,7 +821,16 @@
     slides.forEach((slide, index) => {
       const image = slide.querySelector(".gn-slider__main");
       if (image) image.alt = visibleMedia[index]?.alt || "";
+      // Every carousel slide is on screen at once, so each video needs its own badge.
+      if (isPlayable(visibleMedia[index])) slide.append(playBadge());
     });
+
+    // The single-image stage shows one entry at a time, so it gets one badge that
+    // `setActive` shows or hides. Created even when the gallery holds no video: the
+    // active entry can become one after a variant change.
+    const stagePlayBadge = playBadge();
+    stagePlayBadge.hidden = true;
+    if (frame) frame.append(stagePlayBadge);
 
     let prevButton = null;
     let nextButton = null;
@@ -630,14 +880,21 @@
         const thumb = document.createElement("button");
         thumb.type = "button";
         thumb.className = "gn-slider__thumb";
-        thumb.setAttribute("aria-label", t("viewImage", index + 1));
+        thumb.setAttribute(
+          "aria-label",
+          isVideoItem(item) ? t("viewVideo", index + 1) : t("viewImage", index + 1),
+        );
         thumb.innerHTML = `<img src="${item.thumb || item.src}" alt=""${thumbLoadingAttrs(settings)}>`;
+        if (isPlayable(item)) thumb.append(playBadge());
 
         if (showsCaption) {
           // The proxy keys captions by normalized numeric id while Liquid emits the raw
           // one — the same mismatch `mediaForVariant` normalizes around. Alt text is the
           // fallback so these shapes say something before any caption is written.
-          const caption = imageCaptions[normalizeId(item.id)] || item.alt || "";
+          const caption =
+            mediaKeys(item).map((key) => imageCaptions[key]).find(Boolean) ||
+            item.alt ||
+            "";
 
           if (caption) {
             const captionNode = document.createElement("span");
@@ -714,8 +971,11 @@
         main.alt = item.alt || "";
         // A click-armed zoom survives slide and variant changes — it is only turned
         // off by clicking the magnifier again — but the new image starts un-panned.
-        stage.classList.toggle("is-zooming", isZoomArmed);
+        // Never on a video, though: magnifying a poster tells the shopper nothing, and
+        // the scaled-up frame fights the play badge for the same pixels.
+        stage.classList.toggle("is-zooming", isZoomArmed && !isVideoItem(item));
         main.style.transformOrigin = "center";
+        stagePlayBadge.hidden = !isPlayable(item);
       }
       if (settings.loopSlides === false) {
         if (prevButton) prevButton.disabled = activeIndex === 0;
@@ -794,14 +1054,28 @@
 
       scroller.addEventListener("pointerdown", (event) => {
         scroller.setPointerCapture(event.pointerId);
+        // Drives the `grabbing` cursor. A class rather than `:active` because the capture
+        // above means the pointer leaves the thumb as soon as the drag starts, at which
+        // point `:active` would stop matching and the cursor would flip back mid-gesture.
+        scroller.classList.add("is-dragging");
         scrollToPointer(event);
       });
       scroller.addEventListener("pointermove", (event) => {
         if (scroller.hasPointerCapture(event.pointerId)) scrollToPointer(event);
       });
-      scroller.addEventListener("pointerup", (event) =>
-        scroller.releasePointerCapture(event.pointerId),
-      );
+      // `pointercancel` as well as `pointerup`: a drag interrupted by the browser — a
+      // system gesture, or the tab losing focus — never fires `pointerup`, and the cursor
+      // would stay stuck as a closed hand.
+      for (const type of ["pointerup", "pointercancel"]) {
+        scroller.addEventListener(type, (event) => {
+          // Guarded: the browser has already dropped the capture by the time
+          // `pointercancel` fires, and releasing one that is gone throws.
+          if (scroller.hasPointerCapture(event.pointerId)) {
+            scroller.releasePointerCapture(event.pointerId);
+          }
+          scroller.classList.remove("is-dragging");
+        });
+      }
 
       // The gallery has no other keyboard navigation — the arrow-key handler lives in the
       // lightbox — so with thumbnails hidden this bar is the only control a keyboard user
@@ -856,10 +1130,15 @@
      * put the transform origin in the wrong place on every slide but the first.
      */
     const zoomTargetFor = (event) => {
-      if (!isCarousel) return { box: stage, image: main };
+      if (!isCarousel) {
+        // Video is never a zoom target: what is on screen is a poster, and magnifying it
+        // shows the shopper a blurrier version of a still they cannot play from there.
+        return isVideoItem(visibleMedia[activeIndex]) ? null : { box: stage, image: main };
+      }
 
       const slide = event.target.closest?.(".gn-slider__slide");
       if (!slide) return null;
+      if (isVideoItem(visibleMedia[slides.indexOf(slide)])) return null;
 
       return { box: slide, image: slide.querySelector(".gn-slider__main") };
     };
@@ -986,6 +1265,7 @@
         zoomHost.addEventListener("mouseout", (event) => setSlideZoom(event, false));
       } else {
         zoomHost.addEventListener("mouseenter", () => {
+          if (isVideoItem(visibleMedia[activeIndex])) return;
           stage.classList.add("is-zooming");
           tracker.track("zoom");
         });
@@ -1036,6 +1316,14 @@
 
     if (canHoverNavigate && visibleMedia.length > 1) {
       stage.addEventListener("mousemove", (event) => {
+        // Hover cycling exists for flipping through photos. Letting it run on a video
+        // would advance the gallery out from under a shopper who is reaching for the play
+        // badge, which is the one thing they can do with this slide.
+        if (isVideoItem(visibleMedia[activeIndex])) {
+          stopHoverNav();
+          return;
+        }
+
         const rect = stage.getBoundingClientRect();
         // The near half of the chosen axis goes back, the far half goes forward —
         // unless inverted, which swaps the two halves.
@@ -1058,6 +1346,26 @@
         }
       });
       stage.addEventListener("mouseleave", stopHoverNav);
+    }
+
+    /**
+     * Playback lives in the lightbox, so a video has to open it on click whatever the
+     * zoom trigger is. `click` already wires the stage and every slide to the lightbox;
+     * `hover` and `off` do not, which would leave a video with no way to play at all
+     * beyond the corner magnifier — and that is hidden whenever `hideZoomIcon` is set.
+     */
+    if (zoomTrigger !== "click") {
+      zoomHost.addEventListener("click", (event) => {
+        const index = isCarousel
+          ? slides.indexOf(event.target.closest?.(".gn-slider__slide"))
+          : activeIndex;
+        if (index < 0 || !isPlayable(visibleMedia[index])) return;
+
+        // A click on a non-active carousel slide should play *that* video, and
+        // `openLightboxFromStage` starts from whatever is active.
+        if (isCarousel && index !== activeIndex) setActive(index);
+        openLightboxFromStage();
+      });
     }
 
     zoom?.addEventListener("click", (event) => {
@@ -1137,7 +1445,9 @@
         item.variantIds?.length > 0
           ? item.variantIds
           : variants
-              .filter((variant) => String(variant.mediaId) === String(item.id))
+              .filter((variant) =>
+                mediaKeys(item).includes(normalizeId(variant.mediaId)),
+              )
               .map((variant) => variant.id),
     }));
     const productId = root.dataset.productId;
@@ -1162,10 +1472,15 @@
         productId,
       };
 
+      // Applied before both calls below: `replaceNativeGallery` matches the theme's own
+      // gallery against these URLs, and `renderSlider` treats index 0 as the opening
+      // slide — so reordering afterwards would leave the wrong image showing first.
+      const orderedMedia = orderMedia(mediaWithFallbackVariantIds, settings.mediaOrder);
+
       if (settings.replaceThemeGallery !== false) {
-        replaceNativeGallery(root, mediaWithFallbackVariantIds);
+        replaceNativeGallery(root, orderedMedia, themeSelectors(root, settings));
       }
-      renderSlider(root, mediaWithFallbackVariantIds, settings.thumbnailPosition, finalSettings);
+      renderSlider(root, orderedMedia, settings.thumbnailPosition, finalSettings);
     } catch {
       root.dataset.galleryNestReady = "false";
     }

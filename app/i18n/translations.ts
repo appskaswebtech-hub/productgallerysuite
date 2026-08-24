@@ -17,6 +17,7 @@ const en = {
   "analytics.productTableHeading": "By product",
   "analytics.colProduct": "Product",
   "analytics.noData": "No activity recorded for this period yet.",
+  "analytics.productRemoved": "Removed product ({id})",
   "analytics.peakLabel": "peak {count}",
   "analytics.emptyHint": "Stats appear once shoppers browse your galleries.",
   "dashboard.viewAnalytics": "View full analytics",
@@ -223,6 +224,91 @@ const en = {
   "mapping.uploadTooLarge": "{filename} is larger than 20 MB.",
   "mapping.uploadBadType": "{filename} is not an image.",
   "mapping.uploadTooMany": "Upload at most 10 images at a time.",
+  "mapping.addVideos": "Add videos",
+  "mapping.addVideosHelp":
+    "Upload videos to this product in Shopify. MP4, MOV or WebM, up to 1 GB and 10 minutes each. Videos play when a shopper opens the gallery.",
+  "mapping.addExternalVideo": "Add video link",
+  "mapping.videoTooLong": "{filename} is longer than 10 minutes, which is Shopify's limit.",
+  "mapping.externalVideoLabel": "YouTube or Vimeo URL",
+  "mapping.externalVideoHelp":
+    "Embeds the video without uploading it. Only YouTube and Vimeo links are supported.",
+  "mapping.externalVideoInvalid": "Enter a YouTube or Vimeo link.",
+  "mapping.videoTooLarge": "{filename} is larger than 1 GB.",
+  "mapping.videoBadType": "{filename} is not an MP4 or MOV video.",
+  "mapping.videoTooMany": "Upload at most 5 videos at a time.",
+  "mapping.videoBadUrl": "Some videos could not be added because they were not uploaded to Shopify.",
+  "mapping.videoNoTarget": "Shopify did not return an upload slot.",
+  "mapping.videoUploadProgress": "Uploading… {percent}%",
+  "mapping.videoProcessing":
+    "Shopify is processing the video. It appears here once encoding finishes, which can take a few minutes.",
+  "mapping.videoBadge": "Video",
+  "mapping.toastVideosAttached": "{count} video(s) added.",
+  "mapping.videoProcessingBadge": "Processing",
+  "mapping.videoFailedBadge": "Failed",
+  "mapping.mediaPending": "Preview not ready yet",
+  "mapping.deleteMedia": "Remove from this product",
+  "mapping.confirmDeleteHeading": "Remove this media?",
+  "mapping.confirmDeleteBody":
+    "{media} will be removed from this product's gallery, and cleared from any variant using it. The file stays in Content → Files, so you can add it again later.",
+  "mapping.confirmDeleteFallbackName": "This media",
+  "mapping.confirmDeleteButton": "Remove",
+  "mapping.toastMediaDeleted": "Media removed.",
+  "mapping.toastMediaDeleteFailed": "Could not remove the media: {reason}",
+  "mapping.mediaErrorUnknown": "Shopify could not process this file. Try uploading it again.",
+
+  /* Shopify MediaErrorCode → what the merchant should do about it. Codes with no entry
+     here fall back to Shopify's own message; see `MediaErrorText`. */
+  "mediaError.DUPLICATE_FILENAME_ERROR":
+    "A file with this name already exists. Rename it and upload again.",
+  "mediaError.EXTERNAL_VIDEO_EMBED_DISABLED":
+    "This video's owner has disabled embedding. Use a different video, or allow embedding in its settings.",
+  "mediaError.EXTERNAL_VIDEO_EMBED_NOT_FOUND_OR_TRANSCODING":
+    "The video could not be found, or is still processing on YouTube or Vimeo. Try again shortly.",
+  "mediaError.EXTERNAL_VIDEO_INVALID_ASPECT_RATIO":
+    "This video's aspect ratio is not supported. Re-upload it to YouTube or Vimeo at a standard ratio.",
+  "mediaError.EXTERNAL_VIDEO_NOT_FOUND":
+    "No video was found at that link. Check the URL and try again.",
+  "mediaError.EXTERNAL_VIDEO_UNLISTED":
+    "This video is private or unlisted. Make it public, then add it again.",
+  "mediaError.FILE_STORAGE_LIMIT_EXCEEDED":
+    "Your store has run out of file storage. Remove some files in Content → Files, then try again.",
+  "mediaError.IMAGE_DOWNLOAD_FAILURE":
+    "Shopify could not download this image. Try uploading it again.",
+  "mediaError.IMAGE_PROCESSING_FAILURE":
+    "Shopify could not process this image. Re-save it in another editor and upload again.",
+  "mediaError.INVALID_IMAGE_ASPECT_RATIO":
+    "This image's aspect ratio is not supported. Crop it and upload again.",
+  "mediaError.INVALID_IMAGE_FILE_SIZE": "This image is too large. Compress it and upload again.",
+  "mediaError.INVALID_IMAGE_RESOLUTION":
+    "This image's resolution is above Shopify's limit. Scale it down and upload again.",
+  "mediaError.INVALID_SIGNED_URL":
+    "The upload link expired before the file finished. Upload it again.",
+  "mediaError.MEDIA_TIMEOUT_ERROR":
+    "Another change to this media was still running. Wait a moment and try again.",
+  "mediaError.UNKNOWN": "Shopify could not process this file. Try uploading it again.",
+  "mediaError.UNSUPPORTED_IMAGE_FILE_TYPE":
+    "This image format is not supported. Use JPG, PNG, GIF or WEBP.",
+  "mediaError.VIDEO_INVALID_FILETYPE_ERROR":
+    "This video format is not supported. Use MP4 or MOV.",
+  "mediaError.VIDEO_MAX_DURATION_ERROR":
+    "This video is longer than Shopify allows. Trim it and upload again.",
+  "mediaError.VIDEO_MAX_HEIGHT_ERROR":
+    "This video is taller than Shopify allows. Scale it down and upload again.",
+  "mediaError.VIDEO_MAX_WIDTH_ERROR":
+    "This video is wider than Shopify allows. Scale it down and upload again.",
+  "mediaError.VIDEO_METADATA_READ_ERROR":
+    "Shopify could not read this video's details. Re-export it and upload again.",
+  "mediaError.VIDEO_MIN_DURATION_ERROR":
+    "This video is too short. Use a longer clip and upload again.",
+  "mediaError.VIDEO_MIN_HEIGHT_ERROR":
+    "This video is too short in height. Use a larger resolution and upload again.",
+  "mediaError.VIDEO_MIN_WIDTH_ERROR":
+    "This video is too narrow. Use a larger resolution and upload again.",
+  "mediaError.VIDEO_VALIDATION_ERROR":
+    "This video did not pass Shopify's checks. Re-export it as MP4 and upload again.",
+  "mapping.reorderHandle": "Reorder: position {position} of {total}",
+  "mapping.reorderHelp":
+    "Drag the handle on a tile to reorder the gallery, or focus it and use the arrow keys. This order is what shoppers see on the storefront.",
   "mapping.addFromShopify": "Add from Shopify",
   "mapping.pickerHeading": "Add images from Shopify",
   "mapping.pickerFiles": "Files library",
@@ -261,6 +347,12 @@ const en = {
   "settings.defaultLanguage": "Default language",
   "settings.defaultLanguageHelp":
     "Used for the app's admin pages when no language has been chosen in this browser.",
+  "settings.themeProfile": "Theme",
+  "settings.themeProfileHelp":
+    "Which theme's gallery the slider replaces. Leave on Auto-detect unless your gallery is not being replaced correctly. A block in the theme editor can override this per theme.",
+  "settings.customGallerySelector": "Custom gallery selector",
+  "settings.customGallerySelectorHelp":
+    "The CSS selector of your theme's product gallery container, for example .product__media-wrapper. Find it by right-clicking the gallery and choosing Inspect.",
   "settings.zoomGroup": "Zoom",
   "settings.zoomTrigger": "Zoom trigger",
   "settings.zoomTriggerHelp":
@@ -313,6 +405,7 @@ const en = {
     "Restore every option on this page to its default. Your selected products and slider settings are not affected.",
   "settings.resetButton": "Reset to defaults",
   "settings.toastSaved": "Settings saved",
+  "settings.toastSaveFailed": "Could not save settings. Please try again.",
   "settings.toastReset": "Settings reset to defaults",
   "settings.sliderOptionsMoved":
     "Slider and zoom options now live on the Products page, where they can be set per product.",
@@ -395,6 +488,7 @@ const es: Record<TranslationKey, string> = {
   "analytics.productTableHeading": "Por producto",
   "analytics.colProduct": "Producto",
   "analytics.noData": "Todavía no hay actividad registrada en este periodo.",
+  "analytics.productRemoved": "Producto eliminado ({id})",
   "analytics.peakLabel": "máximo {count}",
   "analytics.emptyHint":
     "Las estadísticas aparecen cuando los compradores exploran tus galerías.",
@@ -604,6 +698,92 @@ const es: Record<TranslationKey, string> = {
   "mapping.uploadTooLarge": "{filename} supera los 20 MB.",
   "mapping.uploadBadType": "{filename} no es una imagen.",
   "mapping.uploadTooMany": "Sube como máximo 10 imágenes a la vez.",
+  "mapping.addVideos": "Añadir videos",
+  "mapping.addVideosHelp":
+    "Sube videos a este producto en Shopify. MP4, MOV o WebM, hasta 1 GB y 10 minutos cada uno. Los videos se reproducen cuando el cliente abre la galería.",
+  "mapping.addExternalVideo": "Añadir enlace de video",
+  "mapping.videoTooLong": "{filename} dura más de 10 minutos, el límite de Shopify.",
+  "mapping.externalVideoLabel": "URL de YouTube o Vimeo",
+  "mapping.externalVideoHelp":
+    "Inserta el video sin subirlo. Solo se admiten enlaces de YouTube y Vimeo.",
+  "mapping.externalVideoInvalid": "Introduce un enlace de YouTube o Vimeo.",
+  "mapping.videoTooLarge": "{filename} supera 1 GB.",
+  "mapping.videoBadType": "{filename} no es un video MP4 o MOV.",
+  "mapping.videoTooMany": "Sube como máximo 5 videos a la vez.",
+  "mapping.videoBadUrl":
+    "Algunos videos no se pudieron añadir porque no se subieron a Shopify.",
+  "mapping.videoNoTarget": "Shopify no devolvió un espacio de subida.",
+  "mapping.videoUploadProgress": "Subiendo… {percent}%",
+  "mapping.videoProcessing":
+    "Shopify está procesando el video. Aparecerá aquí cuando termine la codificación, lo que puede tardar unos minutos.",
+  "mapping.videoBadge": "Video",
+  "mapping.toastVideosAttached": "{count} video(s) añadido(s).",
+  "mapping.videoProcessingBadge": "Procesando",
+  "mapping.videoFailedBadge": "Error",
+  "mapping.mediaPending": "La vista previa aún no está lista",
+  "mapping.deleteMedia": "Quitar de este producto",
+  "mapping.confirmDeleteHeading": "¿Quitar este archivo?",
+  "mapping.confirmDeleteBody":
+    "{media} se quitará de la galería de este producto y de cualquier variante que lo use. El archivo permanece en Contenido → Archivos, así que puedes volver a añadirlo más adelante.",
+  "mapping.confirmDeleteFallbackName": "Este archivo",
+  "mapping.confirmDeleteButton": "Quitar",
+  "mapping.toastMediaDeleted": "Archivo quitado.",
+  "mapping.toastMediaDeleteFailed": "No se pudo quitar el archivo: {reason}",
+  "mapping.mediaErrorUnknown":
+    "Shopify no pudo procesar este archivo. Intenta subirlo de nuevo.",
+
+  "mediaError.DUPLICATE_FILENAME_ERROR":
+    "Ya existe un archivo con este nombre. Cámbiale el nombre y súbelo de nuevo.",
+  "mediaError.EXTERNAL_VIDEO_EMBED_DISABLED":
+    "El propietario de este video ha desactivado la inserción. Usa otro video o permite la inserción en sus ajustes.",
+  "mediaError.EXTERNAL_VIDEO_EMBED_NOT_FOUND_OR_TRANSCODING":
+    "No se encontró el video o todavía se está procesando en YouTube o Vimeo. Inténtalo en unos minutos.",
+  "mediaError.EXTERNAL_VIDEO_INVALID_ASPECT_RATIO":
+    "La relación de aspecto de este video no es compatible. Vuelve a subirlo a YouTube o Vimeo con una relación estándar.",
+  "mediaError.EXTERNAL_VIDEO_NOT_FOUND":
+    "No se encontró ningún video en ese enlace. Comprueba la URL e inténtalo de nuevo.",
+  "mediaError.EXTERNAL_VIDEO_UNLISTED":
+    "Este video es privado o no está listado. Hazlo público y añádelo de nuevo.",
+  "mediaError.FILE_STORAGE_LIMIT_EXCEEDED":
+    "Tu tienda se ha quedado sin almacenamiento. Elimina archivos en Contenido → Archivos e inténtalo de nuevo.",
+  "mediaError.IMAGE_DOWNLOAD_FAILURE":
+    "Shopify no pudo descargar esta imagen. Intenta subirla de nuevo.",
+  "mediaError.IMAGE_PROCESSING_FAILURE":
+    "Shopify no pudo procesar esta imagen. Vuelve a guardarla en otro editor y súbela de nuevo.",
+  "mediaError.INVALID_IMAGE_ASPECT_RATIO":
+    "La relación de aspecto de esta imagen no es compatible. Recórtala y súbela de nuevo.",
+  "mediaError.INVALID_IMAGE_FILE_SIZE":
+    "Esta imagen es demasiado grande. Comprímela y súbela de nuevo.",
+  "mediaError.INVALID_IMAGE_RESOLUTION":
+    "La resolución de esta imagen supera el límite de Shopify. Redúcela y súbela de nuevo.",
+  "mediaError.INVALID_SIGNED_URL":
+    "El enlace de subida caducó antes de terminar. Sube el archivo de nuevo.",
+  "mediaError.MEDIA_TIMEOUT_ERROR":
+    "Otro cambio sobre este archivo seguía en curso. Espera un momento e inténtalo de nuevo.",
+  "mediaError.UNKNOWN": "Shopify no pudo procesar este archivo. Intenta subirlo de nuevo.",
+  "mediaError.UNSUPPORTED_IMAGE_FILE_TYPE":
+    "Este formato de imagen no es compatible. Usa JPG, PNG, GIF o WEBP.",
+  "mediaError.VIDEO_INVALID_FILETYPE_ERROR":
+    "Este formato de video no es compatible. Usa MP4 o MOV.",
+  "mediaError.VIDEO_MAX_DURATION_ERROR":
+    "Este video supera la duración permitida por Shopify. Recórtalo y súbelo de nuevo.",
+  "mediaError.VIDEO_MAX_HEIGHT_ERROR":
+    "Este video supera la altura permitida por Shopify. Redúcelo y súbelo de nuevo.",
+  "mediaError.VIDEO_MAX_WIDTH_ERROR":
+    "Este video supera el ancho permitido por Shopify. Redúcelo y súbelo de nuevo.",
+  "mediaError.VIDEO_METADATA_READ_ERROR":
+    "Shopify no pudo leer los datos de este video. Vuelve a exportarlo y súbelo de nuevo.",
+  "mediaError.VIDEO_MIN_DURATION_ERROR":
+    "Este video es demasiado corto. Usa un clip más largo y súbelo de nuevo.",
+  "mediaError.VIDEO_MIN_HEIGHT_ERROR":
+    "La altura de este video es insuficiente. Usa una resolución mayor y súbelo de nuevo.",
+  "mediaError.VIDEO_MIN_WIDTH_ERROR":
+    "Este video es demasiado estrecho. Usa una resolución mayor y súbelo de nuevo.",
+  "mediaError.VIDEO_VALIDATION_ERROR":
+    "Este video no pasó las comprobaciones de Shopify. Expórtalo como MP4 y súbelo de nuevo.",
+  "mapping.reorderHandle": "Reordenar: posición {position} de {total}",
+  "mapping.reorderHelp":
+    "Arrastra el controlador de una miniatura para reordenar la galería, o enfócalo y usa las flechas del teclado. Este orden es el que ven los clientes en la tienda.",
   "mapping.addFromShopify": "Añadir desde Shopify",
   "mapping.pickerHeading": "Añadir imágenes desde Shopify",
   "mapping.pickerFiles": "Biblioteca de archivos",
@@ -643,6 +823,12 @@ const es: Record<TranslationKey, string> = {
   "settings.defaultLanguage": "Idioma predeterminado",
   "settings.defaultLanguageHelp":
     "Se usa en las páginas de administración de la app cuando no se ha elegido un idioma en este navegador.",
+  "settings.themeProfile": "Tema",
+  "settings.themeProfileHelp":
+    "Qué galería de tema sustituye el carrusel. Deja Auto-detect salvo que tu galería no se sustituya correctamente. Un bloque en el editor de temas puede anular esto por tema.",
+  "settings.customGallerySelector": "Selector de galería personalizado",
+  "settings.customGallerySelectorHelp":
+    "El selector CSS del contenedor de la galería de producto de tu tema, por ejemplo .product__media-wrapper. Encuéntralo haciendo clic derecho en la galería y eligiendo Inspeccionar.",
   "settings.zoomGroup": "Zoom",
   "settings.zoomTrigger": "Activación del zoom",
   "settings.zoomTriggerHelp":
@@ -695,6 +881,7 @@ const es: Record<TranslationKey, string> = {
     "Restaura todas las opciones de esta página a su valor predeterminado. Tus productos seleccionados y los ajustes del carrusel no se ven afectados.",
   "settings.resetButton": "Restablecer valores predeterminados",
   "settings.toastSaved": "Ajustes guardados",
+  "settings.toastSaveFailed": "No se pudieron guardar los ajustes. Inténtalo de nuevo.",
   "settings.toastReset": "Ajustes restablecidos a los valores predeterminados",
   "settings.sliderOptionsMoved":
     "Las opciones de carrusel y zoom ahora están en la página Productos, donde se pueden definir por producto.",
@@ -775,6 +962,7 @@ const it: Record<TranslationKey, string> = {
   "analytics.productTableHeading": "Per prodotto",
   "analytics.colProduct": "Prodotto",
   "analytics.noData": "Nessuna attività registrata in questo periodo.",
+  "analytics.productRemoved": "Prodotto rimosso ({id})",
   "analytics.peakLabel": "picco {count}",
   "analytics.emptyHint":
     "Le statistiche compaiono quando gli acquirenti sfogliano le tue gallerie.",
@@ -984,6 +1172,93 @@ const it: Record<TranslationKey, string> = {
   "mapping.uploadTooLarge": "{filename} supera i 20 MB.",
   "mapping.uploadBadType": "{filename} non è un'immagine.",
   "mapping.uploadTooMany": "Carica al massimo 10 immagini alla volta.",
+  "mapping.addVideos": "Aggiungi video",
+  "mapping.addVideosHelp":
+    "Carica video su questo prodotto in Shopify. MP4, MOV o WebM, fino a 1 GB e 10 minuti ciascuno. I video vengono riprodotti quando il cliente apre la galleria.",
+  "mapping.addExternalVideo": "Aggiungi link video",
+  "mapping.videoTooLong": "{filename} dura più di 10 minuti, il limite di Shopify.",
+  "mapping.externalVideoLabel": "URL di YouTube o Vimeo",
+  "mapping.externalVideoHelp":
+    "Incorpora il video senza caricarlo. Sono supportati solo i link di YouTube e Vimeo.",
+  "mapping.externalVideoInvalid": "Inserisci un link di YouTube o Vimeo.",
+  "mapping.videoTooLarge": "{filename} supera 1 GB.",
+  "mapping.videoBadType": "{filename} non è un video MP4 o MOV.",
+  "mapping.videoTooMany": "Carica al massimo 5 video alla volta.",
+  "mapping.videoBadUrl":
+    "Alcuni video non sono stati aggiunti perché non sono stati caricati su Shopify.",
+  "mapping.videoNoTarget": "Shopify non ha restituito uno spazio di caricamento.",
+  "mapping.videoUploadProgress": "Caricamento… {percent}%",
+  "mapping.videoProcessing":
+    "Shopify sta elaborando il video. Apparirà qui al termine della codifica, che può richiedere qualche minuto.",
+  "mapping.videoBadge": "Video",
+  "mapping.toastVideosAttached": "{count} video aggiunto/i.",
+  "mapping.videoProcessingBadge": "In elaborazione",
+  "mapping.videoFailedBadge": "Non riuscito",
+  "mapping.mediaPending": "Anteprima non ancora pronta",
+  "mapping.deleteMedia": "Rimuovi da questo prodotto",
+  "mapping.confirmDeleteHeading": "Rimuovere questo file?",
+  "mapping.confirmDeleteBody":
+    "{media} verrà rimosso dalla galleria di questo prodotto e da qualsiasi variante che lo utilizza. Il file resta in Contenuti → File, quindi potrai aggiungerlo di nuovo in seguito.",
+  "mapping.confirmDeleteFallbackName": "Questo file",
+  "mapping.confirmDeleteButton": "Rimuovi",
+  "mapping.toastMediaDeleted": "File rimosso.",
+  "mapping.toastMediaDeleteFailed": "Impossibile rimuovere il file: {reason}",
+  "mapping.mediaErrorUnknown":
+    "Shopify non è riuscito a elaborare questo file. Prova a caricarlo di nuovo.",
+
+  "mediaError.DUPLICATE_FILENAME_ERROR":
+    "Esiste già un file con questo nome. Rinominalo e caricalo di nuovo.",
+  "mediaError.EXTERNAL_VIDEO_EMBED_DISABLED":
+    "Il proprietario di questo video ha disattivato l'incorporamento. Usa un altro video o consentilo nelle sue impostazioni.",
+  "mediaError.EXTERNAL_VIDEO_EMBED_NOT_FOUND_OR_TRANSCODING":
+    "Il video non è stato trovato oppure è ancora in elaborazione su YouTube o Vimeo. Riprova tra poco.",
+  "mediaError.EXTERNAL_VIDEO_INVALID_ASPECT_RATIO":
+    "Le proporzioni di questo video non sono supportate. Ricaricalo su YouTube o Vimeo con proporzioni standard.",
+  "mediaError.EXTERNAL_VIDEO_NOT_FOUND":
+    "Nessun video trovato a quel link. Controlla l'URL e riprova.",
+  "mediaError.EXTERNAL_VIDEO_UNLISTED":
+    "Questo video è privato o non in elenco. Rendilo pubblico e aggiungilo di nuovo.",
+  "mediaError.FILE_STORAGE_LIMIT_EXCEEDED":
+    "Lo spazio file del tuo negozio è esaurito. Elimina alcuni file in Contenuti → File e riprova.",
+  "mediaError.IMAGE_DOWNLOAD_FAILURE":
+    "Shopify non è riuscito a scaricare questa immagine. Prova a caricarla di nuovo.",
+  "mediaError.IMAGE_PROCESSING_FAILURE":
+    "Shopify non è riuscito a elaborare questa immagine. Risalvala con un altro editor e caricala di nuovo.",
+  "mediaError.INVALID_IMAGE_ASPECT_RATIO":
+    "Le proporzioni di questa immagine non sono supportate. Ritagliala e caricala di nuovo.",
+  "mediaError.INVALID_IMAGE_FILE_SIZE":
+    "Questa immagine è troppo grande. Comprimila e caricala di nuovo.",
+  "mediaError.INVALID_IMAGE_RESOLUTION":
+    "La risoluzione di questa immagine supera il limite di Shopify. Riducila e caricala di nuovo.",
+  "mediaError.INVALID_SIGNED_URL":
+    "Il link di caricamento è scaduto prima del completamento. Carica di nuovo il file.",
+  "mediaError.MEDIA_TIMEOUT_ERROR":
+    "Un'altra modifica a questo file era ancora in corso. Attendi un momento e riprova.",
+  "mediaError.UNKNOWN":
+    "Shopify non è riuscito a elaborare questo file. Prova a caricarlo di nuovo.",
+  "mediaError.UNSUPPORTED_IMAGE_FILE_TYPE":
+    "Questo formato immagine non è supportato. Usa JPG, PNG, GIF o WEBP.",
+  "mediaError.VIDEO_INVALID_FILETYPE_ERROR":
+    "Questo formato video non è supportato. Usa MP4 o MOV.",
+  "mediaError.VIDEO_MAX_DURATION_ERROR":
+    "Questo video supera la durata consentita da Shopify. Accorcialo e caricalo di nuovo.",
+  "mediaError.VIDEO_MAX_HEIGHT_ERROR":
+    "Questo video supera l'altezza consentita da Shopify. Riducilo e caricalo di nuovo.",
+  "mediaError.VIDEO_MAX_WIDTH_ERROR":
+    "Questo video supera la larghezza consentita da Shopify. Riducilo e caricalo di nuovo.",
+  "mediaError.VIDEO_METADATA_READ_ERROR":
+    "Shopify non è riuscito a leggere i dati di questo video. Riesportalo e caricalo di nuovo.",
+  "mediaError.VIDEO_MIN_DURATION_ERROR":
+    "Questo video è troppo breve. Usa una clip più lunga e caricala di nuovo.",
+  "mediaError.VIDEO_MIN_HEIGHT_ERROR":
+    "L'altezza di questo video è insufficiente. Usa una risoluzione maggiore e caricalo di nuovo.",
+  "mediaError.VIDEO_MIN_WIDTH_ERROR":
+    "Questo video è troppo stretto. Usa una risoluzione maggiore e caricalo di nuovo.",
+  "mediaError.VIDEO_VALIDATION_ERROR":
+    "Questo video non ha superato i controlli di Shopify. Esportalo come MP4 e caricalo di nuovo.",
+  "mapping.reorderHandle": "Riordina: posizione {position} di {total}",
+  "mapping.reorderHelp":
+    "Trascina la maniglia di una miniatura per riordinare la galleria, oppure selezionala e usa i tasti freccia. Questo è l'ordine che i clienti vedono sul negozio.",
   "mapping.addFromShopify": "Aggiungi da Shopify",
   "mapping.pickerHeading": "Aggiungi immagini da Shopify",
   "mapping.pickerFiles": "Libreria file",
@@ -1023,6 +1298,12 @@ const it: Record<TranslationKey, string> = {
   "settings.defaultLanguage": "Lingua predefinita",
   "settings.defaultLanguageHelp":
     "Usata nelle pagine di amministrazione dell'app quando non è stata scelta una lingua in questo browser.",
+  "settings.themeProfile": "Tema",
+  "settings.themeProfileHelp":
+    "Quale galleria del tema viene sostituita dallo slider. Lascia Auto-detect a meno che la tua galleria non venga sostituita correttamente. Un blocco nell'editor del tema può sovrascrivere questa impostazione per tema.",
+  "settings.customGallerySelector": "Selettore galleria personalizzato",
+  "settings.customGallerySelectorHelp":
+    "Il selettore CSS del contenitore della galleria prodotto del tuo tema, ad esempio .product__media-wrapper. Trovalo facendo clic destro sulla galleria e scegliendo Ispeziona.",
   "settings.zoomGroup": "Zoom",
   "settings.zoomTrigger": "Attivazione dello zoom",
   "settings.zoomTriggerHelp":
@@ -1075,6 +1356,7 @@ const it: Record<TranslationKey, string> = {
     "Riporta tutte le opzioni di questa pagina ai valori predefiniti. I prodotti selezionati e le impostazioni dello slider non vengono modificati.",
   "settings.resetButton": "Ripristina i valori predefiniti",
   "settings.toastSaved": "Impostazioni salvate",
+  "settings.toastSaveFailed": "Impossibile salvare le impostazioni. Riprova.",
   "settings.toastReset": "Impostazioni ripristinate ai valori predefiniti",
   "settings.sliderOptionsMoved":
     "Le opzioni di slider e zoom si trovano ora nella pagina Prodotti, dove possono essere impostate per singolo prodotto.",
@@ -1155,6 +1437,7 @@ const de: Record<TranslationKey, string> = {
   "analytics.productTableHeading": "Nach Produkt",
   "analytics.colProduct": "Produkt",
   "analytics.noData": "Für diesen Zeitraum wurde noch keine Aktivität erfasst.",
+  "analytics.productRemoved": "Entferntes Produkt ({id})",
   "analytics.peakLabel": "Spitze {count}",
   "analytics.emptyHint":
     "Statistiken erscheinen, sobald Besucher deine Galerien durchsehen.",
@@ -1364,6 +1647,93 @@ const de: Record<TranslationKey, string> = {
   "mapping.uploadTooLarge": "{filename} ist größer als 20 MB.",
   "mapping.uploadBadType": "{filename} ist kein Bild.",
   "mapping.uploadTooMany": "Lade höchstens 10 Bilder auf einmal hoch.",
+  "mapping.addVideos": "Videos hinzufügen",
+  "mapping.addVideosHelp":
+    "Lade Videos zu diesem Produkt in Shopify hoch. MP4, MOV oder WebM, bis zu 1 GB und 10 Minuten pro Datei. Videos werden abgespielt, wenn Kunden die Galerie öffnen.",
+  "mapping.addExternalVideo": "Video-Link hinzufügen",
+  "mapping.videoTooLong": "{filename} ist länger als 10 Minuten, das Limit von Shopify.",
+  "mapping.externalVideoLabel": "YouTube- oder Vimeo-URL",
+  "mapping.externalVideoHelp":
+    "Bettet das Video ein, ohne es hochzuladen. Es werden nur YouTube- und Vimeo-Links unterstützt.",
+  "mapping.externalVideoInvalid": "Gib einen YouTube- oder Vimeo-Link ein.",
+  "mapping.videoTooLarge": "{filename} ist größer als 1 GB.",
+  "mapping.videoBadType": "{filename} ist kein MP4- oder MOV-Video.",
+  "mapping.videoTooMany": "Lade höchstens 5 Videos auf einmal hoch.",
+  "mapping.videoBadUrl":
+    "Einige Videos konnten nicht hinzugefügt werden, weil sie nicht zu Shopify hochgeladen wurden.",
+  "mapping.videoNoTarget": "Shopify hat keinen Upload-Platz zurückgegeben.",
+  "mapping.videoUploadProgress": "Wird hochgeladen… {percent}%",
+  "mapping.videoProcessing":
+    "Shopify verarbeitet das Video. Es erscheint hier, sobald die Kodierung abgeschlossen ist — das kann einige Minuten dauern.",
+  "mapping.videoBadge": "Video",
+  "mapping.toastVideosAttached": "{count} Video(s) hinzugefügt.",
+  "mapping.videoProcessingBadge": "Wird verarbeitet",
+  "mapping.videoFailedBadge": "Fehlgeschlagen",
+  "mapping.mediaPending": "Vorschau noch nicht bereit",
+  "mapping.deleteMedia": "Aus diesem Produkt entfernen",
+  "mapping.confirmDeleteHeading": "Diese Datei entfernen?",
+  "mapping.confirmDeleteBody":
+    "{media} wird aus der Galerie dieses Produkts entfernt und aus allen Varianten gelöscht, die sie verwenden. Die Datei bleibt unter Inhalte → Dateien, du kannst sie also später wieder hinzufügen.",
+  "mapping.confirmDeleteFallbackName": "Diese Datei",
+  "mapping.confirmDeleteButton": "Entfernen",
+  "mapping.toastMediaDeleted": "Datei entfernt.",
+  "mapping.toastMediaDeleteFailed": "Datei konnte nicht entfernt werden: {reason}",
+  "mapping.mediaErrorUnknown":
+    "Shopify konnte diese Datei nicht verarbeiten. Lade sie erneut hoch.",
+
+  "mediaError.DUPLICATE_FILENAME_ERROR":
+    "Eine Datei mit diesem Namen existiert bereits. Benenne sie um und lade sie erneut hoch.",
+  "mediaError.EXTERNAL_VIDEO_EMBED_DISABLED":
+    "Die Einbettung wurde für dieses Video deaktiviert. Nutze ein anderes Video oder erlaube die Einbettung in dessen Einstellungen.",
+  "mediaError.EXTERNAL_VIDEO_EMBED_NOT_FOUND_OR_TRANSCODING":
+    "Das Video wurde nicht gefunden oder wird bei YouTube oder Vimeo noch verarbeitet. Versuche es gleich noch einmal.",
+  "mediaError.EXTERNAL_VIDEO_INVALID_ASPECT_RATIO":
+    "Das Seitenverhältnis dieses Videos wird nicht unterstützt. Lade es mit einem Standardverhältnis erneut bei YouTube oder Vimeo hoch.",
+  "mediaError.EXTERNAL_VIDEO_NOT_FOUND":
+    "Unter diesem Link wurde kein Video gefunden. Prüfe die URL und versuche es erneut.",
+  "mediaError.EXTERNAL_VIDEO_UNLISTED":
+    "Dieses Video ist privat oder nicht gelistet. Stelle es öffentlich und füge es erneut hinzu.",
+  "mediaError.FILE_STORAGE_LIMIT_EXCEEDED":
+    "Der Dateispeicher deines Shops ist voll. Lösche Dateien unter Inhalte → Dateien und versuche es erneut.",
+  "mediaError.IMAGE_DOWNLOAD_FAILURE":
+    "Shopify konnte dieses Bild nicht herunterladen. Lade es erneut hoch.",
+  "mediaError.IMAGE_PROCESSING_FAILURE":
+    "Shopify konnte dieses Bild nicht verarbeiten. Speichere es in einem anderen Editor neu und lade es erneut hoch.",
+  "mediaError.INVALID_IMAGE_ASPECT_RATIO":
+    "Das Seitenverhältnis dieses Bildes wird nicht unterstützt. Schneide es zu und lade es erneut hoch.",
+  "mediaError.INVALID_IMAGE_FILE_SIZE":
+    "Dieses Bild ist zu groß. Komprimiere es und lade es erneut hoch.",
+  "mediaError.INVALID_IMAGE_RESOLUTION":
+    "Die Auflösung dieses Bildes überschreitet das Limit von Shopify. Verkleinere es und lade es erneut hoch.",
+  "mediaError.INVALID_SIGNED_URL":
+    "Der Upload-Link ist abgelaufen, bevor die Datei fertig war. Lade sie erneut hoch.",
+  "mediaError.MEDIA_TIMEOUT_ERROR":
+    "Eine andere Änderung an dieser Datei lief noch. Warte einen Moment und versuche es erneut.",
+  "mediaError.UNKNOWN":
+    "Shopify konnte diese Datei nicht verarbeiten. Lade sie erneut hoch.",
+  "mediaError.UNSUPPORTED_IMAGE_FILE_TYPE":
+    "Dieses Bildformat wird nicht unterstützt. Nutze JPG, PNG, GIF oder WEBP.",
+  "mediaError.VIDEO_INVALID_FILETYPE_ERROR":
+    "Dieses Videoformat wird nicht unterstützt. Nutze MP4 oder MOV.",
+  "mediaError.VIDEO_MAX_DURATION_ERROR":
+    "Dieses Video ist länger als von Shopify erlaubt. Kürze es und lade es erneut hoch.",
+  "mediaError.VIDEO_MAX_HEIGHT_ERROR":
+    "Dieses Video ist höher als von Shopify erlaubt. Verkleinere es und lade es erneut hoch.",
+  "mediaError.VIDEO_MAX_WIDTH_ERROR":
+    "Dieses Video ist breiter als von Shopify erlaubt. Verkleinere es und lade es erneut hoch.",
+  "mediaError.VIDEO_METADATA_READ_ERROR":
+    "Shopify konnte die Daten dieses Videos nicht lesen. Exportiere es neu und lade es erneut hoch.",
+  "mediaError.VIDEO_MIN_DURATION_ERROR":
+    "Dieses Video ist zu kurz. Nutze einen längeren Clip und lade ihn erneut hoch.",
+  "mediaError.VIDEO_MIN_HEIGHT_ERROR":
+    "Die Höhe dieses Videos reicht nicht aus. Nutze eine größere Auflösung und lade es erneut hoch.",
+  "mediaError.VIDEO_MIN_WIDTH_ERROR":
+    "Dieses Video ist zu schmal. Nutze eine größere Auflösung und lade es erneut hoch.",
+  "mediaError.VIDEO_VALIDATION_ERROR":
+    "Dieses Video hat die Prüfungen von Shopify nicht bestanden. Exportiere es als MP4 und lade es erneut hoch.",
+  "mapping.reorderHandle": "Neu anordnen: Position {position} von {total}",
+  "mapping.reorderHelp":
+    "Ziehe den Griff einer Kachel, um die Galerie neu anzuordnen, oder wähle ihn aus und nutze die Pfeiltasten. Diese Reihenfolge sehen deine Kundinnen und Kunden im Shop.",
   "mapping.addFromShopify": "Aus Shopify hinzufügen",
   "mapping.pickerHeading": "Bilder aus Shopify hinzufügen",
   "mapping.pickerFiles": "Dateibibliothek",
@@ -1403,6 +1773,12 @@ const de: Record<TranslationKey, string> = {
   "settings.defaultLanguage": "Standardsprache",
   "settings.defaultLanguageHelp":
     "Wird für die Admin-Seiten der App verwendet, wenn in diesem Browser keine Sprache gewählt wurde.",
+  "settings.themeProfile": "Theme",
+  "settings.themeProfileHelp":
+    "Welche Theme-Galerie der Slider ersetzt. Lass Auto-detect stehen, außer deine Galerie wird nicht korrekt ersetzt. Ein Block im Theme-Editor kann dies pro Theme überschreiben.",
+  "settings.customGallerySelector": "Eigener Galerie-Selektor",
+  "settings.customGallerySelectorHelp":
+    "Der CSS-Selektor des Galerie-Containers deines Themes, zum Beispiel .product__media-wrapper. Finde ihn per Rechtsklick auf die Galerie und „Untersuchen“.",
   "settings.zoomGroup": "Zoom",
   "settings.zoomTrigger": "Zoom auslösen",
   "settings.zoomTriggerHelp":
@@ -1455,6 +1831,7 @@ const de: Record<TranslationKey, string> = {
     "Setzt alle Optionen auf dieser Seite auf den Standard zurück. Deine ausgewählten Produkte und die Slider-Einstellungen bleiben unverändert.",
   "settings.resetButton": "Auf Standard zurücksetzen",
   "settings.toastSaved": "Einstellungen gespeichert",
+  "settings.toastSaveFailed": "Einstellungen konnten nicht gespeichert werden. Bitte versuche es erneut.",
   "settings.toastReset": "Einstellungen auf Standard zurückgesetzt",
   "settings.sliderOptionsMoved":
     "Slider- und Zoom-Optionen findest du jetzt auf der Produktseite, wo sie pro Produkt festgelegt werden können.",
@@ -1535,6 +1912,7 @@ const fr: Record<TranslationKey, string> = {
   "analytics.productTableHeading": "Par produit",
   "analytics.colProduct": "Produit",
   "analytics.noData": "Aucune activité enregistrée pour cette période.",
+  "analytics.productRemoved": "Produit supprimé ({id})",
   "analytics.peakLabel": "pic {count}",
   "analytics.emptyHint":
     "Les statistiques apparaissent dès que les acheteurs parcourent vos galeries.",
@@ -1745,6 +2123,93 @@ const fr: Record<TranslationKey, string> = {
   "mapping.uploadTooLarge": "{filename} dépasse 20 Mo.",
   "mapping.uploadBadType": "{filename} n'est pas une image.",
   "mapping.uploadTooMany": "Téléversez au maximum 10 images à la fois.",
+  "mapping.addVideos": "Ajouter des vidéos",
+  "mapping.addVideosHelp":
+    "Téléversez des vidéos vers ce produit dans Shopify. MP4, MOV ou WebM, jusqu'à 1 Go et 10 minutes chacune. Les vidéos se lisent lorsque le client ouvre la galerie.",
+  "mapping.addExternalVideo": "Ajouter un lien vidéo",
+  "mapping.videoTooLong": "{filename} dure plus de 10 minutes, la limite de Shopify.",
+  "mapping.externalVideoLabel": "URL YouTube ou Vimeo",
+  "mapping.externalVideoHelp":
+    "Intègre la vidéo sans la téléverser. Seuls les liens YouTube et Vimeo sont pris en charge.",
+  "mapping.externalVideoInvalid": "Saisissez un lien YouTube ou Vimeo.",
+  "mapping.videoTooLarge": "{filename} dépasse 1 Go.",
+  "mapping.videoBadType": "{filename} n'est pas une vidéo MP4 ou MOV.",
+  "mapping.videoTooMany": "Téléversez au maximum 5 vidéos à la fois.",
+  "mapping.videoBadUrl":
+    "Certaines vidéos n'ont pas pu être ajoutées car elles n'ont pas été téléversées vers Shopify.",
+  "mapping.videoNoTarget": "Shopify n'a pas renvoyé d'emplacement de téléversement.",
+  "mapping.videoUploadProgress": "Téléversement… {percent}%",
+  "mapping.videoProcessing":
+    "Shopify traite la vidéo. Elle apparaîtra ici une fois l'encodage terminé, ce qui peut prendre quelques minutes.",
+  "mapping.videoBadge": "Vidéo",
+  "mapping.toastVideosAttached": "{count} vidéo(s) ajoutée(s).",
+  "mapping.videoProcessingBadge": "Traitement en cours",
+  "mapping.videoFailedBadge": "Échec",
+  "mapping.mediaPending": "Aperçu pas encore prêt",
+  "mapping.deleteMedia": "Retirer de ce produit",
+  "mapping.confirmDeleteHeading": "Retirer ce fichier ?",
+  "mapping.confirmDeleteBody":
+    "{media} sera retiré de la galerie de ce produit et de toute variante qui l'utilise. Le fichier reste dans Contenu → Fichiers, vous pourrez donc l'ajouter à nouveau plus tard.",
+  "mapping.confirmDeleteFallbackName": "Ce fichier",
+  "mapping.confirmDeleteButton": "Retirer",
+  "mapping.toastMediaDeleted": "Fichier retiré.",
+  "mapping.toastMediaDeleteFailed": "Impossible de retirer le fichier : {reason}",
+  "mapping.mediaErrorUnknown":
+    "Shopify n'a pas pu traiter ce fichier. Essayez de le téléverser à nouveau.",
+
+  "mediaError.DUPLICATE_FILENAME_ERROR":
+    "Un fichier portant ce nom existe déjà. Renommez-le et téléversez-le à nouveau.",
+  "mediaError.EXTERNAL_VIDEO_EMBED_DISABLED":
+    "Le propriétaire de cette vidéo a désactivé l'intégration. Utilisez une autre vidéo ou autorisez l'intégration dans ses paramètres.",
+  "mediaError.EXTERNAL_VIDEO_EMBED_NOT_FOUND_OR_TRANSCODING":
+    "La vidéo est introuvable ou encore en cours de traitement sur YouTube ou Vimeo. Réessayez dans un instant.",
+  "mediaError.EXTERNAL_VIDEO_INVALID_ASPECT_RATIO":
+    "Le format d'image de cette vidéo n'est pas pris en charge. Republiez-la sur YouTube ou Vimeo dans un format standard.",
+  "mediaError.EXTERNAL_VIDEO_NOT_FOUND":
+    "Aucune vidéo n'a été trouvée à ce lien. Vérifiez l'URL et réessayez.",
+  "mediaError.EXTERNAL_VIDEO_UNLISTED":
+    "Cette vidéo est privée ou non répertoriée. Rendez-la publique, puis ajoutez-la à nouveau.",
+  "mediaError.FILE_STORAGE_LIMIT_EXCEEDED":
+    "L'espace de stockage de votre boutique est saturé. Supprimez des fichiers dans Contenu → Fichiers, puis réessayez.",
+  "mediaError.IMAGE_DOWNLOAD_FAILURE":
+    "Shopify n'a pas pu télécharger cette image. Essayez de la téléverser à nouveau.",
+  "mediaError.IMAGE_PROCESSING_FAILURE":
+    "Shopify n'a pas pu traiter cette image. Réenregistrez-la dans un autre éditeur et téléversez-la à nouveau.",
+  "mediaError.INVALID_IMAGE_ASPECT_RATIO":
+    "Le format d'image de cette image n'est pas pris en charge. Recadrez-la et téléversez-la à nouveau.",
+  "mediaError.INVALID_IMAGE_FILE_SIZE":
+    "Cette image est trop volumineuse. Compressez-la et téléversez-la à nouveau.",
+  "mediaError.INVALID_IMAGE_RESOLUTION":
+    "La résolution de cette image dépasse la limite de Shopify. Réduisez-la et téléversez-la à nouveau.",
+  "mediaError.INVALID_SIGNED_URL":
+    "Le lien de téléversement a expiré avant la fin. Téléversez le fichier à nouveau.",
+  "mediaError.MEDIA_TIMEOUT_ERROR":
+    "Une autre modification de ce fichier était encore en cours. Patientez un instant et réessayez.",
+  "mediaError.UNKNOWN":
+    "Shopify n'a pas pu traiter ce fichier. Essayez de le téléverser à nouveau.",
+  "mediaError.UNSUPPORTED_IMAGE_FILE_TYPE":
+    "Ce format d'image n'est pas pris en charge. Utilisez JPG, PNG, GIF ou WEBP.",
+  "mediaError.VIDEO_INVALID_FILETYPE_ERROR":
+    "Ce format vidéo n'est pas pris en charge. Utilisez MP4 ou MOV.",
+  "mediaError.VIDEO_MAX_DURATION_ERROR":
+    "Cette vidéo dépasse la durée autorisée par Shopify. Raccourcissez-la et téléversez-la à nouveau.",
+  "mediaError.VIDEO_MAX_HEIGHT_ERROR":
+    "Cette vidéo dépasse la hauteur autorisée par Shopify. Réduisez-la et téléversez-la à nouveau.",
+  "mediaError.VIDEO_MAX_WIDTH_ERROR":
+    "Cette vidéo dépasse la largeur autorisée par Shopify. Réduisez-la et téléversez-la à nouveau.",
+  "mediaError.VIDEO_METADATA_READ_ERROR":
+    "Shopify n'a pas pu lire les informations de cette vidéo. Réexportez-la et téléversez-la à nouveau.",
+  "mediaError.VIDEO_MIN_DURATION_ERROR":
+    "Cette vidéo est trop courte. Utilisez un extrait plus long et téléversez-le à nouveau.",
+  "mediaError.VIDEO_MIN_HEIGHT_ERROR":
+    "La hauteur de cette vidéo est insuffisante. Utilisez une résolution supérieure et téléversez-la à nouveau.",
+  "mediaError.VIDEO_MIN_WIDTH_ERROR":
+    "Cette vidéo est trop étroite. Utilisez une résolution supérieure et téléversez-la à nouveau.",
+  "mediaError.VIDEO_VALIDATION_ERROR":
+    "Cette vidéo n'a pas passé les contrôles de Shopify. Exportez-la en MP4 et téléversez-la à nouveau.",
+  "mapping.reorderHandle": "Réorganiser : position {position} sur {total}",
+  "mapping.reorderHelp":
+    "Faites glisser la poignée d'une vignette pour réorganiser la galerie, ou sélectionnez-la et utilisez les touches fléchées. C'est cet ordre que voient vos clients sur la boutique.",
   "mapping.addFromShopify": "Ajouter depuis Shopify",
   "mapping.pickerHeading": "Ajouter des images depuis Shopify",
   "mapping.pickerFiles": "Bibliothèque de fichiers",
@@ -1784,6 +2249,12 @@ const fr: Record<TranslationKey, string> = {
   "settings.defaultLanguage": "Langue par défaut",
   "settings.defaultLanguageHelp":
     "Utilisée pour les pages d'administration de l'application lorsqu'aucune langue n'a été choisie dans ce navigateur.",
+  "settings.themeProfile": "Thème",
+  "settings.themeProfileHelp":
+    "Quelle galerie de thème le carrousel remplace. Laissez sur Auto-detect sauf si votre galerie n'est pas remplacée correctement. Un bloc dans l'éditeur de thème peut remplacer ce réglage par thème.",
+  "settings.customGallerySelector": "Sélecteur de galerie personnalisé",
+  "settings.customGallerySelectorHelp":
+    "Le sélecteur CSS du conteneur de la galerie produit de votre thème, par exemple .product__media-wrapper. Trouvez-le en faisant un clic droit sur la galerie puis Inspecter.",
   "settings.zoomGroup": "Zoom",
   "settings.zoomTrigger": "Déclenchement du zoom",
   "settings.zoomTriggerHelp":
@@ -1836,6 +2307,7 @@ const fr: Record<TranslationKey, string> = {
     "Rétablit toutes les options de cette page à leur valeur par défaut. Vos produits sélectionnés et les paramètres du carrousel ne sont pas affectés.",
   "settings.resetButton": "Rétablir les valeurs par défaut",
   "settings.toastSaved": "Paramètres enregistrés",
+  "settings.toastSaveFailed": "Impossible d'enregistrer les paramètres. Veuillez réessayer.",
   "settings.toastReset": "Paramètres rétablis aux valeurs par défaut",
   "settings.sliderOptionsMoved":
     "Les options de carrousel et de zoom se trouvent désormais sur la page Produits, où elles peuvent être définies par produit.",

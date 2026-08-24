@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { CSSProperties } from "react";
 import { useLanguage } from "../i18n/LanguageContext";
+import { isPlayableMedia } from "../products";
 import type { SliderImage } from "../products";
 import type { SliderOptions } from "../slider-options";
 
@@ -81,6 +82,42 @@ const TRANSITION_KEYFRAMES = `
     .gn-preview-stage-image { animation-name: gn-preview-fade !important; }
   }
 `;
+
+/**
+ * Marks a video entry the way the storefront does — the mock shows the poster, because
+ * the storefront gallery shows the poster too; playback only happens in the lightbox,
+ * which this mock has no equivalent of.
+ */
+/**
+ * Stands in for a video whose poster Shopify has not produced yet.
+ *
+ * An `<img>` with an empty `src` re-requests the current page in several browsers and
+ * draws a broken-image glyph, so a poster-less entry gets a plain box that holds its slot
+ * in the layout instead.
+ */
+function PendingMedia({ style }: { style: CSSProperties }) {
+  return <div style={{ ...style, background: "#e4dcfb", border: "1px dashed #b9a4ee" }} />;
+}
+
+function PlayBadge({ size }: { size: number }) {
+  return (
+    <span
+      aria-hidden="true"
+      style={{
+        position: "absolute",
+        inset: 0,
+        display: "grid",
+        placeItems: "center",
+        fontSize: size,
+        color: "#ffffff",
+        textShadow: "0 1px 4px rgba(0, 0, 0, 0.55)",
+        pointerEvents: "none",
+      }}
+    >
+      ▶
+    </span>
+  );
+}
 
 /**
  * Only polaroid and card carry a permanently visible caption. The hover-overlay effect
@@ -235,17 +272,33 @@ export function SliderPreview({
                 ...thumbShapeStyle(options.thumbnailShape, thumbSize),
               }}
             >
-              <img
-                src={image.url}
-                alt={image.alt ?? ""}
+              <span
                 style={{
+                  position: "relative",
                   width: "100%",
                   height: thumbSize,
                   flex: "0 0 auto",
-                  objectFit: "cover",
-                  display: "block",
+                  lineHeight: 0,
                 }}
-              />
+              >
+                {image.url ? (
+                  <img
+                    src={image.url}
+                    alt={image.alt ?? ""}
+                    style={{
+                      width: "100%",
+                      height: thumbSize,
+                      objectFit: "cover",
+                      display: "block",
+                    }}
+                  />
+                ) : (
+                  <PendingMedia style={{ width: "100%", height: thumbSize }} />
+                )}
+                {isPlayableMedia(image) ? (
+                  <PlayBadge size={Math.round(thumbSize / 2.5)} />
+                ) : null}
+              </span>
               {showsPreviewCaption(options) && image.alt ? (
                 <span
                   style={{
@@ -294,16 +347,21 @@ export function SliderPreview({
                 background: "linear-gradient(135deg, #d9cffb, #b9a4ee)",
               }}
             >
-              <img
-                src={image.url}
-                alt={image.alt ?? ""}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  display: "block",
-                }}
-              />
+              {image.url ? (
+                <img
+                  src={image.url}
+                  alt={image.alt ?? ""}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    display: "block",
+                  }}
+                />
+              ) : (
+                <PendingMedia style={{ width: "100%", height: "100%" }} />
+              )}
+              {isPlayableMedia(image) ? <PlayBadge size={28} /> : null}
             </div>
           ))}
         </div>
@@ -334,7 +392,10 @@ export function SliderPreview({
       ) : (
       <div style={stageStyle}>
         <style>{TRANSITION_KEYFRAMES}</style>
-        {active ? (
+        {active && !active.url ? (
+          <PendingMedia style={{ width: "100%", height: "100%" }} />
+        ) : null}
+        {active && active.url ? (
           // Keyed on the transition settings as well as the index, so changing the
           // dropdown or the speed replays it immediately instead of waiting for the
           // next thumbnail click.
@@ -354,6 +415,7 @@ export function SliderPreview({
             }}
           />
         ) : null}
+        {active && isPlayableMedia(active) ? <PlayBadge size={44} /> : null}
         {zoomDot}
       </div>
       )}

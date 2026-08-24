@@ -6,10 +6,38 @@ const gridStyle: CSSProperties = {
   gap: 10,
 };
 
+/**
+ * `accent` mixed with white, `weight` being the accent's share (0-1).
+ *
+ * Computed here rather than with CSS `color-mix()` on purpose: an unsupported `color-mix`
+ * makes the whole declaration invalid, which would leave these cards with *no* background
+ * — showing the grey page through them — instead of falling back to white. A resolved
+ * `rgb()` has no such cliff.
+ */
+export const tint = (accent: string, weight: number) => {
+  const hex = accent.replace("#", "");
+  if (hex.length !== 6) return "#ffffff";
+
+  const channel = (start: number) => {
+    const value = parseInt(hex.slice(start, start + 2), 16);
+    return Number.isNaN(value) ? 255 : Math.round(value * weight + 255 * (1 - weight));
+  };
+
+  return `rgb(${channel(0)}, ${channel(2)}, ${channel(4)})`;
+};
+
+/**
+ * A tint of the card's own accent, plus a solid edge in that accent.
+ *
+ * The tint is kept very light on purpose: the value and label sit on this surface as dark
+ * ink, so the background has to stay far enough from them to keep text contrast. The accent
+ * earns its visibility from the 3px edge, which is a mark rather than a text background and
+ * so is not bound by the text-contrast floor.
+ */
 const cardStyle = (accent: string): CSSProperties => ({
-  borderTop: `2px solid ${accent}`,
+  borderLeft: `3px solid ${accent}`,
   borderRadius: 8,
-  background: "#ffffff",
+  background: tint(accent, 0.07),
   boxShadow: "0 1px 6px rgba(60, 30, 110, 0.05)",
   padding: "12px 14px",
   minHeight: 96,
@@ -30,7 +58,10 @@ const labelStyle: CSSProperties = {
   fontWeight: 600,
   letterSpacing: "0.04em",
   textTransform: "uppercase",
-  color: "#8a7bb5",
+  // Neutral muted ink, not the old purple-tinted one: these cards now come in four hues,
+  // and a violet-cast label reads as a mistake on the orange and aqua tints. It is also
+  // darker, which lifts this 11px label clear of the contrast floor it was sitting on.
+  color: "#5c5866",
   lineHeight: 1.25,
   minHeight: "2.5em",
   display: "-webkit-box",
@@ -51,7 +82,10 @@ const valueStyle: CSSProperties = {
 
 const captionStyle: CSSProperties = {
   fontSize: 11,
-  color: "#8a7bb5",
+  // Neutral muted ink, not the old purple-tinted one: these cards now come in four hues,
+  // and a violet-cast label reads as a mistake on the orange and aqua tints. It is also
+  // darker, which lifts this 11px label clear of the contrast floor it was sitting on.
+  color: "#5c5866",
   lineHeight: 1.2,
 };
 

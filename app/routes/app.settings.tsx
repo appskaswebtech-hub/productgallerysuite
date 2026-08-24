@@ -11,8 +11,26 @@ import { authenticate } from "../shopify.server";
 import {
   DEFAULT_APP_SETTINGS,
   HEX_COLOR,
+  MAX_GALLERY_SELECTOR_LENGTH,
+  THEME_PROFILES,
   appSettingsFromFormData,
+  type ThemeProfile,
 } from "../app-settings";
+
+/**
+ * Theme names are proper nouns and stay in English in every locale. Dawn's label names the
+ * themes that share its markup, so a merchant on Craft or Sense knows which entry is theirs
+ * without having to test.
+ */
+const THEME_PROFILE_LABELS: Record<ThemeProfile, string> = {
+  auto: "Auto-detect",
+  horizon: "Horizon",
+  dawn: "Dawn (and Craft, Refresh, Sense, Studio, Taste)",
+  impulse: "Impulse",
+  debut: "Debut",
+  prestige: "Prestige",
+  custom: "Custom selector",
+};
 import { getAppSettings, resolveLocale, saveAppSettings } from "../settings.server";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
@@ -33,15 +51,31 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const locale = await resolveLocale(request, session.shop);
   const formData = await request.formData();
 
-  if (formData.get("intent")?.toString() === "reset") {
-    await saveAppSettings(session.shop, DEFAULT_APP_SETTINGS);
+  const isReset = formData.get("intent")?.toString() === "reset";
 
-    return { ok: true, message: translate(locale, "settings.toastReset") };
+  /**
+   * Guarded because an unhandled throw here reaches the ErrorBoundary, which replaces the
+   * whole page with "Application Error" and a stack trace — one such crash printed the
+   * settings table's column list into the merchant's browser.
+   *
+   * The exception text deliberately does not reach the toast for that same reason: the
+   * merchant gets a readable message, the detail goes to the server log.
+   */
+  try {
+    await saveAppSettings(
+      session.shop,
+      isReset ? DEFAULT_APP_SETTINGS : appSettingsFromFormData(formData),
+    );
+  } catch (error) {
+    console.error("[settings] save failed", error);
+
+    return { ok: false, message: translate(locale, "settings.toastSaveFailed") };
   }
 
-  await saveAppSettings(session.shop, appSettingsFromFormData(formData));
-
-  return { ok: true, message: translate(locale, "settings.toastSaved") };
+  return {
+    ok: true,
+    message: translate(locale, isReset ? "settings.toastReset" : "settings.toastSaved"),
+  };
 };
 
 export default function Settings() {
@@ -55,6 +89,12 @@ export default function Settings() {
   const [defaultLocale, setDefaultLocale] = useState(loaderData.defaultLocale);
   const [lazyLoadImages, setLazyLoadImages] = useState(loaderData.lazyLoadImages);
   const [accentColor, setAccentColor] = useState(loaderData.accentColor);
+  const [themeProfile, setThemeProfile] = useState<ThemeProfile>(
+    loaderData.themeProfile,
+  );
+  const [customGallerySelector, setCustomGallerySelector] = useState(
+    loaderData.customGallerySelector,
+  );
 
   const isSaving = navigation.state === "submitting";
   const isAccentColorValid = HEX_COLOR.test(accentColor);
@@ -64,11 +104,15 @@ export default function Settings() {
     setDefaultLocale(loaderData.defaultLocale);
     setLazyLoadImages(loaderData.lazyLoadImages);
     setAccentColor(loaderData.accentColor);
+    setThemeProfile(loaderData.themeProfile);
+    setCustomGallerySelector(loaderData.customGallerySelector);
   }, [
     loaderData.appEnabled,
     loaderData.defaultLocale,
     loaderData.lazyLoadImages,
     loaderData.accentColor,
+    loaderData.themeProfile,
+    loaderData.customGallerySelector,
   ]);
 
   useEffect(() => {
@@ -165,6 +209,36 @@ export default function Settings() {
                 </s-option>
               ))}
             </s-select>
+
+            {/* Theme names are proper nouns, so the option labels are not translated —
+                only the field's own label and help text are. */}
+            <s-select
+              key={`themeProfile-${locale}`}
+              label={t("settings.themeProfile")}
+              details={t("settings.themeProfileHelp")}
+              value={themeProfile}
+              onChange={(event) =>
+                setThemeProfile(event.currentTarget.value as ThemeProfile)
+              }
+            >
+              {THEME_PROFILES.map((profile) => (
+                <s-option key={profile} value={profile}>
+                  {THEME_PROFILE_LABELS[profile]}
+                </s-option>
+              ))}
+            </s-select>
+
+            {themeProfile === "custom" ? (
+              <s-text-field
+                label={t("settings.customGallerySelector")}
+                details={t("settings.customGallerySelectorHelp")}
+                value={customGallerySelector}
+                maxLength={MAX_GALLERY_SELECTOR_LENGTH}
+                onInput={(event) =>
+                  setCustomGallerySelector(event.currentTarget.value)
+                }
+              />
+            ) : null}
           </s-stack>
         </div>
       </s-section>
@@ -234,6 +308,14 @@ export default function Settings() {
             <input type="hidden" name="lazyLoadImages" value="on" />
           ) : null}
           <input type="hidden" name="accentColor" value={accentColor} />
+          <input type="hidden" name="themeProfile" value={themeProfile} />
+          {/* Sent whatever the profile is, so switching away from Custom and back does not
+              lose a selector the merchant already typed. */}
+          <input
+            type="hidden"
+            name="customGallerySelector"
+            value={customGallerySelector}
+          />
           <s-button
             type="submit"
             variant="primary"

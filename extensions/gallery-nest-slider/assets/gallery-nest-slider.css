@@ -81,10 +81,20 @@
   aspect-ratio: auto;
 }
 
+/**
+ * The track carries the square ratio, so the carousel row is exactly as tall as the stage
+ * is in single-image mode: its width is 100% of the stage, and 1:1 turns that into the same
+ * height the single stage resolves to.
+ *
+ * On the track rather than the stage because the drag bar renders *inside* the stage —
+ * a square stage would make the track and the bar share that height, leaving the images
+ * short of single-image size.
+ */
 .gn-slider__track {
   display: flex;
   gap: 8px;
   width: 100%;
+  aspect-ratio: 1 / 1;
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
@@ -96,10 +106,18 @@
   display: none;
 }
 
+/**
+ * Width is a share of the row; height comes from the track.
+ *
+ * Deliberately *not* `aspect-ratio: 1 / 1`. A slide is already only 1/per-view wide, and a
+ * square ratio then pulled its height down to match — which is what made a portrait image
+ * render at roughly a third of its single-image size. Without a ratio the slide stretches to
+ * the track's full height (flex `align-items` defaults to `stretch`), so the image is
+ * width-limited instead and fills the strip.
+ */
 .gn-slider__slide {
   position: relative;
   flex: 0 0 calc((100% - (var(--gn-per-view, 3) - 1) * 8px) / var(--gn-per-view, 3));
-  aspect-ratio: 1 / 1;
   /* Its own clipping context, so a zoomed slide is cropped to itself rather than
      spilling over its neighbours. */
   overflow: hidden;
@@ -116,12 +134,22 @@
 
 /* The drag bar. Lives inside the stage, below the track, so it lands under the images
    whichever column the thumbnail strip occupies. */
+/**
+ * The drag bar. Its thumb is the only control here — no arrows.
+ *
+ * That costs nothing in keyboard terms: the bar is `role="slider" tabindex="0"` and handles
+ * Left/Right/Home/End itself, so it stays fully operable without a pointer even in
+ * `slider` navigation, where it is the only visible control on the carousel.
+ */
 .gn-slider__scroller {
   position: relative;
-  height: 6px;
+  height: 12px;
   margin-top: 10px;
   border-radius: 999px;
-  background: rgba(18, 18, 18, 0.1);
+  /* An inset hairline makes this read as a groove holding a handle, rather than as a
+     decorative rule under the images. */
+  background: rgba(18, 18, 18, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(18, 18, 18, 0.06);
   cursor: pointer;
   /* Without this a drag on a phone scrolls the page instead of the carousel. */
   touch-action: none;
@@ -132,15 +160,42 @@
   outline-offset: 3px;
 }
 
+/**
+ * The handle. Everything here exists to say "grab me".
+ *
+ * `min-width` is the biggest lever: the thumb's width tracks how much of the row is on
+ * screen, so on a long gallery it collapses to a sliver that looks like a progress mark
+ * rather than a control. 40px keeps it reading as a block.
+ *
+ * The fill stays `--gn-active` rather than a fixed colour so it follows the merchant's
+ * accent setting — a hardcoded hue would look right on one shop and wrong on every other.
+ */
 .gn-slider__scroller-thumb {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
-  /* A long gallery would otherwise leave a sliver too small to grab. */
-  min-width: 24px;
+  min-width: 40px;
   border-radius: 999px;
   background: var(--gn-active);
+  box-shadow: 0 1px 3px rgba(18, 18, 18, 0.35);
+  cursor: grab;
+}
+
+.gn-slider__scroller-thumb:hover {
+  filter: brightness(1.15);
+}
+
+/**
+ * Driven by a class the JS toggles, not `:active`.
+ *
+ * The drag is pointer-captured on the *track*, so once the pointer moves off the thumb
+ * `:active` stops matching and the cursor would flip back to a grab hand mid-drag. The
+ * class outlives the gesture, which is the whole point.
+ */
+.gn-slider__scroller.is-dragging,
+.gn-slider__scroller.is-dragging .gn-slider__scroller-thumb {
+  cursor: grabbing;
 }
 
 /**
@@ -346,6 +401,72 @@
   object-fit: contain;
 }
 
+/* ---- Video --------------------------------------------------------------- */
+
+/* Wraps whatever the lightbox is currently showing. It exists so the viewer can swap an
+   <img> for a <video> or an <iframe> without the grid centring being re-derived each
+   time — and so closing the lightbox has one node to tear down. */
+.gn-lightbox__frame {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+}
+
+.gn-lightbox__video {
+  display: block;
+  width: auto;
+  max-width: min(72vw, 920px);
+  max-height: 74vh;
+  background: #000000;
+}
+
+/* An iframe has no intrinsic size, so unlike the video above it has to be given one.
+   16:9 is what both YouTube and Vimeo letterbox into. */
+.gn-lightbox__embed {
+  display: block;
+  width: min(72vw, 920px);
+  aspect-ratio: 16 / 9;
+  max-height: 74vh;
+  border: 0;
+  background: #000000;
+}
+
+/**
+ * The play triangle over a video's poster, in the slider and in both thumbnail strips.
+ *
+ * Deliberately keeps pointer events: the click listeners sit on the stage and the track
+ * and read `event.target.closest(...)`, so a click on the badge still resolves to its
+ * slide — and this is what gives a video a pointer cursor without disturbing the
+ * zoom-in / resize cursors the JS assigns to images.
+ */
+.gn-play-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  width: 34%;
+  max-width: 56px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.gn-play-badge[hidden] {
+  display: none;
+}
+
+.gn-play-badge svg {
+  width: 46%;
+  height: 46%;
+  /* Nudged right so the triangle's visual centre sits on the circle's centre. */
+  margin-left: 6%;
+  fill: currentColor;
+}
+
 .gn-lightbox__nav {
   position: absolute;
   top: 50%;
@@ -371,6 +492,8 @@
 
 .gn-lightbox__thumb {
   flex: 0 0 auto;
+  /* As above: the play badge is absolutely positioned against this. */
+  position: relative;
   width: 54px;
   height: 54px;
   padding: 0;
@@ -433,6 +556,9 @@
 
 .gn-slider__thumb {
   flex: 0 0 auto;
+  /* Containing block for the play badge; buttons are not positioned by default, so
+     without this the badge would escape to the page. */
+  position: relative;
   width: var(--gn-thumb-size);
   height: var(--gn-thumb-size);
   padding: 0;

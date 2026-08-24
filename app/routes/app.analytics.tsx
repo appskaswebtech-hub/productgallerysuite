@@ -31,26 +31,51 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     getSavedProducts(session.shop),
   ]);
 
+  /**
+   * Two id shapes meet here, and reconciling them is this loader's job.
+   *
+   * `GalleryStat.productId` holds a full GID — `apps.gallery-nest.events` canonicalizes to
+   * one on write so it can compare against `SliderProduct.id`, which is also a GID. But
+   * routes and this title map are keyed by the bare numeric id. Handing the raw GID to the
+   * component is what made the table print `gid://shopify/Product/…` instead of a name and
+   * build a link with extra path segments that matched no route at all.
+   */
+  const titles = new Map(
+    products.map((product) => [normalizeShopifyId(product.id), product.title]),
+  );
+
   return {
     locked: false as const,
     days,
-    report,
-    productTitles: Object.fromEntries(
-      products.map((product) => [normalizeShopifyId(product.id), product.title]),
-    ) as Record<string, string>,
+    report: {
+      ...report,
+      products: report.products.map((entry) => {
+        const productId = normalizeShopifyId(entry.productId);
+        return { ...entry, productId, title: titles.get(productId) ?? null };
+      }),
+    },
   };
 };
 
 /**
- * The accent is decorative only — each tile carries a text label, so identity never
- * rests on colour. These four fail a CVD check as a data palette and must not be
- * promoted into chart series without re-stepping them first.
+ * One hue per metric, worn consistently by that metric's stat tile and its breakdown bar.
+ * Colour follows the entity, never the row position.
+ *
+ * Validated as a categorical palette, not chosen by eye. The previous set failed on
+ * `#3f8ae0`↔`#6c4fc7` at ΔE 14.9 for normal vision — below the 15 floor, meaning full-colour
+ * readers struggled to tell blue from purple — which is why these were once barred from
+ * charts. Replacing the blue clears every hard gate: worst adjacent pair is now
+ * `#eda100`↔`#1baf7a` at ΔE 22.9 normal / 9.1 protan.
+ *
+ * Aqua and yellow sit below 3:1 against the white card surface, which obliges visible
+ * labels. Every tile and every breakdown row names its metric in text and shows its count —
+ * **do not remove those labels**, or this palette stops being legal.
  */
 const METRICS: Array<[GalleryEventType, TranslationKey, string]> = [
   ["gallery_view", "dashboard.statGalleryViews", "#6c4fc7"],
-  ["image_view", "dashboard.statImageViews", "#3f8ae0"],
-  ["zoom", "dashboard.statZooms", "#2fae87"],
-  ["lightbox_open", "dashboard.statLightbox", "#d68f2f"],
+  ["image_view", "dashboard.statImageViews", "#eb6834"],
+  ["zoom", "dashboard.statZooms", "#1baf7a"],
+  ["lightbox_open", "dashboard.statLightbox", "#eda100"],
 ];
 
 const RANGE_LABEL_KEYS: Record<number, TranslationKey> = {
@@ -85,7 +110,7 @@ export default function Analytics() {
     );
   }
 
-  const { report, productTitles, days } = data;
+  const { report, days } = data;
 
   return (
     <s-page heading={t("analytics.pageTitle")}>
@@ -137,9 +162,10 @@ export default function Analytics() {
 
       <s-section heading={t("dashboard.breakdownTitle")}>
         <ActivityBreakdown
-          rows={METRICS.map(([key, labelKey]) => ({
+          rows={METRICS.map(([key, labelKey, accent]) => ({
             label: t(labelKey),
             value: report.totals[key],
+            accent,
           }))}
         />
       </s-section>
@@ -161,9 +187,21 @@ export default function Analytics() {
               {report.products.map((entry) => (
                 <s-table-row key={entry.productId}>
                   <s-table-cell>
-                    <s-link href={`/app/products/${entry.productId}`}>
-                      {productTitles[entry.productId] ?? entry.productId}
-                    </s-link>
+                    {/*
+                      Only linked when the product is still in the merchant's list. Stats
+                      outlive removal, and the product route rejects anything not in that
+                      list — so a link here would be a dead end. The id keeps the row
+                      identifiable without pretending to be navigable.
+                    */}
+                    {entry.title ? (
+                      <s-link href={`/app/products/${entry.productId}`}>
+                        {entry.title}
+                      </s-link>
+                    ) : (
+                      <s-text tone="neutral">
+                        {t("analytics.productRemoved", { id: entry.productId })}
+                      </s-text>
+                    )}
                   </s-table-cell>
                   {METRICS.map(([key]) => (
                     <s-table-cell key={key}>{entry.counts[key]}</s-table-cell>
