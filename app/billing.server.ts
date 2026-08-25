@@ -68,6 +68,7 @@ export const syncBillingPlan = async ({
     return {
       plan: normalizePlan(cached?.plan),
       subscriptionId: cached?.subscriptionId ?? null,
+      starterAccepted: cached?.starterAcceptedAt != null,
       stale: true,
     };
   }
@@ -78,7 +79,15 @@ export const syncBillingPlan = async ({
   );
   const plan = normalizePlan(subscription?.name);
 
-  await prisma.shopBilling.upsert({
+  /**
+   * Writes `plan` and `subscriptionId` and **nothing else**.
+   *
+   * That omission is load-bearing: `starterAcceptedAt` records a merchant's deliberate
+   * choice of the free plan, and this function runs on every request. Adding it to `update`
+   * — even as `starterAcceptedAt: null` for tidiness — would erase that choice on the next
+   * page load and the paywall would reappear at random.
+   */
+  const record = await prisma.shopBilling.upsert({
     where: { shop },
     create: {
       shop,
@@ -94,8 +103,32 @@ export const syncBillingPlan = async ({
   return {
     plan,
     subscriptionId: subscription?.id ?? null,
+    starterAccepted: record.starterAcceptedAt != null,
     stale: false,
   };
+};
+
+/**
+ * Records that the merchant chose the free Starter plan, which is what lifts the paywall for
+ * a shop with no paid subscription.
+ *
+ * There is no Shopify call to make here — Starter is the absence of a subscription, so
+ * accepting it is purely local state.
+ */
+export const acceptStarterPlan = async (shop: string) => {
+  await prisma.shopBilling.upsert({
+    where: { shop },
+    create: {
+      shop,
+      plan: STARTER_PLAN,
+      starterAcceptedAt: new Date(),
+    },
+    update: {
+      plan: STARTER_PLAN,
+      subscriptionId: null,
+      starterAcceptedAt: new Date(),
+    },
+  });
 };
 
 export const getCachedBillingPlan = async (shop: string) => {

@@ -70,7 +70,7 @@ const en = {
     "All {count} products will stop using the GalleryNest slider, and their custom options and variant image mappings will be lost. This cannot be undone.",
   "products.confirmRemoveButton": "Remove",
 
-  "dashboard.pageTitle": "Product image slider",
+  "dashboard.pageTitle": "NestGallery",
   "dashboard.selectProducts": "Select products",
   "dashboard.heroTitle": "GalleryNest",
   "dashboard.heroHeadline": "A refined image gallery for your storefront",
@@ -183,8 +183,18 @@ const en = {
   "dashboard.toastSettingsSaved": "Slider settings saved",
   "dashboard.toastPlanLimit": "Your {plan} plan allows up to {limit} products.",
 
-  "billing.breadcrumb": "Product image slider",
+  "billing.breadcrumb": "NestGallery",
   "billing.pageTitle": "Billing",
+  "billing.gateHeading": "Choose a plan to continue",
+  "billing.gateBody":
+    "GalleryNest needs an active plan before you can set up your galleries. Pick a plan to unlock the app.",
+  "billing.gateAction": "See plans",
+  "billing.gateBadge": "Get started",
+  "billing.gatePopular": "Most popular",
+  "billing.gatePerMonth": "/ month",
+  "billing.gateStartWith": "Start with {plan}",
+  "billing.gateFooter":
+    "Cancel anytime from your Shopify admin · Billed in USD · Charged securely through Shopify",
   "billing.heroTagline":
     "Pick the plan that fits how many products need the GalleryNest slider.",
   "billing.choosePlan": "Choose a plan",
@@ -212,7 +222,7 @@ const en = {
   "billing.toastStarterSelected": "Starter plan selected",
   "billing.toastInvalidPlan": "Select a valid plan",
 
-  "mapping.breadcrumb": "Product image slider",
+  "mapping.breadcrumb": "NestGallery",
   "mapping.heading": "Variant image mapping",
   "mapping.intro":
     "Pick a variant, then choose which product images should appear inside the zoom gallery for that variant.",
@@ -340,7 +350,7 @@ const en = {
   "mapping.toastSaved": "Image mapping saved",
   "mapping.toastUpgrade": "Upgrade your plan to map this product.",
 
-  "settings.breadcrumb": "Product image slider",
+  "settings.breadcrumb": "NestGallery",
   "settings.pageTitle": "Settings",
   "settings.heroTagline":
     "App-wide options that apply to every product using the GalleryNest slider.",
@@ -410,7 +420,7 @@ const en = {
   "settings.sliderOptionsMoved":
     "Slider and zoom options now live on the Products page, where they can be set per product.",
 
-  "help.breadcrumb": "Product image slider",
+  "help.breadcrumb": "NestGallery",
   "help.pageTitle": "Help",
   "help.heroTagline":
     "Set up GalleryNest, learn how it behaves, and fix the most common issues.",
@@ -542,7 +552,7 @@ const es: Record<TranslationKey, string> = {
     "Los {count} productos dejarán de usar el carrusel de GalleryNest y se perderán sus opciones personalizadas y sus asignaciones de imágenes por variante. Esta acción no se puede deshacer.",
   "products.confirmRemoveButton": "Quitar",
 
-  "dashboard.pageTitle": "Carrusel de imágenes del producto",
+  "dashboard.pageTitle": "NestGallery",
   "dashboard.selectProducts": "Seleccionar productos",
   "dashboard.heroTitle": "GalleryNest",
   "dashboard.heroHeadline": "Una galería de imágenes refinada para tu tienda",
@@ -656,8 +666,18 @@ const es: Record<TranslationKey, string> = {
   "dashboard.toastSettingsSaved": "Ajustes del carrusel guardados",
   "dashboard.toastPlanLimit": "Tu plan {plan} permite hasta {limit} productos.",
 
-  "billing.breadcrumb": "Carrusel de imágenes del producto",
+  "billing.breadcrumb": "NestGallery",
   "billing.pageTitle": "Facturación",
+  "billing.gateHeading": "Elige un plan para continuar",
+  "billing.gateBody":
+    "GalleryNest necesita un plan activo antes de que puedas configurar tus galerías. Elige un plan para desbloquear la app.",
+  "billing.gateAction": "Ver planes",
+  "billing.gateBadge": "Empezar",
+  "billing.gatePopular": "Más popular",
+  "billing.gatePerMonth": "/ mes",
+  "billing.gateStartWith": "Empezar con {plan}",
+  "billing.gateFooter":
+    "Cancela cuando quieras desde tu panel de Shopify · Facturado en USD · Cobro seguro a través de Shopify",
   "billing.heroTagline":
     "Elige el plan que se ajuste a cuántos productos necesitan el carrusel de GalleryNest.",
   "billing.choosePlan": "Elige un plan",
@@ -686,7 +706,7 @@ const es: Record<TranslationKey, string> = {
   "billing.toastStarterSelected": "Plan Starter seleccionado",
   "billing.toastInvalidPlan": "Selecciona un plan válido",
 
-  "mapping.breadcrumb": "Carrusel de imágenes del producto",
+  "mapping.breadcrumb": "NestGallery",
   "mapping.heading": "Asignación de imágenes por variante",
   "mapping.intro":
     "Elige una variante y luego selecciona qué imágenes del producto deben aparecer en la galería de zoom para esa variante.",
@@ -816,7 +836,7 @@ const es: Record<TranslationKey, string> = {
   "mapping.toastSaved": "Asignación de imágenes guardada",
   "mapping.toastUpgrade": "Mejora tu plan para asignar este producto.",
 
-  "settings.breadcrumb": "Carrusel de imágenes del producto",
+  "settings.breadcrumb": "NestGallery",
   "settings.pageTitle": "Ajustes",
   "settings.heroTagline":
     "Opciones globales que se aplican a todos los productos que usan el carrusel de GalleryNest.",
@@ -886,7 +906,7 @@ const es: Record<TranslationKey, string> = {
   "settings.sliderOptionsMoved":
     "Las opciones de carrusel y zoom ahora están en la página Productos, donde se pueden definir por producto.",
 
-  "help.breadcrumb": "Carrusel de imágenes del producto",
+  "help.breadcrumb": "NestGallery",
   "help.pageTitle": "Ayuda",
   "help.heroTagline":
     "Configura GalleryNest, entiende cómo funciona y resuelve los problemas más comunes.",
@@ -1016,7 +1036,7 @@ const it: Record<TranslationKey, string> = {
     "Tutti i {count} prodotti smetteranno di usare lo slider GalleryNest e le loro opzioni personalizzate e mappature delle immagini per variante andranno perse. L'operazione non può essere annullata.",
   "products.confirmRemoveButton": "Rimuovi",
 
-  "dashboard.pageTitle": "Slider immagini prodotto",
+  "dashboard.pageTitle": "NestGallery",
   "dashboard.selectProducts": "Seleziona prodotti",
   "dashboard.heroTitle": "GalleryNest",
   "dashboard.heroHeadline": "Una galleria immagini raffinata per il tuo negozio",
@@ -1130,8 +1150,18 @@ const it: Record<TranslationKey, string> = {
   "dashboard.toastSettingsSaved": "Impostazioni slider salvate",
   "dashboard.toastPlanLimit": "Il tuo piano {plan} consente fino a {limit} prodotti.",
 
-  "billing.breadcrumb": "Slider immagini prodotto",
+  "billing.breadcrumb": "NestGallery",
   "billing.pageTitle": "Fatturazione",
+  "billing.gateHeading": "Scegli un piano per continuare",
+  "billing.gateBody":
+    "GalleryNest ha bisogno di un piano attivo prima che tu possa configurare le tue gallerie. Scegli un piano per sbloccare l'app.",
+  "billing.gateAction": "Vedi i piani",
+  "billing.gateBadge": "Inizia",
+  "billing.gatePopular": "Più popolare",
+  "billing.gatePerMonth": "/ mese",
+  "billing.gateStartWith": "Inizia con {plan}",
+  "billing.gateFooter":
+    "Annulla quando vuoi dal tuo admin Shopify · Fatturato in USD · Pagamento sicuro tramite Shopify",
   "billing.heroTagline":
     "Scegli il piano adatto al numero di prodotti che necessitano dello slider GalleryNest.",
   "billing.choosePlan": "Scegli un piano",
@@ -1160,7 +1190,7 @@ const it: Record<TranslationKey, string> = {
   "billing.toastStarterSelected": "Piano Starter selezionato",
   "billing.toastInvalidPlan": "Seleziona un piano valido",
 
-  "mapping.breadcrumb": "Slider immagini prodotto",
+  "mapping.breadcrumb": "NestGallery",
   "mapping.heading": "Mappatura immagini per variante",
   "mapping.intro":
     "Scegli una variante, poi seleziona quali immagini del prodotto devono apparire nella galleria zoom per quella variante.",
@@ -1291,7 +1321,7 @@ const it: Record<TranslationKey, string> = {
   "mapping.toastSaved": "Mappatura immagini salvata",
   "mapping.toastUpgrade": "Aggiorna il tuo piano per mappare questo prodotto.",
 
-  "settings.breadcrumb": "Slider immagini prodotto",
+  "settings.breadcrumb": "NestGallery",
   "settings.pageTitle": "Impostazioni",
   "settings.heroTagline":
     "Opzioni globali valide per tutti i prodotti che usano lo slider GalleryNest.",
@@ -1361,7 +1391,7 @@ const it: Record<TranslationKey, string> = {
   "settings.sliderOptionsMoved":
     "Le opzioni di slider e zoom si trovano ora nella pagina Prodotti, dove possono essere impostate per singolo prodotto.",
 
-  "help.breadcrumb": "Slider immagini prodotto",
+  "help.breadcrumb": "NestGallery",
   "help.pageTitle": "Aiuto",
   "help.heroTagline":
     "Configura GalleryNest, scopri come si comporta e risolvi i problemi più comuni.",
@@ -1491,7 +1521,7 @@ const de: Record<TranslationKey, string> = {
     "Alle {count} Produkte verwenden dann nicht mehr den GalleryNest-Slider, und ihre eigenen Optionen sowie Variantenzuordnungen der Bilder gehen verloren. Das lässt sich nicht rückgängig machen.",
   "products.confirmRemoveButton": "Entfernen",
 
-  "dashboard.pageTitle": "Produktbilder-Slider",
+  "dashboard.pageTitle": "NestGallery",
   "dashboard.selectProducts": "Produkte auswählen",
   "dashboard.heroTitle": "GalleryNest",
   "dashboard.heroHeadline": "Eine elegante Bildergalerie für deinen Shop",
@@ -1605,8 +1635,18 @@ const de: Record<TranslationKey, string> = {
   "dashboard.toastSettingsSaved": "Slider-Einstellungen gespeichert",
   "dashboard.toastPlanLimit": "Dein {plan}-Plan erlaubt bis zu {limit} Produkte.",
 
-  "billing.breadcrumb": "Produktbilder-Slider",
+  "billing.breadcrumb": "NestGallery",
   "billing.pageTitle": "Abrechnung",
+  "billing.gateHeading": "Wähle einen Tarif, um fortzufahren",
+  "billing.gateBody":
+    "GalleryNest benötigt einen aktiven Tarif, bevor du deine Galerien einrichten kannst. Wähle einen Tarif, um die App freizuschalten.",
+  "billing.gateAction": "Tarife ansehen",
+  "billing.gateBadge": "Loslegen",
+  "billing.gatePopular": "Am beliebtesten",
+  "billing.gatePerMonth": "/ Monat",
+  "billing.gateStartWith": "Mit {plan} starten",
+  "billing.gateFooter":
+    "Jederzeit im Shopify-Admin kündbar · Abrechnung in USD · Sichere Zahlung über Shopify",
   "billing.heroTagline":
     "Wähle den Plan, der zur Anzahl der Produkte mit GalleryNest-Slider passt.",
   "billing.choosePlan": "Plan auswählen",
@@ -1635,7 +1675,7 @@ const de: Record<TranslationKey, string> = {
   "billing.toastStarterSelected": "Starter-Plan ausgewählt",
   "billing.toastInvalidPlan": "Wähle einen gültigen Plan",
 
-  "mapping.breadcrumb": "Produktbilder-Slider",
+  "mapping.breadcrumb": "NestGallery",
   "mapping.heading": "Bildzuordnung nach Variante",
   "mapping.intro":
     "Wähle eine Variante aus und lege dann fest, welche Produktbilder in der Zoom-Galerie für diese Variante erscheinen sollen.",
@@ -1766,7 +1806,7 @@ const de: Record<TranslationKey, string> = {
   "mapping.toastSaved": "Bildzuordnung gespeichert",
   "mapping.toastUpgrade": "Aktualisiere deinen Plan, um dieses Produkt zuzuordnen.",
 
-  "settings.breadcrumb": "Produktbilder-Slider",
+  "settings.breadcrumb": "NestGallery",
   "settings.pageTitle": "Einstellungen",
   "settings.heroTagline":
     "App-weite Optionen, die für alle Produkte mit dem GalleryNest-Slider gelten.",
@@ -1836,7 +1876,7 @@ const de: Record<TranslationKey, string> = {
   "settings.sliderOptionsMoved":
     "Slider- und Zoom-Optionen findest du jetzt auf der Produktseite, wo sie pro Produkt festgelegt werden können.",
 
-  "help.breadcrumb": "Produktbilder-Slider",
+  "help.breadcrumb": "NestGallery",
   "help.pageTitle": "Hilfe",
   "help.heroTagline":
     "GalleryNest einrichten, das Verhalten verstehen und die häufigsten Probleme lösen.",
@@ -1966,7 +2006,7 @@ const fr: Record<TranslationKey, string> = {
     "Les {count} produits cesseront d'utiliser le carrousel GalleryNest, et leurs options personnalisées ainsi que leurs associations d'images par variante seront perdues. Cette action est irréversible.",
   "products.confirmRemoveButton": "Retirer",
 
-  "dashboard.pageTitle": "Carrousel d'images produit",
+  "dashboard.pageTitle": "NestGallery",
   "dashboard.selectProducts": "Sélectionner des produits",
   "dashboard.heroTitle": "GalleryNest",
   "dashboard.heroHeadline": "Une galerie d'images raffinée pour votre boutique",
@@ -2081,8 +2121,18 @@ const fr: Record<TranslationKey, string> = {
   "dashboard.toastPlanLimit":
     "Votre forfait {plan} autorise jusqu'à {limit} produits.",
 
-  "billing.breadcrumb": "Carrousel d'images produit",
+  "billing.breadcrumb": "NestGallery",
   "billing.pageTitle": "Facturation",
+  "billing.gateHeading": "Choisissez une formule pour continuer",
+  "billing.gateBody":
+    "GalleryNest nécessite une formule active avant que vous puissiez configurer vos galeries. Choisissez une formule pour débloquer l'application.",
+  "billing.gateAction": "Voir les formules",
+  "billing.gateBadge": "Commencer",
+  "billing.gatePopular": "Le plus choisi",
+  "billing.gatePerMonth": "/ mois",
+  "billing.gateStartWith": "Commencer avec {plan}",
+  "billing.gateFooter":
+    "Annulable à tout moment depuis votre admin Shopify · Facturé en USD · Paiement sécurisé via Shopify",
   "billing.heroTagline":
     "Choisissez le forfait adapté au nombre de produits nécessitant le carrousel GalleryNest.",
   "billing.choosePlan": "Choisissez un forfait",
@@ -2111,7 +2161,7 @@ const fr: Record<TranslationKey, string> = {
   "billing.toastStarterSelected": "Forfait Starter sélectionné",
   "billing.toastInvalidPlan": "Sélectionnez un forfait valide",
 
-  "mapping.breadcrumb": "Carrousel d'images produit",
+  "mapping.breadcrumb": "NestGallery",
   "mapping.heading": "Association d'images par variante",
   "mapping.intro":
     "Choisissez une variante, puis sélectionnez les images du produit qui doivent apparaître dans la galerie zoom pour cette variante.",
@@ -2242,7 +2292,7 @@ const fr: Record<TranslationKey, string> = {
   "mapping.toastSaved": "Association d'images enregistrée",
   "mapping.toastUpgrade": "Améliorez votre forfait pour associer ce produit.",
 
-  "settings.breadcrumb": "Carrousel d'images produit",
+  "settings.breadcrumb": "NestGallery",
   "settings.pageTitle": "Paramètres",
   "settings.heroTagline":
     "Options globales qui s'appliquent à tous les produits utilisant le carrousel GalleryNest.",
@@ -2312,7 +2362,7 @@ const fr: Record<TranslationKey, string> = {
   "settings.sliderOptionsMoved":
     "Les options de carrousel et de zoom se trouvent désormais sur la page Produits, où elles peuvent être définies par produit.",
 
-  "help.breadcrumb": "Carrousel d'images produit",
+  "help.breadcrumb": "NestGallery",
   "help.pageTitle": "Aide",
   "help.heroTagline":
     "Configurez GalleryNest, comprenez son fonctionnement et résolvez les problèmes les plus courants.",

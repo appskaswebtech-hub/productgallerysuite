@@ -86,6 +86,14 @@ model ShopBilling {
   shop           String   @unique
   plan           String   @default("STARTER")
   subscriptionId String?
+  // When the merchant actively chose the free Starter plan.
+  //
+  // `plan` alone cannot answer that: Starter is not a Shopify subscription, so
+  // `syncBillingPlan` writes "Starter" on every request for any shop without a paid one.
+  // That makes "chose free" and "never chose anything" the same value — and the paywall
+  // has to tell them apart. Null means never opted in, which correctly gates every
+  // pre-existing row.
+  starterAcceptedAt DateTime?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }

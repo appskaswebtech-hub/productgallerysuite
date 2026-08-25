@@ -10,6 +10,8 @@ import { boundary } from "@shopify/shopify-app-react-router/server";
 import {
   BASIC_PLAN,
   ENTERPRISE_PLAN,
+  PLAN_FEATURE_KEYS,
+  PLAN_ORDER,
   PLAN_PRICES,
   STARTER_PLAN,
   type GalleryNestPlan,
@@ -18,35 +20,10 @@ import {
   BILLING_TEST,
   authenticate,
 } from "../shopify.server";
-import { syncBillingPlan } from "../billing.server";
-import prisma from "../db.server";
+import { acceptStarterPlan, syncBillingPlan } from "../billing.server";
 import { useLanguage } from "../i18n/LanguageContext";
 import { detectLocaleFromRequest } from "../i18n/detectLocale.server";
 import { translate, type TranslationKey } from "../i18n/translations";
-
-const PLAN_FEATURE_KEYS: Record<GalleryNestPlan, TranslationKey[]> = {
-  [STARTER_PLAN]: [
-    "billing.featureUseUpTo5",
-    "billing.featureProductSlider",
-    "billing.rowZoomGallery",
-    "billing.rowVariantMapping",
-  ],
-  [BASIC_PLAN]: [
-    "billing.featureUseUpTo100",
-    "billing.featureProductSlider",
-    "billing.rowZoomGallery",
-    "billing.rowVariantMapping",
-    "billing.featureCustomArrows",
-  ],
-  [ENTERPRISE_PLAN]: [
-    "billing.featureUseUnlimited",
-    "billing.featureEverythingBasic",
-    "billing.featureUnlimitedMapping",
-    "billing.featureAnalytics",
-    "billing.rowPrioritySupport",
-  ],
-};
-const PLAN_ORDER: GalleryNestPlan[] = [STARTER_PLAN, BASIC_PLAN, ENTERPRISE_PLAN];
 
 const COMPARISON_ROW_KEYS: {
   labelKey: TranslationKey;
@@ -84,6 +61,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   return {
     currentPlan: billingPlan.plan,
+    starterAccepted: billingPlan.starterAccepted,
   };
 };
 
@@ -94,11 +72,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const plan = formData.get("plan")?.toString();
 
   if (plan === STARTER_PLAN) {
-    await prisma.shopBilling.upsert({
-      where: { shop: session.shop },
-      create: { shop: session.shop, plan: STARTER_PLAN },
-      update: { plan: STARTER_PLAN, subscriptionId: null },
-    });
+    // Records the opt-in, which is what lifts the paywall. Before this stamped
+    // `starterAcceptedAt`, the write was inert: `syncBillingPlan` sets exactly the same
+    // plan and subscriptionId on the very next request anyway.
+    await acceptStarterPlan(session.shop);
 
     return { ok: true, message: translate(locale, "billing.toastStarterSelected") };
   }
@@ -116,7 +93,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 };
 
 export default function Billing() {
-  const { currentPlan } = useLoaderData<typeof loader>();
+  const { currentPlan, starterAccepted } = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
   const navigation = useNavigation();
   const shopify = useAppBridge();
@@ -175,7 +152,18 @@ export default function Billing() {
           }}
         >
           {PLAN_ORDER.map((plan) => {
-            const isCurrent = currentPlan === plan;
+            /**
+             * Starter needs the extra `starterAccepted` test, and without it the free plan
+             * is unreachable: every shop with no paid subscription reads as
+             * `currentPlan === STARTER_PLAN`, so Starter rendered as "Current plan" with a
+             * **disabled** button — including for a merchant sent here by the paywall
+             * specifically to choose it. They could never click it, and the gate had no
+             * free exit.
+             */
+            const isCurrent =
+              plan === STARTER_PLAN
+                ? currentPlan === STARTER_PLAN && starterAccepted
+                : currentPlan === plan;
             const isPaid = plan !== STARTER_PLAN;
             const isPopular = plan === BASIC_PLAN;
 

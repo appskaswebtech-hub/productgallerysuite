@@ -42,21 +42,50 @@
   grid-template-columns: minmax(0, 1fr);
 }
 
-.gn-slider--top .gn-slider__thumbs {
+/**
+ * Where the rail sits relative to the image. Two things here are easy to break:
+ *
+ * **Both selectors are needed.** `order` only moves a *direct* child of the grid, and which
+ * element that is depends on the rail's navigation setting: a bare `.gn-slider__thumbs` when
+ * navigation is "none", and `.gn-slider__thumb-nav` when arrows or a scroll bar wrap it
+ * (`gallery-nest-slider.js:812` and `:818`). Naming only one leaves the other stuck in
+ * document order, which reads as the position setting doing nothing at all.
+ *
+ * **The child combinator is load-bearing.** `.gn-slider__thumb-nav` is itself a flex row of
+ * [prev, rail, next], so a descendant selector also matched the rail *inside* it and pushed
+ * it past both arrows — leaving them stacked together instead of bracketing the rail.
+ *
+ * If a new wrapper is ever put around the rail, this selector has to move with it.
+ */
+.gn-slider--top > .gn-slider__thumbs,
+.gn-slider--top > .gn-slider__thumb-nav {
   order: 0;
 }
 
-.gn-slider--right .gn-slider__thumbs,
-.gn-slider--bottom .gn-slider__thumbs {
+.gn-slider--right > .gn-slider__thumbs,
+.gn-slider--right > .gn-slider__thumb-nav,
+.gn-slider--bottom > .gn-slider__thumbs,
+.gn-slider--bottom > .gn-slider__thumb-nav {
   order: 2;
 }
 
+/**
+ * The square is deliberate and gives every image the same height, whatever its shape. A wide
+ * image is letterboxed with bands above and below as a result — that waste is the price of a
+ * frame that never resizes, which was chosen over hugging each image after per-image heights
+ * proved worse: the page shifted under the gallery on every navigation.
+ *
+ * The other properties are each load-bearing:
+ *   position — the arrows and the zoom button are absolutely positioned to this
+ *   overflow — clips the zoom `transform: scale()`; without it a magnified image spills
+ *              across the page
+ *   background — fills the letterbox bands and shows through transparent PNGs
+ */
 .gn-slider__stage {
   position: relative;
   overflow: hidden;
   aspect-ratio: 1 / 1;
   background: #ffffff;
-  border: 1px solid var(--gn-border);
 }
 
 .gn-slider__main {
@@ -75,8 +104,10 @@
 
 /* ---- Carousel stage ------------------------------------------------------ */
 
-/* The slides carry the square ratio now; leaving the stage square would letterbox the
-   whole row inside it. */
+/* The slides carry the square ratio here, so leaving the stage square as well would
+   letterbox the whole row inside it. Must stay for as long as the base stage above has a
+   ratio — and its absence is invisible in single-image mode, so it is easy to drop by
+   mistake. */
 .gn-slider__stage--carousel {
   aspect-ratio: auto;
 }
@@ -877,8 +908,29 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .gn-slider__thumbs {
+  /* Both selectors and the child combinator, for exactly the reasons given on the desktop
+     ordering rules above — the grid child is the nav wrapper whenever the rail has a
+     control, and a descendant selector would reorder the rail inside it instead. */
+  .gn-slider > .gn-slider__thumbs,
+  .gn-slider > .gn-slider__thumb-nav {
     order: 2;
+  }
+
+  /**
+   * The rail always runs across the phone, whatever axis the desktop position gave it, so a
+   * control that was laid out for a vertical rail has to follow it round. Only the `--y`
+   * variants need flipping: `--x` is already the horizontal-rail arrangement, and these
+   * carry both classes so they match its specificity rather than losing to it.
+   */
+  .gn-slider__thumb-nav--arrows.gn-slider__thumb-nav--y {
+    flex-direction: row;
+  }
+
+  .gn-slider__thumb-nav--scrollbar.gn-slider__thumb-nav--y {
+    flex-direction: column;
+  }
+
+  .gn-slider__thumbs {
     flex-direction: row !important;
     max-height: none !important;
   }
