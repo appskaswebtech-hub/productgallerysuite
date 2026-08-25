@@ -189,6 +189,62 @@ export function SliderPreview({
   const thumbSize = Math.min(48, Math.max(28, Number(options.thumbnailSize) / 2));
   const active = images[activeIndex] ?? images[0] ?? null;
 
+  /**
+   * The thumbnail rail's scroll control, drawn as it sits on the storefront.
+   *
+   * Indicative only, like the carousel bar below it — the preview does not scroll, so these
+   * show the merchant *what* the control is and *where* it sits, nothing more.
+   *
+   * Placement mirrors the storefront rule that arrows bracket the rail's ends while a bar
+   * sits alongside it, so the wrapper's direction depends on the control as well as the
+   * axis. `isStacked` already carries the axis.
+   */
+  const thumbNav = options.thumbnailNavigation ?? "none";
+  const thumbNavAlongRail = thumbNav === "arrows" ? isStacked : !isStacked;
+
+  /* Mirrors the storefront's rail arrow: a white disc with a hairline border, not a filled
+     accent dot — the same control the main gallery arrows use, scaled to the mock. */
+  const thumbArrow = (
+    <span
+      style={{
+        flex: "0 0 auto",
+        width: 14,
+        height: 14,
+        borderRadius: 999,
+        background: "#ffffff",
+        border: "1px solid #d9d3ea",
+        boxSizing: "border-box",
+      }}
+    />
+  );
+
+  const thumbScrollBar = (
+    <span
+      style={{
+        flex: "0 0 auto",
+        borderRadius: 999,
+        background: "rgba(18, 18, 18, 0.1)",
+        ...(isStacked
+          ? { height: 5, alignSelf: "stretch" }
+          : { width: 5, alignSelf: "stretch" }),
+        position: "relative",
+      }}
+    >
+      <span
+        style={{
+          position: "absolute",
+          borderRadius: 999,
+          background: "#6c4fc7",
+          // Roughly half the track, the way a real thumb reads when about half the rail
+          // is on screen.
+          ...(isStacked
+            ? { top: 0, bottom: 0, left: 0, width: "55%" }
+            : { left: 0, right: 0, top: 0, height: "55%" }),
+        }}
+      />
+    </span>
+  );
+
   const zoomDot = !options.hideZoomIcon ? (
     <div
       style={{
@@ -240,6 +296,17 @@ export function SliderPreview({
   return (
     <div style={{ ...surfaceStyle, flexDirection: surfaceDirection(options.thumbnailPosition) }}>
       {!options.hideThumbnails ? (
+        <div
+          style={{
+            display: "flex",
+            flexShrink: 0,
+            alignItems: "center",
+            gap: 4,
+            // Along the rail for arrows, across it for a bar — the storefront rule.
+            flexDirection: thumbNavAlongRail ? "row" : "column",
+          }}
+        >
+          {thumbNav === "arrows" ? thumbArrow : null}
         <div
           style={{
             display: "flex",
@@ -319,6 +386,9 @@ export function SliderPreview({
               ) : null}
             </button>
           ))}
+        </div>
+          {thumbNav === "arrows" ? thumbArrow : null}
+          {thumbNav === "scrollbar" ? thumbScrollBar : null}
         </div>
       ) : null}
 

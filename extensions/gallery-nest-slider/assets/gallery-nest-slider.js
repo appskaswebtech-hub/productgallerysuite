@@ -1,7 +1,7 @@
 "use strict";
 
 (() => {
-  const VERSION = "2026-08-24-theme-profiles-v1";
+  const VERSION = "2026-08-24-thumb-rail-nav-v2";
   const ROOT_SELECTOR = "[data-gallery-nest-slider]";
   const POSITION_CLASSES = [
     "gn-slider--left",
@@ -10,25 +10,20 @@
     "gn-slider--bottom",
   ];
   /**
-   * Per-theme gallery containers, tried *before* the generic list below.
+   * Every product-gallery container this app knows how to replace, tried in order against
+   * whatever theme is running. Deliberately one flat union rather than a per-theme
+   * selection: the merchant never has to identify their theme, and a theme sharing markup
+   * with a known one works without being listed.
    *
-   * Additive by design: a profile that matches nothing falls through to `GALLERY_SELECTORS`
-   * and then to the image-URL fallback, so picking the wrong theme degrades to the historic
-   * behaviour rather than breaking the gallery.
+   * The last four were added for specific themes and are worth knowing the provenance of.
+   * `.product-single__photos` and `#ProductPhoto` are Debut's longstanding public markup;
+   * `.media-gallery__grid` is Horizon's and `.Product__Gallery` is Prestige's, both taken
+   * from documentation rather than a running store, so they are the likeliest to need
+   * correcting if a gallery on those themes is not replaced.
    *
-   * Confidence varies and is worth knowing before trusting one. Dawn and Impulse are the
-   * selectors this app has always shipped and are well proven. Debut's are longstanding
-   * public markup. **Horizon and Prestige are unverified** — sourced from documentation
-   * rather than a running store — which is exactly why the `custom` profile exists.
+   * Anything not matched here still falls through to the image-URL search in
+   * `findNativeGallery`, which is theme-agnostic.
    */
-  const THEME_SELECTORS = {
-    horizon: [".media-gallery__grid", ".product-media-container", ".product-media"],
-    dawn: [".product__media-wrapper", "media-gallery", "[id^='MediaGallery-']"],
-    impulse: [".product__photos", ".product-single__media-group", ".product__main-photos"],
-    debut: [".product-single__photos", "#ProductPhoto", ".product-single__photo"],
-    prestige: [".Product__Gallery", ".Product__SlideshowNavScroller"],
-  };
-
   const GALLERY_SELECTORS = [
     ".product__media-wrapper",
     ".product__media-list",
@@ -42,6 +37,10 @@
     ".product-single__media-group",
     ".product__photos",
     ".product__media",
+    ".media-gallery__grid",
+    ".product-single__photos",
+    "#ProductPhoto",
+    ".Product__Gallery",
   ];
 
   const STRINGS = {
@@ -185,6 +184,77 @@
     };
 
     return [...media].sort((a, b) => rankOf(a) - rankOf(b));
+  };
+
+  /**
+   * The DOM property names that differ between a horizontal and a vertical scroller.
+   *
+   * The carousel track always scrolls horizontally, but the thumbnail rail is a column for
+   * `left`/`right` positions and a row for `top`/`bottom` — so the same drag maths has to
+   * read `scrollLeft`/`clientX`/`width` in one case and `scrollTop`/`clientY`/`height` in
+   * the other.
+   */
+  const AXIS = {
+    x: {
+      scrollSize: "scrollWidth",
+      clientSize: "clientWidth",
+      scrollPos: "scrollLeft",
+      rectStart: "left",
+      rectSize: "width",
+      thumbSize: "offsetWidth",
+      pointer: "clientX",
+      cssSize: "width",
+      cssStart: "left",
+    },
+    y: {
+      scrollSize: "scrollHeight",
+      clientSize: "clientHeight",
+      scrollPos: "scrollTop",
+      rectStart: "top",
+      rectSize: "height",
+      thumbSize: "offsetHeight",
+      pointer: "clientY",
+      cssSize: "height",
+      cssStart: "top",
+    },
+  };
+
+  /**
+   * The drag-bar geometry, shared by the carousel track and the thumbnail rail.
+   *
+   * Only the maths is shared, not the event wiring: the carousel's handlers are tangled
+   * with `setActive` and its keyboard model, while the rail just scrolls. Copying these
+   * three functions instead would put the one genuinely subtle part — the travel
+   * calculation below — in two places to drift apart.
+   */
+  const createScrollerGeometry = (track, scroller, thumb, axisName) => {
+    const axis = AXIS[axisName] || AXIS.x;
+
+    const maxScroll = () =>
+      Math.max(track[axis.scrollSize] - track[axis.clientSize], 0);
+
+    /** Cheap and side-effect free, so it runs on every scroll event to stay live. */
+    const syncThumb = () => {
+      // Guarded so this can never write `width: NaN%` if called before layout.
+      if (!track[axis.scrollSize]) return;
+
+      const visibleRatio = track[axis.clientSize] / track[axis.scrollSize];
+      const offsetRatio = track[axis.scrollPos] / track[axis.scrollSize];
+      thumb.style[axis.cssSize] = `${Math.min(visibleRatio, 1) * 100}%`;
+      thumb.style[axis.cssStart] = `${offsetRatio * 100}%`;
+    };
+
+    const scrollToPointer = (event) => {
+      const rect = scroller.getBoundingClientRect();
+      const thumbSize = thumb[axis.thumbSize];
+      // Measured against the thumb's travel, not the whole bar, so grabbing the thumb
+      // centre keeps it under the cursor instead of drifting ahead of it.
+      const travel = Math.max(rect[axis.rectSize] - thumbSize, 1);
+      const ratio = (event[axis.pointer] - rect[axis.rectStart] - thumbSize / 2) / travel;
+      track[axis.scrollPos] = Math.min(Math.max(ratio, 0), 1) * maxScroll();
+    };
+
+    return { maxScroll, syncThumb, scrollToPointer };
   };
 
   const getMedia = (root) =>
@@ -337,75 +407,18 @@
     }
   };
 
-  /**
-   * The selectors the merchant's theme choice puts ahead of the generic list.
-   *
-   * The theme editor wins over the shop setting, and an empty dataset value means the block
-   * was left on "Use app setting" — which is why this checks for a non-empty string rather
-   * than mere presence.
-   */
-  const themeSelectors = (root, settings) => {
-    const profile =
-      root.dataset.themeProfile || settings.themeProfile || "auto";
-
-    if (profile === "custom") {
-      const selector =
-        root.dataset.themeSelector || settings.customGallerySelector || "";
-      return selector ? [selector] : [];
-    }
-
-    return THEME_SELECTORS[profile] || [];
-  };
-
-  /**
-   * `querySelectorAll` throws on a malformed selector, and the `custom` profile's value is
-   * typed by hand in the theme editor. Unguarded, a single typo would take the whole gallery
-   * down; here it just contributes no matches and the next pass takes over.
-   */
-  const queryAll = (selector) => {
-    try {
-      return Array.from(document.querySelectorAll(selector));
-    } catch {
-      console.warn(`[gallery-nest] ignoring invalid gallery selector: ${selector}`);
-      return [];
-    }
-  };
-
-  /**
-   * Climbs to the nearest ancestor matching one of the theme profile's selectors.
-   *
-   * Guarded like `queryAll`, for the same reason: the `custom` profile's selector is typed
-   * by hand and `closest` throws on a malformed one.
-   */
-  const galleryHostFromProfile = (node, profileSelectors = []) => {
-    for (const selector of profileSelectors) {
-      try {
-        const match = node.closest(selector);
-        if (match) return match;
-      } catch {
-        // Reported once by `queryAll`; climbing silently skips it.
-      }
-    }
-    return null;
-  };
-
-  const galleryHost = (node, profileSelectors = []) =>
-    // The theme's own selectors first: on a theme whose wrapper is none of the three below,
-    // climbing straight to those would overshoot the real container.
-    galleryHostFromProfile(node, profileSelectors) ||
+  const galleryHost = (node) =>
     node.closest(".product__media-wrapper") ||
     node.closest(".product-gallery") ||
     node.closest(".product-single__media-group") ||
     node;
 
-  const findNativeGallery = (root, media, profileSelectors = []) => {
-    // Profile pass first, then the generic union — order is the whole mechanism.
-    const nativeGallery = [...profileSelectors, ...GALLERY_SELECTORS]
-      .flatMap(queryAll)
+  const findNativeGallery = (root, media) => {
+    const nativeGallery = GALLERY_SELECTORS.flatMap((selector) =>
+      Array.from(document.querySelectorAll(selector)),
+    )
       .filter((node) => node && !node.contains(root) && node !== root)
-      // Wrapped, not passed by reference: `map` supplies (value, index, array), so
-      // `galleryHost` would receive the index as its selector list.
-      .map((node) => galleryHost(node, profileSelectors))
+      .map(galleryHost)
       .find((node, index, nodes) => node && nodes.indexOf(node) === index);
 
     if (nativeGallery) return nativeGallery;
@@ -423,7 +436,6 @@
       .filter((image) => mediaUrls.has(normalizeImageUrl(image.currentSrc || image.src)))
       .map(
         (image) =>
-          galleryHostFromProfile(image, profileSelectors) ||
           image.closest(
             ".product__media-wrapper, product-media-gallery, media-gallery, .product-gallery, .product__photos, .product-single__media-group",
           ) ||
@@ -433,8 +445,8 @@
       .find(Boolean);
   };
 
-  const replaceNativeGallery = (root, media, profileSelectors = []) => {
-    const host = findNativeGallery(root, media, profileSelectors);
+  const replaceNativeGallery = (root, media) => {
+    const host = findNativeGallery(root, media);
     if (!host) {
       // The one genuinely diagnostic case: the gallery could not be located at all, so the
       // slider renders in place instead of replacing the theme's. Names the theme's
@@ -711,6 +723,19 @@
         ? settings.imageCaptions
         : {};
     const hideZoomIcon = !!settings.hideZoomIcon;
+
+    /**
+     * How the thumbnail rail is scrolled, and which way it runs.
+     *
+     * `none` is the default and keeps the browser's own scrollbar — the behaviour the rail
+     * has always had. The axis comes from the thumbnail position rather than being assumed:
+     * the rail is a column beside the image and a row above or below it, so a control that
+     * hardcoded one orientation would be wrong half the time.
+     */
+    const thumbNav = ["arrows", "scrollbar"].includes(settings.thumbnailNavigation)
+      ? settings.thumbnailNavigation
+      : "none";
+    const thumbAxis = position === "left" || position === "right" ? "y" : "x";
     const zoomTrigger = ["hover", "click", "off"].includes(settings.zoomTrigger)
       ? settings.zoomTrigger
       : "hover";
@@ -746,8 +771,11 @@
     const tracker = createTracker(settings.productId, settings.analyticsEnabled === true);
     const canHoverNavigate =
       settings.hoverNavigation === true &&
-      // Hover-zoom would fight with this over the same mouse movement.
-      zoomTrigger !== "hover" &&
+      // Deliberately NOT gated on hover-zoom any more: both may run together, so the
+      // gallery cycles while the image is magnified. They do share one `mousemove` — the
+      // cursor sets the zoom origin and picks the slide direction at the same time — so if
+      // this ever needs calming, tune the interaction rather than restoring the gate.
+      // A merchant who does not want the combination simply leaves hover navigation off.
       // Mouse-only by nature. Deliberately not gated on prefers-reduced-motion:
       // the shopper starts this by resting the cursor, so it is not the
       // unrequested animation that setting exists to suppress, and gating on it
@@ -779,7 +807,28 @@
     }
 
     root.innerHTML = `
-      <div class="gn-slider__thumbs" role="list"></div>
+      ${
+        thumbNav === "none"
+          ? `<div class="gn-slider__thumbs" role="list"></div>`
+          : // Wrapped so the control can sit beside the rail. The rail keeps its own
+            // element because the drag maths measures it; `is-managed` suppresses the
+            // browser's native scrollbar, which would otherwise duplicate the control.
+            // Both modifiers: the axis decides which way the rail runs, and the control
+            // decides whether it sits along the rail (arrows) or across it (scroll bar).
+            `<div class="gn-slider__thumb-nav gn-slider__thumb-nav--${thumbAxis} gn-slider__thumb-nav--${thumbNav}">
+              ${
+                thumbNav === "arrows"
+                  ? `<button class="gn-slider__thumb-arrow gn-slider__thumb-arrow--prev" type="button" aria-label="${t("prev")}">${icon("prev", settings.previousArrowSvg)}</button>`
+                  : ""
+              }
+              <div class="gn-slider__thumbs is-managed" role="list"></div>
+              ${
+                thumbNav === "arrows"
+                  ? `<button class="gn-slider__thumb-arrow gn-slider__thumb-arrow--next" type="button" aria-label="${t("next")}">${icon("next", settings.nextArrowSvg)}</button>`
+                  : `<div class="gn-slider__thumb-scroller" role="slider" tabindex="0" aria-label="${t("scrollImages")}" aria-valuemin="1" aria-valuemax="${visibleMedia.length}" aria-valuenow="1"><div class="gn-slider__thumb-scroller-thumb"></div></div>`
+              }
+            </div>`
+      }
       <div class="gn-slider__stage${isCarousel ? " gn-slider__stage--carousel" : ""}">
         ${
           hideZoomIcon
@@ -815,6 +864,11 @@
     const frame = root.querySelector(".gn-slider__frame");
     const main = root.querySelector(".gn-slider__main");
     const thumbs = root.querySelector(".gn-slider__thumbs");
+    const thumbNavEl = root.querySelector(".gn-slider__thumb-nav");
+    const thumbPrev = root.querySelector(".gn-slider__thumb-arrow--prev");
+    const thumbNext = root.querySelector(".gn-slider__thumb-arrow--next");
+    const thumbScroller = root.querySelector(".gn-slider__thumb-scroller");
+    const thumbScrollerThumb = root.querySelector(".gn-slider__thumb-scroller-thumb");
     const zoom = root.querySelector(".gn-slider__zoom-icon");
 
     const slides = track ? Array.from(track.querySelectorAll(".gn-slider__slide")) : [];
@@ -914,6 +968,92 @@
       });
     };
 
+    /**
+     * Wires whichever thumbnail-rail control the merchant chose.
+     *
+     * Called after the rail is populated, because every measurement here depends on the
+     * thumbnails existing. Both controls share `createScrollerGeometry`, passing the axis
+     * the rail actually runs in.
+     */
+    let refreshThumbNav = () => {};
+
+    if (thumbNavEl && thumbs) {
+      const axis = AXIS[thumbAxis];
+      const railMax = () =>
+        Math.max(thumbs[axis.scrollSize] - thumbs[axis.clientSize], 0);
+
+      if (thumbNav === "arrows") {
+        // One thumbnail plus its gap, so a click lands the next one flush rather than
+        // part-scrolled. Falls back to half the visible rail if the strip is empty.
+        const step = () => {
+          const first = thumbs.querySelector(".gn-slider__thumb");
+          const size = first ? first[axis.thumbSize] + 8 : 0;
+          return size || thumbs[axis.clientSize] / 2;
+        };
+
+        const nudge = (direction) => {
+          thumbs[axis.scrollPos] = Math.min(
+            Math.max(thumbs[axis.scrollPos] + direction * step(), 0),
+            railMax(),
+          );
+        };
+
+        thumbPrev?.addEventListener("click", () => nudge(-1));
+        thumbNext?.addEventListener("click", () => nudge(1));
+
+        refreshThumbNav = () => {
+          const max = railMax();
+          thumbNavEl.hidden = max <= 0;
+          if (max <= 0) return;
+
+          // A 1px tolerance: fractional layout means the scroll position rarely lands
+          // exactly on the maximum, which would leave the end arrow permanently enabled.
+          const pos = thumbs[axis.scrollPos];
+          if (thumbPrev) thumbPrev.disabled = pos <= 1;
+          if (thumbNext) thumbNext.disabled = pos >= max - 1;
+        };
+      } else if (thumbScroller && thumbScrollerThumb) {
+        const rail = createScrollerGeometry(
+          thumbs,
+          thumbScroller,
+          thumbScrollerThumb,
+          thumbAxis,
+        );
+
+        thumbScroller.addEventListener("pointerdown", (event) => {
+          thumbScroller.setPointerCapture(event.pointerId);
+          thumbScroller.classList.add("is-dragging");
+          rail.scrollToPointer(event);
+        });
+        thumbScroller.addEventListener("pointermove", (event) => {
+          if (thumbScroller.hasPointerCapture(event.pointerId)) {
+            rail.scrollToPointer(event);
+          }
+        });
+        for (const type of ["pointerup", "pointercancel"]) {
+          thumbScroller.addEventListener(type, (event) => {
+            if (thumbScroller.hasPointerCapture(event.pointerId)) {
+              thumbScroller.releasePointerCapture(event.pointerId);
+            }
+            thumbScroller.classList.remove("is-dragging");
+          });
+        }
+
+        refreshThumbNav = () => {
+          const max = railMax();
+          thumbNavEl.hidden = max <= 0;
+          if (max > 0) rail.syncThumb();
+        };
+      }
+
+      thumbs.addEventListener("scroll", () => refreshThumbNav(), { passive: true });
+      // The rail's size changes with the viewport, and a thumbnail image loading late
+      // changes its scroll extent — both have to re-run the hide/enable decision.
+      if (typeof ResizeObserver === "function") {
+        new ResizeObserver(() => refreshThumbNav()).observe(thumbs);
+      }
+    }
+
     const ANIMATION_CLASSES = [
       "gn-anim--fade",
       "gn-anim--slide-forward",
@@ -971,9 +1111,9 @@
         main.alt = item.alt || "";
         // A click-armed zoom survives slide and variant changes — it is only turned
         // off by clicking the magnifier again — but the new image starts un-panned.
-        // Never on a video, though: magnifying a poster tells the shopper nothing, and
-        // the scaled-up frame fights the play badge for the same pixels.
-        stage.classList.toggle("is-zooming", isZoomArmed && !isVideoItem(item));
+        // Video included: its poster magnifies like any other image, and the play badge
+        // sits outside the scaled element so it stays put and stays clickable.
+        stage.classList.toggle("is-zooming", isZoomArmed);
         main.style.transformOrigin = "center";
         stagePlayBadge.hidden = !isPlayable(item);
       }
@@ -999,16 +1139,14 @@
     if (scroller && track) {
       let scrollEndTimer = null;
 
-      /** Cheap and side-effect free, so it runs on every scroll event to stay live. */
-      const syncThumb = () => {
-        // Guarded so this can never write `width: NaN%` if called before layout.
-        if (!track.scrollWidth) return;
-
-        const visibleRatio = track.clientWidth / track.scrollWidth;
-        const offsetRatio = track.scrollLeft / track.scrollWidth;
-        scrollerThumb.style.width = `${Math.min(visibleRatio, 1) * 100}%`;
-        scrollerThumb.style.left = `${offsetRatio * 100}%`;
-      };
+      // The carousel track is always horizontal; the shared geometry exists so the
+      // thumbnail rail can pass "y" for a vertical one.
+      const { maxScroll, syncThumb, scrollToPointer } = createScrollerGeometry(
+        track,
+        scroller,
+        scrollerThumb,
+        "x",
+      );
 
       /** The slide currently nearest the track's left edge. */
       const nearestIndex = () => {
@@ -1024,17 +1162,6 @@
         return closest;
       };
 
-      const maxScroll = () => Math.max(track.scrollWidth - track.clientWidth, 0);
-
-      const scrollToPointer = (event) => {
-        const rect = scroller.getBoundingClientRect();
-        const thumbWidth = scrollerThumb.offsetWidth;
-        // Measured against the thumb's travel, not the whole bar, so grabbing the thumb
-        // centre keeps it under the cursor instead of drifting ahead of it.
-        const travel = Math.max(rect.width - thumbWidth, 1);
-        const ratio = (event.clientX - rect.left - thumbWidth / 2) / travel;
-        track.scrollLeft = Math.min(Math.max(ratio, 0), 1) * maxScroll();
-      };
 
       track.addEventListener(
         "scroll",
@@ -1130,15 +1257,14 @@
      * put the transform origin in the wrong place on every slide but the first.
      */
     const zoomTargetFor = (event) => {
-      if (!isCarousel) {
-        // Video is never a zoom target: what is on screen is a poster, and magnifying it
-        // shows the shopper a blurrier version of a still they cannot play from there.
-        return isVideoItem(visibleMedia[activeIndex]) ? null : { box: stage, image: main };
-      }
+      // Video magnifies like anything else. The stage only ever renders a poster still, so
+      // there is no separate case to make: zooming a video slide is zooming an image. The
+      // play badge is a sibling of the image rather than a child, so it keeps its size and
+      // position over the magnified poster and stays clickable.
+      if (!isCarousel) return { box: stage, image: main };
 
       const slide = event.target.closest?.(".gn-slider__slide");
       if (!slide) return null;
-      if (isVideoItem(visibleMedia[slides.indexOf(slide)])) return null;
 
       return { box: slide, image: slide.querySelector(".gn-slider__main") };
     };
@@ -1265,7 +1391,7 @@
         zoomHost.addEventListener("mouseout", (event) => setSlideZoom(event, false));
       } else {
         zoomHost.addEventListener("mouseenter", () => {
-          if (isVideoItem(visibleMedia[activeIndex])) return;
+          // No video exclusion: a poster is an image as far as magnification goes.
           stage.classList.add("is-zooming");
           tracker.track("zoom");
         });
@@ -1316,10 +1442,18 @@
 
     if (canHoverNavigate && visibleMedia.length > 1) {
       stage.addEventListener("mousemove", (event) => {
-        // Hover cycling exists for flipping through photos. Letting it run on a video
-        // would advance the gallery out from under a shopper who is reaching for the play
-        // badge, which is the one thing they can do with this slide.
-        if (isVideoItem(visibleMedia[activeIndex])) {
+        /**
+         * A video cycles like any other slide — the stage only ever shows its poster, so
+         * browsing past one is browsing past a picture.
+         *
+         * The exception is the play badge. Cycling while the cursor crosses it would move
+         * the video away from under a shopper reaching for it, making the one action that
+         * slide offers impossible; holding still there is what keeps "open it" working.
+         *
+         * `closest` is guarded: `event.target` is not guaranteed to be an `Element`, and
+         * over the badge it is the inner `<svg>` rather than the badge itself.
+         */
+        if (event.target instanceof Element && event.target.closest(".gn-play-badge")) {
           stopHoverNav();
           return;
         }
@@ -1393,6 +1527,9 @@
     // Must come after the unhide: until this line the gallery is `display: none`, so the
     // track measures 0 and the drag bar would conclude it has nothing to scroll.
     refreshScroller();
+    // Same timing as the carousel bar: the rail is populated and laid out by now, so its
+    // scroll extent is finally measurable.
+    refreshThumbNav();
   };
 
   const wireVariantChanges = (renderForVariant) => {
@@ -1478,7 +1615,7 @@
       const orderedMedia = orderMedia(mediaWithFallbackVariantIds, settings.mediaOrder);
 
       if (settings.replaceThemeGallery !== false) {
-        replaceNativeGallery(root, orderedMedia, themeSelectors(root, settings));
+        replaceNativeGallery(root, orderedMedia);
       }
       renderSlider(root, orderedMedia, settings.thumbnailPosition, finalSettings);
     } catch {

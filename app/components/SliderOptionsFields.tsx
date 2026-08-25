@@ -24,6 +24,7 @@ import {
   type SliderOptions,
   type StageLayout,
   type ThumbnailHoverEffect,
+  type ThumbnailNavigation,
   type ThumbnailPosition,
   type ThumbnailShape,
   type ZoomIconPosition,
@@ -159,6 +160,26 @@ export function SliderOptionsFields({
             <s-option value="right">{t("dashboard.right")}</s-option>
             <s-option value="top">{t("dashboard.top")}</s-option>
             <s-option value="bottom">{t("dashboard.bottom")}</s-option>
+          </s-select>
+
+          {/* Beside the position it depends on: the control orients itself from that
+              choice, running up/down for left/right and left/right for top/bottom. */}
+          <s-select
+            key={`thumbnailNavigation-${locale}`}
+            label={t("dashboard.thumbnailNavigation")}
+            details={t("dashboard.thumbnailNavigationHelp")}
+            value={value.thumbnailNavigation}
+            disabled={disabled}
+            onChange={(event) =>
+              set(
+                "thumbnailNavigation",
+                (event.currentTarget.value || "none") as ThumbnailNavigation,
+              )
+            }
+          >
+            <s-option value="none">{t("dashboard.thumbnailNavNone")}</s-option>
+            <s-option value="arrows">{t("dashboard.thumbnailNavArrows")}</s-option>
+            <s-option value="scrollbar">{t("dashboard.thumbnailNavScrollbar")}</s-option>
           </s-select>
 
           <s-select
@@ -506,6 +527,11 @@ export function SliderOptionsInputs({ value }: { value: SliderOptions }) {
         value={value.carouselNavigation}
       />
       <input type="hidden" name="thumbnailPosition" value={value.thumbnailPosition} />
+      <input
+        type="hidden"
+        name="thumbnailNavigation"
+        value={value.thumbnailNavigation}
+      />
       <input type="hidden" name="thumbnailSize" value={String(value.thumbnailSize)} />
       <input type="hidden" name="thumbnailShape" value={value.thumbnailShape} />
       <input

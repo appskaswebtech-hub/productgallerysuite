@@ -42,6 +42,8 @@ model ProductSliderSetting {
   carouselPerView      Int     @default(3)
   carouselNavigation   String  @default("arrows")
   thumbnailPosition String   @default("left")
+  // "none" keeps the browser's own scrollbar, which is what the rail shipped with.
+  thumbnailNavigation String @default("none")
   thumbnailSize     Int      @default(76)
   thumbnailShape       String  @default("square")
   thumbnailHoverEffect String  @default("none")

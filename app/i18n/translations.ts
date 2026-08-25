@@ -117,6 +117,12 @@ const en = {
   "dashboard.hoverEffectLift": "Lift & shadow",
   "dashboard.hoverEffectCaption": "Caption overlay",
   "dashboard.thumbnailPosition": "Thumbnail position",
+  "dashboard.thumbnailNavigation": "Thumbnail scrolling",
+  "dashboard.thumbnailNavigationHelp":
+    "How shoppers scroll the thumbnail strip when it holds more than fits. The control follows the position above — up and down beside the image, left and right above or below it.",
+  "dashboard.thumbnailNavNone": "Browser scrollbar",
+  "dashboard.thumbnailNavArrows": "Arrows",
+  "dashboard.thumbnailNavScrollbar": "Scroll bar",
   "dashboard.left": "Left",
   "dashboard.right": "Right",
   "dashboard.top": "Top",
@@ -347,12 +353,6 @@ const en = {
   "settings.defaultLanguage": "Default language",
   "settings.defaultLanguageHelp":
     "Used for the app's admin pages when no language has been chosen in this browser.",
-  "settings.themeProfile": "Theme",
-  "settings.themeProfileHelp":
-    "Which theme's gallery the slider replaces. Leave on Auto-detect unless your gallery is not being replaced correctly. A block in the theme editor can override this per theme.",
-  "settings.customGallerySelector": "Custom gallery selector",
-  "settings.customGallerySelectorHelp":
-    "The CSS selector of your theme's product gallery container, for example .product__media-wrapper. Find it by right-clicking the gallery and choosing Inspect.",
   "settings.zoomGroup": "Zoom",
   "settings.zoomTrigger": "Zoom trigger",
   "settings.zoomTriggerHelp":
@@ -589,6 +589,12 @@ const es: Record<TranslationKey, string> = {
   "dashboard.hoverEffectLift": "Elevar y sombra",
   "dashboard.hoverEffectCaption": "Leyenda superpuesta",
   "dashboard.thumbnailPosition": "Posición de las miniaturas",
+  "dashboard.thumbnailNavigation": "Desplazamiento de miniaturas",
+  "dashboard.thumbnailNavigationHelp":
+    "Cómo desplazan los clientes la tira de miniaturas cuando hay más de las que caben. El control sigue la posición de arriba: vertical junto a la imagen, horizontal encima o debajo.",
+  "dashboard.thumbnailNavNone": "Barra del navegador",
+  "dashboard.thumbnailNavArrows": "Flechas",
+  "dashboard.thumbnailNavScrollbar": "Barra de desplazamiento",
   "dashboard.left": "Izquierda",
   "dashboard.right": "Derecha",
   "dashboard.top": "Arriba",
@@ -823,12 +829,6 @@ const es: Record<TranslationKey, string> = {
   "settings.defaultLanguage": "Idioma predeterminado",
   "settings.defaultLanguageHelp":
     "Se usa en las páginas de administración de la app cuando no se ha elegido un idioma en este navegador.",
-  "settings.themeProfile": "Tema",
-  "settings.themeProfileHelp":
-    "Qué galería de tema sustituye el carrusel. Deja Auto-detect salvo que tu galería no se sustituya correctamente. Un bloque en el editor de temas puede anular esto por tema.",
-  "settings.customGallerySelector": "Selector de galería personalizado",
-  "settings.customGallerySelectorHelp":
-    "El selector CSS del contenedor de la galería de producto de tu tema, por ejemplo .product__media-wrapper. Encuéntralo haciendo clic derecho en la galería y eligiendo Inspeccionar.",
   "settings.zoomGroup": "Zoom",
   "settings.zoomTrigger": "Activación del zoom",
   "settings.zoomTriggerHelp":
@@ -1063,6 +1063,12 @@ const it: Record<TranslationKey, string> = {
   "dashboard.hoverEffectLift": "Sollevamento e ombra",
   "dashboard.hoverEffectCaption": "Didascalia sovrapposta",
   "dashboard.thumbnailPosition": "Posizione miniature",
+  "dashboard.thumbnailNavigation": "Scorrimento miniature",
+  "dashboard.thumbnailNavigationHelp":
+    "Come i clienti scorrono la striscia di miniature quando ce ne sono più di quante ne entrino. Il controllo segue la posizione sopra: verticale accanto all'immagine, orizzontale sopra o sotto.",
+  "dashboard.thumbnailNavNone": "Barra del browser",
+  "dashboard.thumbnailNavArrows": "Frecce",
+  "dashboard.thumbnailNavScrollbar": "Barra di scorrimento",
   "dashboard.left": "Sinistra",
   "dashboard.right": "Destra",
   "dashboard.top": "In alto",
@@ -1298,12 +1304,6 @@ const it: Record<TranslationKey, string> = {
   "settings.defaultLanguage": "Lingua predefinita",
   "settings.defaultLanguageHelp":
     "Usata nelle pagine di amministrazione dell'app quando non è stata scelta una lingua in questo browser.",
-  "settings.themeProfile": "Tema",
-  "settings.themeProfileHelp":
-    "Quale galleria del tema viene sostituita dallo slider. Lascia Auto-detect a meno che la tua galleria non venga sostituita correttamente. Un blocco nell'editor del tema può sovrascrivere questa impostazione per tema.",
-  "settings.customGallerySelector": "Selettore galleria personalizzato",
-  "settings.customGallerySelectorHelp":
-    "Il selettore CSS del contenitore della galleria prodotto del tuo tema, ad esempio .product__media-wrapper. Trovalo facendo clic destro sulla galleria e scegliendo Ispeziona.",
   "settings.zoomGroup": "Zoom",
   "settings.zoomTrigger": "Attivazione dello zoom",
   "settings.zoomTriggerHelp":
@@ -1538,6 +1538,12 @@ const de: Record<TranslationKey, string> = {
   "dashboard.hoverEffectLift": "Anheben & Schatten",
   "dashboard.hoverEffectCaption": "Überlagerte Bildunterschrift",
   "dashboard.thumbnailPosition": "Position der Miniaturansichten",
+  "dashboard.thumbnailNavigation": "Scrollen der Miniaturansichten",
+  "dashboard.thumbnailNavigationHelp":
+    "Wie Kundinnen und Kunden die Miniaturleiste scrollen, wenn mehr Bilder vorhanden sind als hineinpassen. Das Bedienelement richtet sich nach der Position oben: senkrecht neben dem Bild, waagerecht darüber oder darunter.",
+  "dashboard.thumbnailNavNone": "Browser-Scrollleiste",
+  "dashboard.thumbnailNavArrows": "Pfeile",
+  "dashboard.thumbnailNavScrollbar": "Scrollleiste",
   "dashboard.left": "Links",
   "dashboard.right": "Rechts",
   "dashboard.top": "Oben",
@@ -1773,12 +1779,6 @@ const de: Record<TranslationKey, string> = {
   "settings.defaultLanguage": "Standardsprache",
   "settings.defaultLanguageHelp":
     "Wird für die Admin-Seiten der App verwendet, wenn in diesem Browser keine Sprache gewählt wurde.",
-  "settings.themeProfile": "Theme",
-  "settings.themeProfileHelp":
-    "Welche Theme-Galerie der Slider ersetzt. Lass Auto-detect stehen, außer deine Galerie wird nicht korrekt ersetzt. Ein Block im Theme-Editor kann dies pro Theme überschreiben.",
-  "settings.customGallerySelector": "Eigener Galerie-Selektor",
-  "settings.customGallerySelectorHelp":
-    "Der CSS-Selektor des Galerie-Containers deines Themes, zum Beispiel .product__media-wrapper. Finde ihn per Rechtsklick auf die Galerie und „Untersuchen“.",
   "settings.zoomGroup": "Zoom",
   "settings.zoomTrigger": "Zoom auslösen",
   "settings.zoomTriggerHelp":
@@ -2013,6 +2013,12 @@ const fr: Record<TranslationKey, string> = {
   "dashboard.hoverEffectLift": "Élévation et ombre",
   "dashboard.hoverEffectCaption": "Légende superposée",
   "dashboard.thumbnailPosition": "Position des vignettes",
+  "dashboard.thumbnailNavigation": "Défilement des vignettes",
+  "dashboard.thumbnailNavigationHelp":
+    "Comment les clients font défiler la bande de vignettes lorsqu'il y en a plus que la place disponible. Le contrôle suit la position ci-dessus : vertical à côté de l'image, horizontal au-dessus ou en dessous.",
+  "dashboard.thumbnailNavNone": "Barre du navigateur",
+  "dashboard.thumbnailNavArrows": "Flèches",
+  "dashboard.thumbnailNavScrollbar": "Barre de défilement",
   "dashboard.left": "Gauche",
   "dashboard.right": "Droite",
   "dashboard.top": "Haut",
@@ -2249,12 +2255,6 @@ const fr: Record<TranslationKey, string> = {
   "settings.defaultLanguage": "Langue par défaut",
   "settings.defaultLanguageHelp":
     "Utilisée pour les pages d'administration de l'application lorsqu'aucune langue n'a été choisie dans ce navigateur.",
-  "settings.themeProfile": "Thème",
-  "settings.themeProfileHelp":
-    "Quelle galerie de thème le carrousel remplace. Laissez sur Auto-detect sauf si votre galerie n'est pas remplacée correctement. Un bloc dans l'éditeur de thème peut remplacer ce réglage par thème.",
-  "settings.customGallerySelector": "Sélecteur de galerie personnalisé",
-  "settings.customGallerySelectorHelp":
-    "Le sélecteur CSS du conteneur de la galerie produit de votre thème, par exemple .product__media-wrapper. Trouvez-le en faisant un clic droit sur la galerie puis Inspecter.",
   "settings.zoomGroup": "Zoom",
   "settings.zoomTrigger": "Déclenchement du zoom",
   "settings.zoomTriggerHelp":

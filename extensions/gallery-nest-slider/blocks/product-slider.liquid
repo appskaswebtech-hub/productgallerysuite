@@ -20,13 +20,6 @@
   data-gallery-nest-slider
   data-product-id="{{ product.id }}"
   data-app-proxy-path="/apps/gallery-nest/slider-settings"
-  {%- comment -%}
-    Empty when the merchant leaves this on "Use app setting", which is what lets the JS fall
-    through to the shop-wide value. A non-empty default here would make every block override
-    the app setting and the admin control would look broken.
-  {%- endcomment -%}
-  data-theme-profile="{{ block.settings.theme_profile }}"
-  data-theme-selector="{{ block.settings.custom_gallery_selector | escape }}"
   data-has-only-default-variant="{{ product.has_only_default_variant }}"
   hidden
 >
@@ -139,29 +132,6 @@
   "stylesheet": "gallery-nest-slider.css",
   "javascript": "gallery-nest-slider.js",
   "settings": [
-    {
-      "type": "select",
-      "id": "theme_profile",
-      "label": "Theme",
-      "info": "Which theme's gallery markup to replace. Leave on \"Use app setting\" unless this theme needs something different.",
-      "default": "",
-      "options": [
-        { "value": "", "label": "Use app setting" },
-        { "value": "auto", "label": "Auto-detect" },
-        { "value": "horizon", "label": "Horizon" },
-        { "value": "dawn", "label": "Dawn (and Craft, Refresh, Sense, Studio, Taste)" },
-        { "value": "impulse", "label": "Impulse" },
-        { "value": "debut", "label": "Debut" },
-        { "value": "prestige", "label": "Prestige" },
-        { "value": "custom", "label": "Custom selector" }
-      ]
-    },
-    {
-      "type": "text",
-      "id": "custom_gallery_selector",
-      "label": "Custom gallery selector",
-      "info": "Only used when Theme is \"Custom selector\". The CSS selector of your theme's product gallery container, e.g. .product__media-wrapper"
-    },
     {
       "type": "textarea",
       "id": "custom_css",

@@ -45,10 +45,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       ...options,
       lazyLoadImages: appSettings.lazyLoadImages,
       accentColor: appSettings.accentColor,
-      // Shop-wide gallery targeting. The theme editor can override both per theme, which
-      // is why the storefront reads its own dataset first.
-      themeProfile: appSettings.themeProfile,
-      customGallerySelector: appSettings.customGallerySelector,
       // Only so non-Enterprise shops skip the beacon entirely; the events endpoint
       // re-checks the plan regardless of what the storefront was told.
       analyticsEnabled: canUseFeature(plan, "analytics"),

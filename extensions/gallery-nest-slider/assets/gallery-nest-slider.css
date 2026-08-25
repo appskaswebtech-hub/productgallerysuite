@@ -538,6 +538,160 @@
   scrollbar-width: thin;
 }
 
+/* Only when a control is doing the scrolling — otherwise the native bar stays, which is
+   what the `none` setting means. */
+.gn-slider__thumbs.is-managed {
+  scrollbar-width: none;
+}
+
+.gn-slider__thumbs.is-managed::-webkit-scrollbar {
+  display: none;
+}
+
+/**
+ * The rail plus whichever control scrolls it.
+ *
+ * Laid out along the rail's own axis: a column beside the image (`--y`, thumbnails left or
+ * right) and a row above or below it (`--x`). `[hidden]` is restated because the `display`
+ * here would otherwise beat the UA rule and leave a dead control on screen.
+ */
+.gn-slider__thumb-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.gn-slider__thumb-nav[hidden] {
+  display: none;
+}
+
+/**
+ * Direction depends on the control as well as the axis, because the two sit differently:
+ * arrows bracket the rail's two **ends**, so the row runs *along* it, while a scroll bar
+ * sits **beside** the rail, so it runs *across* it. Keying this on the axis alone put the
+ * bar to the right of a horizontal rail instead of below it.
+ */
+.gn-slider__thumb-nav--arrows.gn-slider__thumb-nav--x {
+  flex-direction: row;
+}
+
+.gn-slider__thumb-nav--arrows.gn-slider__thumb-nav--y {
+  flex-direction: column;
+}
+
+.gn-slider__thumb-nav--scrollbar.gn-slider__thumb-nav--x {
+  flex-direction: column;
+}
+
+.gn-slider__thumb-nav--scrollbar.gn-slider__thumb-nav--y {
+  flex-direction: row;
+}
+
+.gn-slider__thumb-nav--y .gn-slider__thumbs {
+  min-height: 0;
+}
+
+.gn-slider__thumb-nav--x .gn-slider__thumbs {
+  min-width: 0;
+}
+
+/**
+ * Deliberately the same control as `.gn-slider__button`, the gallery's own arrows — one
+ * gallery should not speak two arrow languages.
+ *
+ * 28px rather than their 38px: those overlay a large stage, while this sits in a rail only
+ * as wide as a thumbnail. The 14px glyph keeps their roughly 2:1 button-to-glyph ratio.
+ *
+ * Note where the contrast comes from. The main arrows sit over photography, so a white disc
+ * reads on its own; this one sits on the page background, which is white on most themes.
+ * The dark chevron and the border are what make it visible there — neither is decorative.
+ *
+ * At 28px this clears the 24px minimum tap target by itself, which is why there is no
+ * pseudo-element propping it up the way the carousel's smaller arrows need.
+ */
+.gn-slider__thumb-arrow {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--gn-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
+  color: #111111;
+  cursor: pointer;
+}
+
+.gn-slider__thumb-arrow svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+  fill: currentColor;
+}
+
+/* The shared prev/next glyphs point sideways; a vertical rail needs them pointing up and
+   down, so they are rotated rather than duplicated as new icons — which also keeps a
+   merchant's custom SVGs working here. */
+.gn-slider__thumb-nav--y .gn-slider__thumb-arrow svg {
+  transform: rotate(90deg);
+}
+
+.gn-slider__thumb-arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.gn-slider__thumb-scroller {
+  position: relative;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: rgba(18, 18, 18, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(18, 18, 18, 0.06);
+  cursor: pointer;
+  /* Without this a drag on a phone scrolls the page instead of the rail. */
+  touch-action: none;
+}
+
+.gn-slider__thumb-nav--x .gn-slider__thumb-scroller {
+  align-self: stretch;
+  height: 8px;
+}
+
+.gn-slider__thumb-nav--y .gn-slider__thumb-scroller {
+  align-self: stretch;
+  width: 8px;
+}
+
+.gn-slider__thumb-scroller-thumb {
+  position: absolute;
+  border-radius: 999px;
+  background: var(--gn-active);
+  cursor: grab;
+}
+
+/* The thumb is sized on one axis by the geometry helper and pinned on the other here. */
+.gn-slider__thumb-nav--x .gn-slider__thumb-scroller-thumb {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  min-width: 28px;
+}
+
+.gn-slider__thumb-nav--y .gn-slider__thumb-scroller-thumb {
+  left: 0;
+  right: 0;
+  top: 0;
+  min-height: 28px;
+}
+
+.gn-slider__thumb-scroller.is-dragging,
+.gn-slider__thumb-scroller.is-dragging .gn-slider__thumb-scroller-thumb {
+  cursor: grabbing;
+}
+
 .gn-slider--left .gn-slider__thumbs,
 .gn-slider--right .gn-slider__thumbs {
   align-self: center;

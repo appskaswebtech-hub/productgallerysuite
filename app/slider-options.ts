@@ -32,6 +32,21 @@ export const CAROUSEL_PER_VIEW = ["2", "3", "4"] as const;
 export const CAROUSEL_NAVIGATIONS = ["arrows", "slider", "both"] as const;
 
 /**
+ * How a shopper scrolls the thumbnail rail when it holds more than fits.
+ *
+ * - `none`      — the browser's own scrollbar, which is what the rail has always had
+ * - `arrows`    — a button at each end, stepping one thumbnail at a time
+ * - `scrollbar` — the app's draggable bar, matching the carousel's
+ *
+ * `none` is the default deliberately: anything else would change every existing gallery.
+ *
+ * The rail runs vertically for `left`/`right` thumbnail positions and horizontally for
+ * `top`/`bottom`, so whichever control is chosen has to orient itself from
+ * `thumbnailPosition` rather than assuming an axis.
+ */
+export const THUMBNAIL_NAVIGATIONS = ["none", "arrows", "scrollbar"] as const;
+
+/**
  * Thumbnail framing. `polaroid` and `card` carry a visible caption strip, so they make
  * the thumbnail taller than wide; the other three are square.
  */
@@ -97,6 +112,7 @@ export const TRANSITION_SPEED_STEP = 50;
 export type ThumbnailPosition = (typeof THUMBNAIL_POSITIONS)[number];
 export type StageLayout = (typeof STAGE_LAYOUTS)[number];
 export type CarouselNavigation = (typeof CAROUSEL_NAVIGATIONS)[number];
+export type ThumbnailNavigation = (typeof THUMBNAIL_NAVIGATIONS)[number];
 export type ThumbnailShape = (typeof THUMBNAIL_SHAPES)[number];
 export type ThumbnailHoverEffect = (typeof THUMBNAIL_HOVER_EFFECTS)[number];
 export type ZoomIconPosition = (typeof ZOOM_ICON_POSITIONS)[number];
@@ -110,6 +126,7 @@ export type SliderOptions = {
   carouselPerView: number;
   carouselNavigation: CarouselNavigation;
   thumbnailPosition: ThumbnailPosition;
+  thumbnailNavigation: ThumbnailNavigation;
   thumbnailSize: number;
   thumbnailShape: ThumbnailShape;
   thumbnailHoverEffect: ThumbnailHoverEffect;
@@ -142,6 +159,8 @@ export const DEFAULT_SLIDER_OPTIONS: SliderOptions = {
   carouselPerView: 3,
   carouselNavigation: "arrows",
   thumbnailPosition: "left",
+  // The browser's own scrollbar, as the rail has always had. See THUMBNAIL_NAVIGATIONS.
+  thumbnailNavigation: "none",
   thumbnailSize: 76,
   thumbnailShape: "square",
   thumbnailHoverEffect: "none",
@@ -247,6 +266,11 @@ export const sanitizeSliderOptions = (
       CAROUSEL_NAVIGATIONS,
       source.carouselNavigation,
       DEFAULT_SLIDER_OPTIONS.carouselNavigation,
+    ),
+    thumbnailNavigation: oneOf(
+      THUMBNAIL_NAVIGATIONS,
+      source.thumbnailNavigation,
+      DEFAULT_SLIDER_OPTIONS.thumbnailNavigation,
     ),
     thumbnailPosition: oneOf(
       THUMBNAIL_POSITIONS,
@@ -360,6 +384,7 @@ export const sliderOptionsFromFormData = (formData: FormData): SliderOptions =>
     stageLayout: formData.get("stageLayout")?.toString(),
     carouselPerView: formData.get("carouselPerView")?.toString(),
     carouselNavigation: formData.get("carouselNavigation")?.toString(),
+    thumbnailNavigation: formData.get("thumbnailNavigation")?.toString(),
     thumbnailPosition: formData.get("thumbnailPosition")?.toString(),
     thumbnailSize: formData.get("thumbnailSize")?.toString(),
     thumbnailShape: formData.get("thumbnailShape")?.toString(),
